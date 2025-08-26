@@ -1,0 +1,3173 @@
+
+package Dialogos;
+
+import Conexion.ExeSql;
+import Formularios.fmMain;
+import static Formularios.fmMain.EliminaCaracteres;
+import static Formularios.fmMain.intNivelUsuario;
+import java.awt.HeadlessException;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DateFormatSymbols;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import static javax.management.Query.gt;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
+import org.apache.commons.math3.util.Precision;
+
+
+/**
+ *
+ * @author Roberto Lopez
+ */
+public class jdFiniquitos extends javax.swing.JDialog {
+
+    boolean guardado = false;
+    boolean enter = false;
+    boolean renuncia = false;
+    boolean existe = false;
+    
+    
+    double col_mov = 0;
+    double sbase = 0;
+    double dhaber = 0;
+    double taviso = 0;
+    double taviso2 = 0;
+    double vdia = 0;
+    double vdia2 = 0;
+    double total = 0;
+    double pagovacp = 0;
+    double Ces = 0;
+    double Pres = 0;
+    double PagoVacp = 0;
+    
+    double topegratif = 0;
+    
+    
+    double aservicios = 0;
+    double iempleador = 0;
+    double cacheiemp = 0;
+    
+    Calendar cal = Calendar.getInstance(); 
+    Calendar agnos = Calendar.getInstance(); 
+    
+                                           
+    int year  = cal.get(Calendar.YEAR); ///010807003
+    
+    int ncod  = 0;
+    int nuevo = 0;
+    
+    int tagnos2 = 0;
+    
+    int tagnos3 = 0;
+    int aservicios3 = 0;
+    
+    int cacheNdiasp = 0;
+    int cacheNdiasf = 0;
+    double cacheCes = 0;
+    double cachePres = 0;
+    
+    String Nombres = "";
+    String ApellidoP = "";
+    String ApellidoM = "";
+    
+    String Id     = "";
+    String elmes  = ""; 
+    String uagno  = "";
+    String Dvp = "";
+    String y      = Integer.toString(year);
+    String Desde  = "";
+    String Hasta  = "";
+    String Dv = "";
+    String Cargo = "";
+    Date Icontrato;
+    Date Fcontrato;
+    Date Ffiniquito;
+    
+    int tagnos = 0;
+    int tmeses = 0;
+    int tdias = 0;
+    
+    int da,ha = 0;
+    int dm,hm = 0;
+    int dd,hd = 0;
+    
+    DecimalFormat formateador = new DecimalFormat("###,###");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    
+    public jdFiniquitos(java.awt.Frame parent, boolean modal) {
+        
+        super(parent, modal);
+        initComponents();
+        
+        cbAgno.setSelectedItem(Integer.toString(cal.get(Calendar.YEAR))); 
+        cbMes.setSelectedIndex((cal.get(Calendar.MONTH))+1); 
+        cbDia.setSelectedIndex((cal.get(Calendar.DAY_OF_MONTH))); 
+        
+        dtTermino.setFormats(new String[] {"dd/MM/yyyy"});
+        dtTermino.getEditor().setEditable(false); 
+        txIndemiza.setText("0");
+        txNdiasf.setText("0");
+        txNdiasp.setText("0");
+       
+        txVacp.setText("0");
+        
+        txCes.setText("0");
+        txPres.setText("0");
+        
+        txPagado.setVisible(false);
+        lbPagado.setVisible(false);
+        
+        
+     
+        
+//        if (fmMain.GetUsuario().equals("ALOPEZ")){
+//            
+//            
+//            lbPagado.setVisible(true);
+//            txPagado.setVisible(true);
+//        
+//        }
+        
+       
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);   //se implemeta evento Window Listener  
+         
+            addWindowListener(new WindowAdapter() {          //para realizar una acción cuando se cierre 
+            @Override                                       //directamente la ventana sin elegir una opcion
+            
+            public void windowClosing(WindowEvent e) {
+               
+               guardado = false;        //variable global que valida el cierre
+                
+            }
+        });
+        
+            
+        
+    }
+    
+    public void SetRegistro(int rnuevo,
+                            String rut,
+                            String dv,
+                            String nombre,
+                            String monto,
+                            String cuotas,
+                            String vcuota,
+                            String desde,
+                            String hasta,
+                            String obs,
+                            String id
+                            ){
+        
+        Desde = desde;
+        txRut.setText(rut);
+        Dvp = dv;
+        txNombre.setText(nombre);
+        txIndemiza.setText(monto);
+        txNdiasf.setText(cuotas);
+        txVagnos.setText(vcuota);
+        
+        nuevo = rnuevo;
+        
+        if (nuevo == 1){                //si existe el registro
+            
+            Id = id;
+            
+               btEditar.setEnabled(true);
+       
+            btGuardar.setEnabled(false);
+            btCancelar.setEnabled(false);
+            btImprimir.setEnabled(true);
+        
+            txIndemiza.setEnabled(false);
+            txNdiasf.setEnabled(false);
+            dtTermino.setEnabled(false);
+            dtTermino.getEditor().setEditable(false); 
+         
+            txCes.setEnabled(false);
+        
+        }else if (nuevo == 0){          //si es un nuevo registro
+           
+           Id = ""; 
+           btEditar.setEnabled(false);
+       
+           btGuardar.setEnabled(true);
+           btCancelar.setEnabled(true);
+           btImprimir.setEnabled(false);
+        
+           txIndemiza.setEnabled(true);
+           txNdiasf.setEnabled(true);
+           dtTermino.setEnabled(true);
+           dtTermino.getEditor().setEditable(false); 
+//           dtHasta.setEnabled(true);
+          
+           txCes.setEnabled(true); 
+        
+        }
+        
+        try{
+            
+            dtTermino.setDate(dateFormat.parse(Desde));
+           
+            
+        }catch (ParseException ex) {
+            
+            Logger.getLogger(jdFiniquitos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        txCes.setText(obs);
+    }
+   
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        jLabel17 = new javax.swing.JLabel();
+        txIndemiza = new javax.swing.JTextField();
+        jLabel21 = new javax.swing.JLabel();
+        dtTermino = new org.jdesktop.swingx.JXDatePicker();
+        jLabel12 = new javax.swing.JLabel();
+        txCes = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        txVagnos = new javax.swing.JTextField();
+        txNdiasf = new javax.swing.JTextField();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        cbMotivo = new javax.swing.JComboBox();
+        chkAviso = new javax.swing.JCheckBox();
+        chkVprop = new javax.swing.JCheckBox();
+        txInicioContrato = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        txNagnos = new javax.swing.JTextField();
+        jLabel18 = new javax.swing.JLabel();
+        txVacp = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
+        txNdiasp = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        txPres = new javax.swing.JTextField();
+        jLabel20 = new javax.swing.JLabel();
+        lbTotal = new javax.swing.JLabel();
+        lbTvac = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        cbTipoPago = new javax.swing.JComboBox();
+        lbPagado = new javax.swing.JLabel();
+        txPagado = new javax.swing.JTextField();
+        jLabel27 = new javax.swing.JLabel();
+        txIempleador = new javax.swing.JTextField();
+        jLabel28 = new javax.swing.JLabel();
+        btCalcular = new javax.swing.JButton();
+        btEditar = new javax.swing.JButton();
+        btGuardar = new javax.swing.JButton();
+        btCancelar = new javax.swing.JButton();
+        btImprimir = new javax.swing.JButton();
+        cbAgno = new javax.swing.JComboBox<String>();
+        cbMes = new javax.swing.JComboBox<String>();
+        btIr = new javax.swing.JButton();
+        txRut = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        txNombre = new javax.swing.JTextField();
+        btNuevo = new javax.swing.JButton();
+        btLimpiar = new javax.swing.JButton();
+        cbDia = new javax.swing.JComboBox<String>();
+        btAutorizar = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel17.setBackground(new java.awt.Color(242, 222, 184));
+        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel17.setText("N° de Dias Vacaciones Pendientes ");
+        jLabel17.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        jLabel17.setOpaque(true);
+
+        txIndemiza.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txIndemiza.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txIndemiza.setEnabled(false);
+        txIndemiza.setMinimumSize(new java.awt.Dimension(6, 25));
+        txIndemiza.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txIndemizaKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txIndemizaKeyTyped(evt);
+            }
+        });
+
+        jLabel21.setBackground(new java.awt.Color(242, 222, 184));
+        jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel21.setText("Fecha término relación laboral ");
+        jLabel21.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        jLabel21.setOpaque(true);
+
+        dtTermino.setEnabled(false);
+        dtTermino.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dtTerminoActionPerformed(evt);
+            }
+        });
+        dtTermino.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                dtTerminoKeyTyped(evt);
+            }
+        });
+
+        jLabel12.setBackground(new java.awt.Color(242, 222, 184));
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel12.setText("Seguro Cesantía ");
+        jLabel12.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        jLabel12.setOpaque(true);
+
+        txCes.setText("0");
+        txCes.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txCes.setEnabled(false);
+        txCes.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txCesFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txCesFocusLost(evt);
+            }
+        });
+        txCes.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txCesKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txCesKeyTyped(evt);
+            }
+        });
+
+        jLabel13.setBackground(new java.awt.Color(242, 222, 184));
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel13.setText("Monto Indemnización Sustitutiva  ");
+        jLabel13.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        jLabel13.setMaximumSize(new java.awt.Dimension(162, 20));
+        jLabel13.setMinimumSize(new java.awt.Dimension(162, 20));
+        jLabel13.setName(""); // NOI18N
+        jLabel13.setOpaque(true);
+        jLabel13.setPreferredSize(new java.awt.Dimension(162, 20));
+
+        txVagnos.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txVagnos.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txVagnos.setEnabled(false);
+        txVagnos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txVagnosActionPerformed(evt);
+            }
+        });
+        txVagnos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txVagnosKeyTyped(evt);
+            }
+        });
+
+        txNdiasf.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txNdiasf.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txNdiasf.setEnabled(false);
+        txNdiasf.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txNdiasfFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txNdiasfFocusLost(evt);
+            }
+        });
+        txNdiasf.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txNdiasfKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txNdiasfKeyTyped(evt);
+            }
+        });
+
+        jLabel23.setBackground(new java.awt.Color(242, 222, 184));
+        jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel23.setText("Fecha Incio Relación Laboral ");
+        jLabel23.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        jLabel23.setOpaque(true);
+
+        jLabel24.setBackground(new java.awt.Color(242, 222, 184));
+        jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel24.setText("Motivo del Finiquito ");
+        jLabel24.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        jLabel24.setOpaque(true);
+
+        cbMotivo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione un Motivo", "artículo 159 1 - mutuo acuerdo entre las partes", "artículo 159 2 - renuncia del trabajador", "artículo 159 3 - muerte del trabajador", "artículo 159 4 - vencimiento del plazo convenido en el contrato", "artículo 159 5 - conclusión del trabajo o servicio que dio origen al contrato", "artículo 159 6 - caso fortuito o fuerza mayor", "artículo 160 1 letra (a) - falta de probidad del trabajador", "artículo 160 1 letra (b) - conductas de acoso sexual", "artículo 160 1 letra (c) - vías de hecho ejercidas por el trabajador en contra del empleador o de cualquier trabajador de la empresa", "artículo 160 1 letra (d) - injurias proferidas por el trabajador al empleador", "artículo 160 1 letra (e) - conducta inmoral del trabajador que afecte a la empresa donde se desempeña", "artículo 160 2 - ejecutar negociaciones dentro del giro del negocio estando prohibidas en el contrato", "artículo 160 3 - faltar al trabajo sin causa justificada durante dos días seguidos, dos lunes en el mes o tres días en igual período", "artículo 160 4 - abandonar el trabajo en forma injustificada", "artículo 160 5 - actos, omisiones o imprudencias temerarias que afecten a la seguridad o al funcionamiento del establecimiento, a la seguridad o a la actividad de los trabajadores, o a la salud de éstos", "artículo 160 6 - el perjuicio material causado intencionalmente en las instalaciones, maquinarias, herramientas, útiles de trabajo, o mercaderías", "artículo 160 7 - incumplimiento grave de las obligaciones que impone el contrato", "artículo 161 - necesidades de la empresa, establecimiento o servicio", "artículo 161 - desahucio de gerente, subgerente y cargos de confianza exclusiva", "artículo 161 - desahucio de trabajadora de casa particular" }));
+        cbMotivo.setEnabled(false);
+        cbMotivo.setMinimumSize(new java.awt.Dimension(56, 25));
+        cbMotivo.setName(""); // NOI18N
+        cbMotivo.setPreferredSize(new java.awt.Dimension(56, 25));
+        cbMotivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbMotivoActionPerformed(evt);
+            }
+        });
+
+        chkAviso.setBackground(new java.awt.Color(242, 222, 184));
+        chkAviso.setText("Sin Aviso Previo");
+        chkAviso.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        chkAviso.setEnabled(false);
+        chkAviso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkAvisoActionPerformed(evt);
+            }
+        });
+
+        chkVprop.setBackground(new java.awt.Color(242, 222, 184));
+        chkVprop.setText("Vacaciones Proporcionales");
+        chkVprop.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        chkVprop.setEnabled(false);
+        chkVprop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkVpropActionPerformed(evt);
+            }
+        });
+
+        txInicioContrato.setEditable(false);
+        txInicioContrato.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txInicioContrato.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txInicioContrato.setEnabled(false);
+        txInicioContrato.setMinimumSize(new java.awt.Dimension(6, 25));
+        txInicioContrato.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txInicioContratoKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txInicioContratoKeyTyped(evt);
+            }
+        });
+
+        jLabel15.setBackground(new java.awt.Color(242, 222, 184));
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel15.setText("Monto Indemnización Años de Servicio ");
+        jLabel15.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        jLabel15.setMaximumSize(new java.awt.Dimension(162, 20));
+        jLabel15.setMinimumSize(new java.awt.Dimension(162, 20));
+        jLabel15.setName(""); // NOI18N
+        jLabel15.setOpaque(true);
+        jLabel15.setPreferredSize(new java.awt.Dimension(162, 20));
+
+        jLabel16.setBackground(new java.awt.Color(242, 222, 184));
+        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel16.setText("Años de Servicio ");
+        jLabel16.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        jLabel16.setOpaque(true);
+
+        txNagnos.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txNagnos.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txNagnos.setEnabled(false);
+        txNagnos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txNagnosActionPerformed(evt);
+            }
+        });
+        txNagnos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txNagnosKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txNagnosKeyTyped(evt);
+            }
+        });
+
+        jLabel18.setBackground(new java.awt.Color(242, 222, 184));
+        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel18.setText("Monto Vacaciones Proporcionales ");
+        jLabel18.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        jLabel18.setMaximumSize(new java.awt.Dimension(166, 20));
+        jLabel18.setMinimumSize(new java.awt.Dimension(166, 20));
+        jLabel18.setOpaque(true);
+        jLabel18.setPreferredSize(new java.awt.Dimension(166, 20));
+
+        txVacp.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txVacp.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txVacp.setEnabled(false);
+        txVacp.setMinimumSize(new java.awt.Dimension(6, 25));
+        txVacp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txVacpActionPerformed(evt);
+            }
+        });
+        txVacp.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txVacpKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txVacpKeyTyped(evt);
+            }
+        });
+
+        jLabel19.setBackground(new java.awt.Color(242, 222, 184));
+        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel19.setText("N° de Dias Inhábiles ");
+        jLabel19.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        jLabel19.setOpaque(true);
+
+        txNdiasp.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txNdiasp.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txNdiasp.setEnabled(false);
+        txNdiasp.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txNdiaspFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txNdiaspFocusLost(evt);
+            }
+        });
+        txNdiasp.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txNdiaspKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txNdiaspKeyTyped(evt);
+            }
+        });
+
+        jLabel14.setBackground(new java.awt.Color(242, 222, 184));
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel14.setText("Préstamo Empleador");
+        jLabel14.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        jLabel14.setOpaque(true);
+
+        txPres.setText("0");
+        txPres.setToolTipText("");
+        txPres.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txPres.setEnabled(false);
+        txPres.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txPresFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txPresFocusLost(evt);
+            }
+        });
+        txPres.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txPresKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txPresKeyTyped(evt);
+            }
+        });
+
+        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel20.setText("TOTAL FINIQUITO ");
+        jLabel20.setOpaque(true);
+
+        lbTotal.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lbTotal.setText("0");
+        lbTotal.setToolTipText("");
+        lbTotal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        lbTvac.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lbTvac.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbTvac.setText("0");
+        lbTvac.setToolTipText("");
+        lbTvac.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        lbTvac.setEnabled(false);
+
+        jLabel25.setBackground(new java.awt.Color(242, 222, 184));
+        jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel25.setText("Tipo de Pago");
+        jLabel25.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        jLabel25.setOpaque(true);
+
+        cbTipoPago.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "CHEQUE", "TRANSFERENCIA" }));
+        cbTipoPago.setEnabled(false);
+
+        lbPagado.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lbPagado.setText("TOTAL PAGADO");
+        lbPagado.setOpaque(true);
+
+        txPagado.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        txPagado.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txPagado.setText("0");
+        txPagado.setToolTipText("");
+        txPagado.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txPagado.setEnabled(false);
+
+        jLabel27.setBackground(new java.awt.Color(242, 222, 184));
+        jLabel27.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel27.setText("Indemnización Voluntaria Empleador ");
+        jLabel27.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        jLabel27.setMaximumSize(new java.awt.Dimension(179, 20));
+        jLabel27.setMinimumSize(new java.awt.Dimension(179, 20));
+        jLabel27.setOpaque(true);
+        jLabel27.setPreferredSize(new java.awt.Dimension(179, 20));
+
+        txIempleador.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txIempleador.setText("0");
+        txIempleador.setToolTipText("");
+        txIempleador.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txIempleador.setEnabled(false);
+        txIempleador.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txIempleadorFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txIempleadorFocusLost(evt);
+            }
+        });
+        txIempleador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txIempleadorActionPerformed(evt);
+            }
+        });
+        txIempleador.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txIempleadorKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txIempleadorKeyTyped(evt);
+            }
+        });
+
+        jLabel28.setBackground(new java.awt.Color(242, 222, 184));
+        jLabel28.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel28.setText("Total Dias Vacaciones Proporcionales ");
+        jLabel28.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        jLabel28.setMaximumSize(new java.awt.Dimension(183, 20));
+        jLabel28.setMinimumSize(new java.awt.Dimension(183, 20));
+        jLabel28.setOpaque(true);
+        jLabel28.setPreferredSize(new java.awt.Dimension(183, 20));
+
+        btCalcular.setText("Calcular");
+        btCalcular.setToolTipText("");
+        btCalcular.setEnabled(false);
+        btCalcular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCalcularActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cbMotivo, javax.swing.GroupLayout.PREFERRED_SIZE, 724, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(dtTermino, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txInicioContrato, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(25, 25, 25))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(7, 7, 7)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txCes, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txPres, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(cbTipoPago, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txIndemiza, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(chkAviso, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txVagnos, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txNagnos, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txIempleador, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txVacp, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(chkVprop, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(txNdiasf, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txNdiasp, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(217, 217, 217)
+                                        .addComponent(lbTvac, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btCalcular))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lbTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lbPagado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txPagado, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(157, 157, 157))))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txInicioContrato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dtTermino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbMotivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(chkAviso)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txIndemiza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel16)
+                            .addComponent(txNagnos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txVagnos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(chkVprop)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel19)
+                            .addComponent(txNdiasf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(4, 4, 4)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel17)
+                            .addComponent(txNdiasp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbTvac))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btCalcular)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txIempleador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txVacp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(36, 36, 36)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(txCes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(txPres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel25)
+                    .addComponent(cbTipoPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel20)
+                    .addComponent(lbTotal))
+                .addGap(46, 46, 46)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbPagado)
+                    .addComponent(txPagado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(279, 279, 279))
+        );
+
+        btEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos16/Pencil16.png"))); // NOI18N
+        btEditar.setText("Editar");
+        btEditar.setEnabled(false);
+        btEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btEditarActionPerformed(evt);
+            }
+        });
+
+        btGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos16/save16.png"))); // NOI18N
+        btGuardar.setText("Guardar");
+        btGuardar.setEnabled(false);
+        btGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btGuardarActionPerformed(evt);
+            }
+        });
+
+        btCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos16/Cancel16.png"))); // NOI18N
+        btCancelar.setText("Cancelar");
+        btCancelar.setEnabled(false);
+        btCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCancelarActionPerformed(evt);
+            }
+        });
+
+        btImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos16/impresora16.png"))); // NOI18N
+        btImprimir.setText("Imprimir");
+        btImprimir.setEnabled(false);
+        btImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btImprimirActionPerformed(evt);
+            }
+        });
+
+        cbAgno.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "AÑO", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028" }));
+        cbAgno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbAgnoActionPerformed(evt);
+            }
+        });
+
+        cbMes.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "MES", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE" }));
+        cbMes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbMesActionPerformed(evt);
+            }
+        });
+
+        btIr.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos16/search16.png"))); // NOI18N
+        btIr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btIrActionPerformed(evt);
+            }
+        });
+
+        txRut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txRutActionPerformed(evt);
+            }
+        });
+        txRut.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txRutKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txRutKeyTyped(evt);
+            }
+        });
+
+        jLabel2.setText("Rut");
+
+        jLabel3.setText("Nombre");
+
+        txNombre.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txNombre.setEnabled(false);
+        txNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txNombreKeyReleased(evt);
+            }
+        });
+
+        btNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos16/add16.png"))); // NOI18N
+        btNuevo.setText("Nuevo");
+        btNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btNuevoActionPerformed(evt);
+            }
+        });
+
+        btLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/refresh16.png"))); // NOI18N
+        btLimpiar.setText("Limpiar");
+        btLimpiar.setToolTipText("");
+        btLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btLimpiarActionPerformed(evt);
+            }
+        });
+
+        cbDia.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "DIA", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
+        cbDia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbDiaActionPerformed(evt);
+            }
+        });
+
+        btAutorizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos16/ok_16.png"))); // NOI18N
+        btAutorizar.setText("Autorizar");
+        btAutorizar.setToolTipText("");
+        btAutorizar.setEnabled(false);
+        btAutorizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAutorizarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(cbDia, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cbMes, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cbAgno, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 482, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(txRut, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btIr, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(195, 195, 195)
+                        .addComponent(btAutorizar, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cbAgno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txRut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3)))
+                            .addComponent(btIr)))
+                    .addComponent(btAutorizar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 534, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
+       
+        btNuevo.setEnabled(true);
+        btEditar.setEnabled(true);
+        btGuardar.setEnabled(false);
+        btCancelar.setEnabled(false);
+        btLimpiar.setEnabled(true);
+        btImprimir.setEnabled(true);
+        
+        cbMotivo.setEnabled(false);
+        cbTipoPago.setEnabled(false);
+        dtTermino.setEnabled(false);
+        
+        chkAviso.setEnabled(false);
+        chkVprop.setEnabled(false);
+        
+        txIempleador.setEnabled(false);
+        txCes.setEnabled(false);
+        txPres.setEnabled(false);
+        
+        
+        txPagado.setEnabled(false);
+        
+        if (nuevo == 1){            //Si es Nuevo
+        
+            btAutorizar.setEnabled(false);
+        
+        }else if (nuevo == 0){      //Si Existe
+        
+            btAutorizar.setEnabled(true);
+        
+        }
+        
+        
+        nuevo = 0;
+        
+       
+               
+    }//GEN-LAST:event_btCancelarActionPerformed
+
+    private void btGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGuardarActionPerformed
+        
+        if (txNombre.getText().equals("")){
+           
+            fmMain.Mensaje("Debe Ingresar Rut del Trabajador");
+            txRut.requestFocus();
+            return;
+        
+        }
+        
+        if (txIndemiza.getText().equals("")){
+           
+            txIndemiza.setText("0");
+       
+        }  
+       
+        if (txNagnos.getText().trim().equals("")){
+               
+                   txNagnos.setText("0");
+               
+        }
+     
+        if (txVagnos.getText().trim().equals("")){
+               
+            txVagnos.setText("0");
+               
+        }
+                
+    
+       
+        if (dtTermino.getDate() == null){
+           
+            fmMain.Mensaje("Debe Ingresar fecha Inicial");
+            return;
+        
+        }
+   
+        ExeSql Sql = new ExeSql();
+        
+      
+        
+      
+        
+        if (nuevo == 1){      //Nuevo registro
+            
+            try{
+                
+               Sql.ExeSql("INSERT INTO finiquitos("
+                       + "rut,"
+                       + "nombre,"
+                       + "fecha_ingreso,"
+                       + "fecha_termino,"
+                       + "motivo,"
+                       + "sin_aviso_previo,"
+                       + "monto_aviso,"
+                       + "a_servicio,"
+                       + "monto_aservicios,"
+                       + "vacaciones,"
+                       + "dias_inhab,"
+                       + "dias_pend,"
+                       + "dias_vac,"
+                       + "monto_vac,"
+                       + "monto_emp,"
+                       + "cesantia,"
+                       + "prestamo,"
+                       + "total,"
+                       + "pagado) \n" +
+                       "VALUES (" 
+                       + txRut.getText().trim() + ",'"
+                       + txNombre.getText().trim() + "','"
+                       + txInicioContrato.getText().trim() + "','"
+                       + getHastaAsString() + "',"
+                       + cbMotivo.getSelectedIndex() + ","
+                       + CheckToInt(chkAviso.isSelected()) + ","            //Sin Aviso Previo
+                       + SetDouble(txIndemiza.getText()) + ","
+                       + txNagnos.getText().trim() +","
+                       + SetDouble(txVagnos.getText()) +","
+                       + CheckToInt(chkVprop.isSelected()) +","     //Vacaciones Proporcionales
+                       + txNdiasf.getText().trim() +","             //Dias Inhabiles
+                       + txNdiasp.getText().trim() +","             //Dias Vacaciones Pendientes
+                       + lbTvac.getText().trim() +","           //Total dias de Vacaciones Proporcionales
+                       + SetDouble(txVacp.getText()) +","               //Monto Total dias de Vacaciones Proporcionales
+                       + SetDouble(txIempleador.getText()) +","
+                       + SetDouble(txCes.getText()) +","
+                       + SetDouble(txPres.getText()) +","
+                       + SetDouble(lbTotal.getText()) +","
+                       + SetDouble(txPagado.getText())+
+                       ")");
+               
+               
+               
+               
+               
+                
+               
+               
+               Sql.Commit();
+              
+               
+             
+               guardado = true;    
+             
+            
+            }catch (SQLException ex) {
+                    
+                    Sql.Rollback();
+                   
+                    
+                    Logger.getLogger(jdFiniquitos.class.getName()).log(Level.SEVERE, null, ex);
+                    guardado = false;
+                    
+            }
+            
+                
+        }else if (nuevo == 0){                  //Registro existente
+        
+            try{
+                
+                
+                if (txNdiasf.getText().trim().equals("")){
+                
+                    txNdiasf.setText("0");
+                
+                }
+                
+                if (txNdiasp.getText().trim().equals("")){
+                
+                    txNdiasp.setText("0");
+                
+                }
+                if (txVacp.getText().trim().equals("")){
+                
+                    txVacp.setText("0");
+                
+                }
+                
+                Sql.ExeSql("UPDATE finiquitos SET \n" +
+                          "fecha_termino ='" + getHastaAsString() + "'," +             //Fecha finiquito
+                          "motivo =" + cbMotivo.getSelectedIndex() + ","+
+                          "sin_aviso_previo =" + CheckToInt(chkAviso.isSelected()) + ","+ 
+                          "monto_aviso =" + SetDouble(txIndemiza.getText()) + ","+
+                          "a_servicio =" + txNagnos.getText().trim() +","+
+                          "monto_aservicios ="  + SetDouble(txVagnos.getText()) +","+
+                          "vacaciones =" + CheckToInt(chkVprop.isSelected()) +"," +    
+                          "dias_inhab =" + txNdiasf.getText().trim() +","+          
+                          "dias_pend =" + txNdiasp.getText().trim() +"," +         
+                          "dias_vac =" + lbTvac.getText().trim() +","+           
+                          "monto_vac =" + SetDouble(txVacp.getText()) +","+     
+                          "monto_emp =" + SetDouble(txIempleador.getText()) +","+     
+                          "cesantia =" + SetDouble(txCes.getText()) +","+
+                          "prestamo =" + SetDouble(txPres.getText()) +","+
+                          "pagado =" + SetDouble(txPagado.getText()) +","+
+                          "total =" + SetDouble(lbTotal.getText()) +"\n" +     
+                          "WHERE rut=" + txRut.getText().trim()
+                
+                
+                );
+                
+                
+                Sql.Commit();
+                
+                
+                guardado = true;   
+                
+            }catch (SQLException ex) {
+                
+                Sql.Rollback();
+              
+                Logger.getLogger(jdFiniquitos.class.getName()).log(Level.SEVERE, null, ex);
+                guardado = false;
+            }
+        
+        }
+        
+        
+        if (guardado){
+            
+            fmMain.Mensaje("Registro Guardado con éxito");
+            
+            btNuevo.setEnabled(true);
+            btEditar.setEnabled(true);
+           
+            btGuardar.setEnabled(false);
+            btCancelar.setEnabled(false);
+            btLimpiar.setEnabled(true);
+            btImprimir.setEnabled(true);
+            
+            txIndemiza.setEnabled(false);
+            txNdiasf.setEnabled(false);
+            
+        
+            cbMotivo.setEnabled(false);
+            cbTipoPago.setEnabled(false);
+            dtTermino.setEnabled(false);
+            
+            chkAviso.setEnabled(false);
+            chkVprop.setEnabled(false);
+        
+            txIempleador.setEnabled(false);
+            txCes.setEnabled(false);
+            txPres.setEnabled(false);
+        
+        
+            txPagado.setEnabled(false);
+        
+            if (nuevo == 1){            //Si es Nuevo
+        
+                btAutorizar.setEnabled(false);
+        
+            }else if (nuevo == 0){      //Si Existe
+        
+                btAutorizar.setEnabled(true);
+        
+            }
+        
+        
+            nuevo = 0;
+            
+            
+            txPagado.setEnabled(false);
+            btAutorizar.setEnabled(true);
+            
+           
+                
+        }        
+        
+    }//GEN-LAST:event_btGuardarActionPerformed
+
+    private void btEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEditarActionPerformed
+       
+        intNivelUsuario = fmMain.trae_nivel(fmMain.GetUsuario());
+     
+        if (( intNivelUsuario < 85)){    
+           
+           fmMain.Mensaje("Usuario: " + fmMain.GetUsuario() + " no está autorizado") ;
+           return;
+        
+        } 
+        
+        nuevo = 0;                  //Registro existente
+       
+        btNuevo.setEnabled(false);
+        btEditar.setEnabled(false);
+       
+        btGuardar.setEnabled(true);
+        btCancelar.setEnabled(true);
+        btLimpiar.setEnabled(false);
+        btImprimir.setEnabled(false);
+        
+        btAutorizar.setEnabled(false);
+        
+        
+        
+        dtTermino.setEnabled(true);
+        dtTermino.getEditor().setEditable(false); 
+        cbMotivo.setEnabled(true);
+        cbTipoPago.setEditable(true);
+       
+        chkAviso.setEnabled(true);
+        chkVprop.setEnabled(true);
+        
+        if (chkVprop.isSelected()){
+        
+           txNdiasf.setEnabled(true);
+           txNdiasp.setEnabled(true);
+          
+        }
+        
+        
+        txIempleador.setEnabled(true);
+        txCes.setEnabled(true);
+        txPres.setEnabled(true);
+        
+        
+        txPagado.setEnabled(true);
+        
+        
+      
+
+    }//GEN-LAST:event_btEditarActionPerformed
+    
+    private void dtTerminoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dtTerminoActionPerformed
+        
+        try {
+           
+            aservicios = 0; 
+            tagnos = 0;
+            tmeses = 0;
+            tdias = 0;
+            da = 0;
+            ha = 0;
+            dm = 0;
+            hm = 0;
+            dd = 0;
+            hd = 0;
+            Icontrato = dateFormat.parse(txInicioContrato.getText().toString());
+            Hasta = dateFormat.format(dtTermino.getDate());
+            Fcontrato = dateFormat.parse(Hasta);
+            cal.setTime(Fcontrato);
+            agnos.setTime(Icontrato);
+            
+            da=  agnos.get(Calendar.YEAR);   //Desde Año
+            ha =  cal.get(Calendar.YEAR);    //Hasta Año
+           
+            dm=  agnos.get(Calendar.MONTH);     //Desde Mes
+            hm =  cal.get(Calendar.MONTH);      //Hasta Mes
+            
+            dd=  agnos.get(Calendar.DAY_OF_MONTH);  //Desde Dia
+            hd =  cal.get(Calendar.DAY_OF_MONTH);   //Hasta Dia
+                            
+            
+            tagnos = (ha - da);
+            
+            tagnos2 = tagnos;
+           
+            tmeses = hm - dm;
+             
+                 
+            if (tmeses < 0 ){        //Si la cantidad de meses es menor a 0 (menor de un año) {
+            
+                tagnos = tagnos - 1;        ////Para calculo feriados proporcionales
+            } 
+             
+            
+            tdias = hd - dd;
+            
+            if (tdias < 0){   //Si dias es negativo
+           
+              tdias = 30 + tdias;    //Se calcula el total de días restándoselos al los 30 
+              tmeses--;              //Y se resta 1 mes  (porque no alcanza a lo 30 días)
+                       
+            }
+           
+            if (tmeses < 0){        //Si mes es negativo
+           
+              tmeses = 12 + tmeses;     //Se restan los meses a los 12 del año para tener el total de mese definitivo
+                       
+            }
+    
+//            if (tmeses < 0 ){        //Si la cantidad de meses es menor a 0 (menor de un año) {
+//             
+//                tagnos2 = tagnos2 - 1;        //Para años de servicio
+//                
+//            }
+//            
+//            
+//            if (tmeses >= 6 ){        //Si la cantidad de meses es mayor o igual a 6
+//             
+//                tagnos2 = tagnos2 ;        //Para años de servicio
+//                
+//            }
+             
+            
+            
+            
+            
+ //*********************************************************************************************************//           
+          int DiaInicio = Icontrato.getDate();
+          int MesInicio = Icontrato.getMonth()+1;
+          int AgnoInicio = Icontrato.getYear()+1900;
+           
+           
+          int DiaActual = Fcontrato.getDate();
+          int MesActual = Fcontrato.getMonth()+1;
+          int AgnoActual = Fcontrato.getYear()+1900;
+           
+          
+          tagnos = AgnoActual - AgnoInicio;
+           
+          
+          if(MesActual <= MesInicio ){
+          
+                if(MesActual == MesInicio ){
+              
+                    if(DiaInicio > DiaActual){
+                  
+                       tagnos--;
+                    }
+                  
+                  
+                }else {
+              
+                    tagnos--;
+              
+                }
+              
+          }
+          
+             
+          System.out.println("La DIFERENCIA ES  : "+tagnos);
+           
+ //*******************************************************************************************************************//           
+            
+            
+            
+          System.out.println("AÑOS2 : "+tagnos+" | AÑOS : "+tagnos+" | MESES : "+tmeses+" | DIAS : "+tdias);
+           
+            
+           //taviso = 850000;  ////////////////////////////////////
+            
+          txNagnos.setText(""+(tagnos));
+          aservicios = (tagnos) * taviso;
+          txVagnos.setText("$ "+formateador.format(aservicios));
+          total = total + aservicios;
+          lbTotal.setText("$ "+formateador.format(total));
+          txPagado.setText(""+Math.round(total));
+           
+           
+            
+        } catch (ParseException ex) {
+            Logger.getLogger(jdFiniquitos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+       
+    }//GEN-LAST:event_dtTerminoActionPerformed
+
+    private void dtTerminoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtTerminoKeyTyped
+
+        char car = evt.getKeyChar();
+
+        if(((car<'0') || (car>'9')) && ((car<'.') || (car>'.'))){
+
+            evt.consume();
+        }
+        
+    }//GEN-LAST:event_dtTerminoKeyTyped
+
+    private void txIndemizaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txIndemizaKeyTyped
+        char car = evt.getKeyChar();
+        
+        if (car=='.'){   
+           
+           char x;
+           int conta=0;
+           
+           for (int y=0; y < txIndemiza.getText().length(); y++ ){
+                        
+                x = txIndemiza.getText().charAt(y);
+                 
+                if (x=='.'){
+                   conta++;
+                }
+                
+                if (conta==1){
+                    evt.consume(); 
+                }
+           }
+        }
+            
+        if(((car<'0') || (car>'9')) && ((car<'.') || (car>'.'))){
+           evt.consume(); 
+        }        
+    }//GEN-LAST:event_txIndemizaKeyTyped
+
+    private void txVagnosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txVagnosKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txVagnosKeyTyped
+
+    private void txNdiasfKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txNdiasfKeyTyped
+        
+        char car = evt.getKeyChar();
+        
+        if (car=='.'){   
+           
+           char x;
+           int conta=0;
+           
+           for (int y=0; y < txNdiasf.getText().length(); y++ ){
+                        
+                x = txNdiasf.getText().charAt(y);
+                 
+                if (x=='.'){
+                   conta++;
+                }
+                
+                if (conta==1){
+                    evt.consume(); 
+                }
+           }
+        }
+            
+        if(((car<'0') || (car>'9')) && ((car<'.') || (car>'.'))){
+           evt.consume(); 
+        }        
+        
+        
+    }//GEN-LAST:event_txNdiasfKeyTyped
+
+    private void txIndemizaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txIndemizaKeyReleased
+
+        
+    }//GEN-LAST:event_txIndemizaKeyReleased
+
+    private void btImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btImprimirActionPerformed
+        
+        try {
+             
+//           jdGetPrestamos prestamos = new jdGetPrestamos(null, true);
+//           prestamos.setLocationRelativeTo(null);
+//           prestamos.setTitle("PRESTAMOS");
+//           prestamos.setVisible(true);
+                  
+//            String dato,nombre = "";
+            Map parametro = new HashMap();
+            
+            parametro.put("LOGO",getClass().getResourceAsStream("/Reportes/Logo.jpg"));                     //Ruta Logo Reporte 
+            
+            
+            String scadena1 = cbMes.getSelectedItem().toString().substring(0,1);
+            String scadena2 = cbMes.getSelectedItem().toString().substring(1);
+            scadena2 = scadena2.toLowerCase();
+            
+            parametro.put("DIA",cbDia.getSelectedItem());
+            parametro.put("MES",scadena1+scadena2);
+            parametro.put("AGNO",cbAgno.getSelectedItem());
+            
+            parametro.put("NOMBRES",Nombres.toString().trim());
+            parametro.put("APELLIDOP",ApellidoP.toString().trim());
+            parametro.put("APELLIDOM",ApellidoM.toString().trim());
+            
+            
+            parametro.put("RUT",formatearRut(txRut.getText()+Dv));
+            
+
+            DateFormatSymbols dfs = new DateFormatSymbols();
+            String[] meses = dfs.getMonths();
+            String mesi = meses[dm];
+            
+          //  System.out.println("EL MESI  ES : "+mesi);
+            
+            String scadena3 = mesi.substring(0,1);
+            String scadena4 = mesi.substring(1);
+
+            scadena3 = scadena3.toUpperCase();
+            
+            parametro.put("CARGO",Cargo);
+            
+            parametro.put("DIAI",String.valueOf(dd));
+            parametro.put("MESI",scadena3+scadena4);
+            parametro.put("AGNOI",String.valueOf(da));
+            
+            
+        //*********************************************************    
+            DateFormatSymbols dfs2 = new DateFormatSymbols();
+            String[] meses2 = dfs2.getMonths();
+            String mesf = meses2[hm];
+            
+            String scadena5 = mesf.substring(0,1);
+            String scadena6 = mesf.substring(1);
+            scadena5 = scadena5.toUpperCase();
+            
+            parametro.put("DIAF",String.valueOf(hd));
+            parametro.put("MESF",scadena5+scadena6);
+            parametro.put("AGNOF",String.valueOf(ha));
+            
+        //***********************************************************    
+            parametro.put("CAUSA",cbMotivo.getSelectedItem());
+           
+            parametro.put("AVISO",txIndemiza.getText());
+            
+            parametro.put("AGNOS",txNagnos.getText());          
+            parametro.put("TAGNOS",txVagnos.getText());
+            
+            parametro.put("IEMPLEADOR",txIempleador.getText());
+            
+            parametro.put("DIAS",lbTvac.getText());          
+            parametro.put("TDIAS",txVacp.getText());
+      
+            parametro.put("SEGURO",txCes.getText());
+            parametro.put("PRESTAMO",txPres.getText());
+            
+            parametro.put("TOTAL",lbTotal.getText());
+
+            
+            //JasperReport reporte = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/rpFiniquitos.jasper")); //Ruta del Reporte
+            JasperReport reporte = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/rpFiniquitos2.jasper")); //Ruta del Reporte con cheques
+            JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro,new JREmptyDataSource());
+           
+            JasperViewer view = new JasperViewer(jprint,false);
+            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            view.setVisible(true);
+            
+            
+        }catch (JRException ex) {
+        
+            ex.printStackTrace(); 
+            System.out.println ("informes r" + ex.toString ());
+            Logger.getLogger(jdFiniquitos.class.getName()).log(Level.SEVERE, null, ex);
+        
+        }
+
+        
+        
+    }//GEN-LAST:event_btImprimirActionPerformed
+
+    private void cbAgnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAgnoActionPerformed
+
+    }//GEN-LAST:event_cbAgnoActionPerformed
+
+    private void cbMesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbMesActionPerformed
+
+    }//GEN-LAST:event_cbMesActionPerformed
+
+    private void btIrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btIrActionPerformed
+        
+        String diaf = "";
+        String mesf = "";
+        
+        if (cbAgno.getSelectedIndex() == 0){
+        
+            fmMain.Mensaje("Debe elegir un Año");
+            return;
+        }
+        
+        if (cbMes.getSelectedIndex() == 0){
+        
+            fmMain.Mensaje("Debe elegir un Mes");
+            return;
+        }
+        
+        if (cbDia.getSelectedIndex() == 0){
+        
+            fmMain.Mensaje("Debe elegir un Día");
+            return;
+        }
+        
+        
+        if(cbDia.getSelectedIndex() < 10){
+        
+            diaf = "0"+String.valueOf(cbDia.getSelectedIndex());
+        
+        }else if(cbDia.getSelectedIndex() >= 10){
+        
+            diaf = String.valueOf(cbDia.getSelectedIndex());
+        }
+        
+         if(cbMes.getSelectedIndex() < 10){
+        
+            mesf = "0"+String.valueOf(cbMes.getSelectedIndex());
+        
+        }else if(cbMes.getSelectedIndex() >= 10){
+        
+            mesf = String.valueOf(cbMes.getSelectedIndex());
+        }
+        
+        
+        String fechax = diaf + "-" + mesf + "-" + cbAgno.getSelectedItem();
+        
+        try {
+            Ffiniquito = dateFormat.parse(fechax);
+        
+        } catch (ParseException ex) {
+        }
+        
+        
+        
+        System.out.println("LA FECHA ES : "+dateFormat.format(Ffiniquito));
+        
+        
+         ResultSet Rs, Rs2, Rs3, Rs4;
+         ExeSql Sql = new ExeSql();
+         ExeSql Sql2 = new ExeSql();
+         ExeSql Sql3 = new ExeSql();
+         ExeSql Sql4 = new ExeSql();
+         
+         sbase = 0;
+         col_mov = 0;
+        
+        
+        if (!txRut.getText().isEmpty() && txNombre.getText().isEmpty()) {  //se agrego filtro a sentencia IF
+
+            CargaPersonal(txRut.getText().trim());                         //si rut no està vacío y nombre está vacío
+
+        }else{
+
+            jdAgregaPersonas Dato = new jdAgregaPersonas(null, true);      //si rut y nombre están vacìos
+            Dato.setLocationRelativeTo(null);
+            Dato.setTitle("Trabajador");
+//          Dato.CargaDatos("SELECT rut AS codigo,nombre,dvp FROM personal WHERE rut > 1000 AND activo = true AND empresa = 1 ORDER BY nombre");
+            
+            Dato.CargaDatos("SELECT rut AS codigo,nombre,dvp FROM personal WHERE rut>1000 \n" +
+                            "AND personalrh = true \n"+
+                            "ORDER BY nombre ");
+            
+            
+            
+            Dato.setVisible(true);
+            CargaPersonal(Dato.GetCodigo());
+            Dv = generaDigito(Dato.GetCodigo().trim() + "-X");       
+            
+            
+        }
+         
+        if (!existe){
+           
+            
+            return;
+        }
+        
+         //****************************************************************************************************************//
+            try {
+           
+            
+                Rs4 = Sql4.Select("select valor from indicadores \n"+
+                                  "where nombre IN ('TOPE_GRATIFICACION')");
+
+        
+                if (Sql4.GetRowCount() > 0){
+            
+                    Rs4.next();
+                                
+                    topegratif = Rs4.getDouble("valor");              
+                    
+                }
+        
+        
+            } catch (SQLException ex) {
+                Logger.getLogger(jdFiniquitos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+      
+        //*****************************************************************************************************************//
+            int mes =  cbMes.getSelectedIndex();
+            int mes1 = cbMes.getSelectedIndex()-1;
+            int mes2 = cbMes.getSelectedIndex()-2;
+            int mes3 = cbMes.getSelectedIndex()-3;
+            int agno = Integer.parseInt(cbAgno.getSelectedItem().toString().trim())-1;
+                   
+            try{   
+                
+                if (nuevo == 1){       //Nuevo registro
+                
+                  //****************************************************************************************************************// 
+                    
+                    Rs3 = Sql3.Select("SELECT ph.valor, ph.codigo\n" +
+                                      "FROM personalhd ph \n" +
+                                      "LEFT JOIN par_general pg ON ph.codigo=pg.codigo\n" +
+                                      "WHERE ph.rut='"+ txRut.getText().trim() + "' AND pg.tipo IN ('REM_HABERES') ORDER BY ph.codigo ASC");
+        
+                    if(Sql3.GetRowCount()>0 ){
+                       
+                        while(Rs3.next()){
+            
+                            if (Rs3.getString("codigo").equals("0")){ 
+                                
+                              sbase = Rs3.getDouble("valor");              
+                            }
+                
+                            if (Rs3.getString("codigo").equals("2") || Rs3.getString("codigo").equals("3")){ 
+                                
+                               col_mov = col_mov + Rs3.getDouble("valor");              //COLACION y MOVILIZACION
+                            }
+                        }
+                    }else if(Sql3.GetRowCount() ==0 ){
+                    
+                        fmMain.Mensaje("No existe datos de Remuneración");
+                        btLimpiar.doClick();     
+                        return;
+                    
+                    
+                    }
+                 //****************************************************************************************************************//    
+                    
+                    
+                    Rs = null;
+                       
+                    if (mes == 1){
+                       
+                        Rs = Sql.Select("SELECT SUM (monto) AS rentavar FROM psueldosdet WHERE rut='"+ txRut.getText().trim() +"' \n"+
+                                        "AND codigo IN('72') \n"+
+                                        "AND agno = '"+ agno + "' \n"+
+                                        "AND mes IN (10,11,12)");
+                        
+                    }else if (mes == 2){
+                       
+                        Rs = Sql.Select("SELECT SUM (monto) AS rentavar FROM psueldosdet WHERE rut='"+ txRut.getText().trim() +"' \n"+
+                                        "AND codigo IN('72') \n"+
+                                        "AND (agno = '"+ agno + "' AND mes IN (11,12) \n"+
+                                        "OR agno = '"+ cbAgno.getSelectedItem().toString().trim() + "' AND mes IN (1) AND codigo = '72')");
+                        
+                    }else if (mes == 3){
+                       
+                        Rs = Sql.Select("SELECT SUM (monto) AS rentavar FROM psueldosdet WHERE rut='"+ txRut.getText().trim() +"' \n"+
+                                        "AND codigo IN('72') \n"+
+                                        "AND (agno = '"+ agno + "' AND mes IN (12) \n"+
+                                        "OR agno = '"+ cbAgno.getSelectedItem().toString().trim() + "' AND mes IN (1,2)  AND codigo = '72')");
+                        
+                    }else{
+                       
+                        Rs = Sql.Select("SELECT SUM (monto) AS rentavar FROM psueldosdet WHERE rut='"+ txRut.getText().trim() +"' \n"+
+                                            "AND codigo IN('72') \n"+
+                                            "AND agno='"+ cbAgno.getSelectedItem().toString().trim() + "' \n"+
+                                            "AND mes IN ("+mes1+","+mes2+","+mes3+")");
+                       
+                    }
+                        
+                    Rs.next();
+                    double rentavar = Math.round(Rs.getDouble("rentavar")/3);       //Calculo promedio Rentas Variables últimos 3 meses
+                    
+                    dhaber = sbase + rentavar;                                      //Se suma el sueldo base +  el promedio de rentas variables
+                    
+                    double gratif = dhaber * 0.25;                                  //Se calcula gratificación de la renta imponible total
+                    
+                    if (gratif > topegratif){  //Si la gratificación es mayor al tope legal
+                    
+                        gratif = topegratif;  //se asigna el tope de gratificación
+                    
+                    }
+                    
+                    
+                    
+                    System.out.println("dhaber = "+dhaber+" | gratif = "+gratif+" | col_mov = "+col_mov+"  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    
+                    
+                    taviso = Precision.round(dhaber + gratif + col_mov,0);          //Se calcula total sueldo por no previo aviso (incluido colacion y movilizacion)
+                    taviso2 = sbase+rentavar;  //Se calcula sueldo para feriado proporcional
+                    
+                
+                    vdia = taviso / 30;                                             //Se calcula el valor dia del del sueldo por no previo aviso
+                    vdia2 = taviso2 / 30;    
+                    
+                    System.out.println("EL taviso2 ES : "+taviso2);
+                    System.out.println("EL vdia2 ES : "+vdia2);
+                    
+             
+                    
+                    
+                }else if (nuevo == 0){     //Si existe el registro
+                    
+                    btImprimir.setEnabled(true);
+                    
+                    Rs2 = Sql2.Select("SELECT * FROM finiquitos WHERE rut='"+ txRut.getText().trim() +"'");
+                     
+                    if(Sql2.GetRowCount()>0 ){
+                
+                        Rs2.next();
+                        
+                        taviso = Precision.round(Rs2.getDouble("monto_aviso"),0);
+                        vdia = taviso / 30;                                      //Se calcula el valor dia del del sueldo por no previo aviso                           
+                        vdia2 = taviso / 30;    
+                        
+                        
+                        dtTermino.setDate(Rs2.getDate("fecha_termino"));
+                        
+                        Hasta = dateFormat.format(dtTermino.getDate());
+                        Fcontrato = dateFormat.parse(Hasta);
+                        cal.setTime(Fcontrato);
+                        
+                        cbMotivo.setSelectedIndex(Rs2.getInt("motivo"));
+                        
+                        if (Rs2.getInt("sin_aviso_previo") == 1){
+                        
+                           chkAviso.setSelected(true);
+                        
+                        }else if (Rs2.getInt("sin_aviso_previo") == 0){
+                        
+                           chkAviso.setSelected(false);
+                        }
+                        txIndemiza.setText("$ "+formateador.format(Rs2.getDouble("monto_aviso")));
+                        
+                        txNagnos.setText(Rs2.getString("a_servicio"));  
+                        txVagnos.setText("$ "+formateador.format(Rs2.getDouble("monto_aservicios")));
+                        
+                        iempleador = Rs2.getDouble("monto_emp");
+                        txIempleador.setText("$ "+formateador.format(Rs2.getDouble("monto_emp")));
+                        
+                        if (Rs2.getInt("vacaciones") == 1){
+                        
+                           chkVprop.setSelected(true);
+                        
+                        }else if (Rs2.getInt("vacaciones") == 0){
+                        
+                           chkVprop.setSelected(false);
+                        }
+
+                        txNdiasf.setText(Rs2.getString("dias_inhab"));
+                        txNdiasp.setText(Rs2.getString("dias_pend"));
+                        lbTvac.setText(formateador.format(Rs2.getDouble("dias_vac")));
+                        
+                        txVacp.setText(formateador.format(Rs2.getDouble("monto_vac")));
+                        pagovacp = Rs2.getDouble("monto_vac");
+                                                
+                        txCes.setText("$ "+formateador.format(Rs2.getDouble("cesantia")));
+                        txPres.setText("$ "+formateador.format(Rs2.getDouble("prestamo")));
+                        
+                        lbTotal.setText("$ "+formateador.format(Rs2.getDouble("total")));
+                        total = Rs2.getDouble("total");
+                        
+                        txPagado.setText(Rs2.getString("pagado"));
+                        
+                        
+            //****************************************************************************************                
+                        Icontrato = dateFormat.parse(txInicioContrato.getText().toString());
+                    
+                        cal.setTime(Fcontrato);                 
+                        agnos.setTime(Icontrato);
+                    
+                        da=  agnos.get(Calendar.YEAR);              //Se obtiene el Año del Inicio Contrato
+                        ha =  cal.get(Calendar.YEAR);               //Se obtiene el Año de la fecha del Finiquito
+           
+                        dm=  agnos.get(Calendar.MONTH);             //Se obtiene el Mes del Inicio Contrato
+                        hm =  cal.get(Calendar.MONTH);              //Se obtiene el Mes de la fecha del Finiquito
+                    
+                        dd=  agnos.get(Calendar.DAY_OF_MONTH);      //Se obtiene el Día del Inicio Contrato
+                        hd =  cal.get(Calendar.DAY_OF_MONTH);       //Se obtiene el Dia de la fecha del Finiquito
+                            
+                        tagnos = (ha - da)-1;                       //Se calcula la cantidad de años de Contrato
+           
+                        tmeses = hm - dm;                           //Se calcula la cantidad de meses de Contrato
+              
+                        tdias = hd - dd;                            //Se calcula la cantidad de dias de Contrato
+
+            
+                        if (tdias < 0){                             //Si el resultado de dias es negativo
+           
+                            tdias = 30 + tdias;                     //se recalcula el total de días
+                            tmeses--;                               //y se resta un mes
+                       
+                        }
+           
+                        if (tmeses < 0){                          //Si el resultado de meses es negativo  
+           
+                            tmeses = 12 + tmeses;                  //se recalcula el total de meses
+                       
+                        }
+            
+                        if (tmeses > 6){                           //Si el total de meses es mayor a 6  
+           
+                            tagnos = tagnos + 1;                   //Se suma un año mas trabajado
+                       
+                        }
+                    
+            //***************************************************************************************                
+                        
+                        btAutorizar.setEnabled(true);
+                        
+                    }else{
+                    
+                        fmMain.Mensaje("No existe registro de Finiquito");
+                        btLimpiar.doClick();     
+                        return;
+                    
+                    }
+                    
+                    btEditar.setEnabled(true);
+                    
+                }
+                
+                       
+            }catch (SQLException | ParseException ex) {
+                       
+                Logger.getLogger(jdFiniquitos.class.getName()).log(Level.SEVERE, null, ex);
+           }
+        
+    }//GEN-LAST:event_btIrActionPerformed
+
+    public void CargaPersonal(String Rut) { 
+    
+        ExeSql Sql = new ExeSql();
+        ResultSet Rs;
+                   
+        try{
+ 
+            Rs = Sql.Select("SELECT p.*,pg.nombre AS cargo FROM personal p \n"
+                          + "LEFT JOIN par_general pg ON p.idcargo=pg.codigo \n "
+                          + "WHERE rut=" + Rut + " \n"
+                          + "AND pg.tipo IN ('CARGOS')");
+          
+            if(Sql.GetRowCount()>0){
+                
+                Rs.next();
+                
+                txRut.setText(Rs.getString("rut").trim());
+                txNombre.setText(Rs.getString("nombre").trim()+" "+Rs.getString("apellidopaterno").trim()+" "+Rs.getString("apellidomaterno").trim());
+                Nombres = Rs.getString("nombre").trim();
+                ApellidoP = Rs.getString("apellidopaterno").trim();
+                ApellidoM = Rs.getString("apellidomaterno").trim();
+                
+                txInicioContrato.setText(dateFormat.format(Rs.getDate("fecing")));
+                Cargo = Rs.getString("cargo").trim();
+                existe = true;
+                
+              
+                
+                
+            }else{
+                
+                fmMain.Mensaje("El Rut no existe");
+                existe = false;
+               
+                btCancelar.doClick();
+                
+            }
+           
+        }catch (Exception e) {
+            
+            System.out.println(e.getMessage());
+            
+        }finally{
+            
+           Sql.Close();
+        }
+    
+    }
+    
+    
+    private void txRutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txRutActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txRutActionPerformed
+
+    private void txRutKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txRutKeyPressed
+
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+            btIr.doClick();
+        }
+    }//GEN-LAST:event_txRutKeyPressed
+
+    private void txRutKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txRutKeyTyped
+
+        char validar = evt.getKeyChar();    //Código agregado por R. Lopez
+
+        if (Character.isLetter(validar)){   //se valida que solo se ingresen
+
+            evt.consume();                  //números al textfield "txRut"
+        }
+
+        if(txRut.getText().length()>=8) {  //se valida que solo se ingresen
+
+            evt.consume();                 //un máximo de 8 digitos al textfield "txRut"
+
+        }                                  //Fin código agregado
+    }//GEN-LAST:event_txRutKeyTyped
+
+    private void txNombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txNombreKeyReleased
+
+        txNombre.setText(txNombre.getText().toUpperCase());
+    }//GEN-LAST:event_txNombreKeyReleased
+
+    private void chkAvisoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkAvisoActionPerformed
+       
+        if (chkAviso.isSelected()){
+        
+          txIndemiza.setText("$ "+formateador.format(taviso));
+        
+          total = total + taviso; 
+          
+        }else{
+        
+          txIndemiza.setText("0");
+          total = total - taviso;
+          if (total < 0){
+          
+              total = 0;
+          }
+        }
+        
+        lbTotal.setText("$ "+formateador.format(total));
+        txPagado.setText(""+Math.round(total));
+    }//GEN-LAST:event_chkAvisoActionPerformed
+
+    private void chkVpropActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkVpropActionPerformed
+        
+        double ndiasp = 0;
+        double diasxmes = 0; 
+        double vacxdias = 0;
+        double totaldias = 0;
+        
+        lbTvac.setEnabled(true);
+        
+        if (chkVprop.isSelected()){
+        
+           txNdiasf.setEnabled(true);
+           txNdiasp.setEnabled(true);
+           btCalcular.setEnabled(true);
+          
+        
+            if ((txNdiasp.getText().equals("") || txNdiasp.getText().equals("0")) && 
+                (txNdiasf.getText().equals("") || txNdiasf.getText().equals("0"))){
+        
+                txNdiasp.setText("0");
+                txNdiasf.setText("0");
+            
+//                total = total - pagovacp;
+                ndiasp = 0;
+                pagovacp = 0;
+                txVacp.setText("$ "+formateador.format(pagovacp));
+                lbTotal.setText("$ "+formateador.format(total));
+                txPagado.setText(""+Math.round(total));
+                    
+            }else { 
+           
+                if (txNdiasp.getText().equals("")){
+                
+                    txNdiasp.setText("0");
+                    ndiasp = 0;
+               
+                }else{
+            
+                    ndiasp = Integer.parseInt(txNdiasp.getText());   
+                }
+            }
+        
+           
+//            diasxmes = 1.25*tmeses; 
+//            vacxdias = (1.25 / 30)*tdias;
+//        
+//            totaldias = Math.round(diasxmes + vacxdias + Double.parseDouble(txNdiasf.getText())+Double.parseDouble(txNdiasp.getText()));
+//        
+//        
+//            lbTvac.setText(""+Math.round(totaldias));
+//        
+//            pagovacp = (totaldias) * vdia2;
+//            txVacp.setText("$ "+formateador.format(pagovacp));
+//            total = total + pagovacp;
+//            lbTotal.setText("$ "+formateador.format(total));
+        
+        }else if (!chkVprop.isSelected()){
+        
+           txNdiasf.setEnabled(false);
+           txNdiasp.setEnabled(false);
+            btCalcular.setEnabled(false);
+          
+           txNdiasf.setText("");
+           txNdiasp.setText("");
+           lbTvac.setText("0");
+           
+           txVacp.setText("");
+           total = total - pagovacp;
+           lbTotal.setText("$ "+formateador.format(total));
+           txPagado.setText(""+Math.round(total));
+           
+        }
+        
+        
+    }//GEN-LAST:event_chkVpropActionPerformed
+
+    private void txInicioContratoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txInicioContratoKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txInicioContratoKeyReleased
+
+    private void txInicioContratoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txInicioContratoKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txInicioContratoKeyTyped
+
+    private void txNagnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txNagnosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txNagnosActionPerformed
+
+    private void txNagnosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txNagnosKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txNagnosKeyReleased
+
+    private void txNagnosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txNagnosKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txNagnosKeyTyped
+
+    private void txVacpKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txVacpKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txVacpKeyReleased
+
+    private void txVacpKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txVacpKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txVacpKeyTyped
+
+    private void txVacpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txVacpActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txVacpActionPerformed
+
+    private void btNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNuevoActionPerformed
+        
+        nuevo = 1;                  //Nuevo
+        
+        col_mov = 0;
+        sbase = 0;
+        dhaber = 0;
+        taviso = 0;
+        vdia = 0;
+        vdia2 = 0;
+        total = 0;
+        pagovacp = 0;
+        iempleador = 0;
+        
+        da = 0;
+        ha = 0;
+        dm = 0;
+        hm = 0;
+        dd = 0;hd = 0; 
+        
+        txRut.setText("");
+        txNombre.setText("");
+       
+        txIndemiza.setText("0");
+        txNdiasf.setText("0");
+        txNdiasp.setText("0");
+        txNagnos.setText("");
+        txVagnos.setText("");
+        txIempleador.setText("0");
+        txVacp.setText("0");
+        lbTvac.setText("0");
+        
+        dtTermino.getEditor().setText("");
+        
+        chkAviso.setSelected(false);
+        chkVprop.setSelected(false);
+       
+        txVacp.setText("$ "+formateador.format(pagovacp));
+       
+        lbTotal.setText("$ "+formateador.format(total));
+        txPagado.setText(""+Math.round(total));
+        
+        dtTermino.setEnabled(true);
+        cbMotivo.setEnabled(true);
+        cbTipoPago.setEnabled(true);
+        chkAviso.setEnabled(true);
+        chkVprop.setEnabled(true);
+        
+        txIempleador.setEnabled(true);
+        
+        txCes.setEnabled(true);
+        txPres.setEnabled(true);
+        
+        btNuevo.setEnabled(false);
+        btEditar.setEnabled(false);
+        btGuardar.setEnabled(true);
+        btCancelar.setEnabled(true);
+        btLimpiar.setEnabled(false);
+        btImprimir.setEnabled(false);
+        
+        btAutorizar.setEnabled(false);
+        
+        txPagado.setEnabled(true);
+        
+    }//GEN-LAST:event_btNuevoActionPerformed
+
+    private void btLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimpiarActionPerformed
+        
+        col_mov = 0;
+        sbase = 0;
+        dhaber = 0;
+        taviso = 0;
+        vdia = 0;
+        vdia2 = 0;
+        total = 0;
+        pagovacp = 0;
+        
+        da = 0;
+        ha = 0;
+        dm = 0;
+        hm = 0;
+        dd = 0;hd = 0;
+    
+        cbAgno.setSelectedIndex(0);
+        cbMes.setSelectedIndex(0);
+        cbMotivo.setSelectedIndex(0);
+        cbMotivo.setEnabled(false);
+        
+        txRut.setText("");
+        txNombre.setText("");
+       
+        txIndemiza.setText("0");
+        txNdiasf.setText("0");
+        txNdiasp.setText("0");
+        txNagnos.setText("");
+        txVagnos.setText("");
+        txIempleador.setText("0");
+        txVacp.setText("0");
+        lbTvac.setText("0");
+        
+        txInicioContrato.setText("");
+        
+        dtTermino.setFormats(new String[] {"dd/MM/yyyy"});
+        dtTermino.getEditor().setText("");
+        
+        chkAviso.setSelected(false);
+        chkVprop.setSelected(false);
+       
+        txVacp.setText("$ "+formateador.format(pagovacp));
+       
+        lbTotal.setText("$ "+formateador.format(total));
+        txPagado.setText(""+Math.round(total));
+        
+    }//GEN-LAST:event_btLimpiarActionPerformed
+
+    private void txNdiasfKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txNdiasfKeyPressed
+        
+      
+        double totaldias = 0;
+        
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+            
+            enter = true;
+            total = total - pagovacp;
+            
+            if ((txNdiasp.getText().equals("") || txNdiasp.getText().equals("0")) &&    //si es nulo o cero
+                (txNdiasf.getText().equals("") || txNdiasf.getText().equals("0"))){
+        
+                txNdiasp.setText("0");
+                txNdiasf.setText("0");
+               
+                lbTotal.setText("$ "+formateador.format(total));
+                txPagado.setText(""+Math.round(total));
+                    
+            }else{ 
+           
+                if (txNdiasp.getText().equals("")){
+                
+                    txNdiasp.setText("0");
+               
+                }
+            }
+        
+
+        
+            totaldias = Math.round(Double.parseDouble(txNdiasf.getText()) +Double.parseDouble(txNdiasp.getText()));
+        
+            lbTvac.setText(""+Math.round(totaldias));
+            txNdiasp.requestFocus();
+        }  
+        
+    }//GEN-LAST:event_txNdiasfKeyPressed
+
+    private void txNdiaspKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txNdiaspKeyPressed
+
+        double totaldias = 0;
+        
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+             
+            enter = true;
+            total = total - pagovacp;
+        
+            if ((txNdiasp.getText().equals("") || txNdiasp.getText().equals("0")) && 
+                (txNdiasf.getText().equals("") || txNdiasf.getText().equals("0"))){
+        
+                txNdiasp.setText("0");
+                txNdiasf.setText("0");
+
+                txVacp.setText("$ "+formateador.format(pagovacp));
+                lbTotal.setText("$ "+formateador.format(total));
+                txPagado.setText(""+Math.round(total));
+            
+            }else{ 
+           
+                if (txNdiasp.getText().equals("")){
+                
+                    txNdiasp.setText("0");
+               
+                }
+            
+            }
+//      
+            totaldias = Math.round(Double.parseDouble(txNdiasf.getText())+Double.parseDouble(txNdiasp.getText()));
+
+            lbTvac.setText(""+Math.round(totaldias));
+      
+          
+        
+        }
+    }//GEN-LAST:event_txNdiaspKeyPressed
+
+    private void txCesKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txCesKeyPressed
+        
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+        
+            enter = true;
+            
+            if (txCes.getText().equals("")) {
+                
+                txCes.setText("0");
+            }
+            
+            total = total + Ces;     //Se devuelve el valor descontado
+           
+            
+            total = total - Double.parseDouble(txCes.getText());
+            
+            lbTotal.setText("$ "+formateador.format(total));
+            txPagado.setText(""+Math.round(total));
+            
+            txCes.setText("$ "+formateador.format(Double.parseDouble(txCes.getText())));
+            
+            txPres.requestFocus();
+            
+        
+        }
+    }//GEN-LAST:event_txCesKeyPressed
+
+    private void txCesFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txCesFocusGained
+        
+        if (txCes.getText().equals("")) {
+                
+           txCes.setText("0");
+        }
+        
+        txCes.setText(SetDouble(txCes.getText().toString().trim()));
+        
+        Ces = Double.parseDouble(SetDouble(txCes.getText().toString()));
+        cacheCes = Double.parseDouble(SetDouble(txCes.getText().toString()));
+        
+        enter = false;
+    }//GEN-LAST:event_txCesFocusGained
+
+    private void txPresKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txPresKeyPressed
+               
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+        
+            enter = true;
+            
+            if (txPres.getText().equals("")) {
+                
+                txPres.setText("0");
+            }
+            
+           total = total + Pres;        //Se devuelve el valor descontado
+            
+            total = total - Double.parseDouble(txPres.getText());
+            
+            lbTotal.setText("$ "+formateador.format(total));
+            txPagado.setText(""+Math.round(total));
+            
+            txPres.setText("$ "+formateador.format(Double.parseDouble(txPres.getText())));
+            chkVprop.requestFocus();
+            
+        
+        }
+    }//GEN-LAST:event_txPresKeyPressed
+
+    private void txPresFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txPresFocusGained
+        
+        if (txPres.getText().equals("")) {
+                
+           txPres.setText("0");
+        }
+        txPres.setText(SetDouble(txPres.getText().toString().trim()));
+        Pres = Double.parseDouble(txPres.getText().toString());
+        
+        cachePres = Double.parseDouble(SetDouble(txPres.getText().toString()));
+        
+        enter = false;
+    }//GEN-LAST:event_txPresFocusGained
+
+    private void txNdiasfFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txNdiasfFocusGained
+        
+        if (txNdiasf.getText().equals("")) {
+                
+           txNdiasf.setText("0");
+        }
+        
+        cacheNdiasf = Integer.parseInt(txNdiasf.getText().trim());   
+        enter = false;
+    }//GEN-LAST:event_txNdiasfFocusGained
+
+    private void txNdiaspFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txNdiaspFocusGained
+        
+        if (txNdiasp.getText().equals("")) {
+                
+           txNdiasp.setText("0");
+        }
+        
+        cacheNdiasp = Integer.parseInt(txNdiasp.getText().trim());   
+         enter = false;
+        
+    }//GEN-LAST:event_txNdiaspFocusGained
+
+    private void txNdiasfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txNdiasfFocusLost
+        if (!enter) {
+           
+           txNdiasf.setText(String.valueOf(cacheNdiasf));
+        }
+    }//GEN-LAST:event_txNdiasfFocusLost
+
+    private void txNdiaspFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txNdiaspFocusLost
+        
+        if (!enter) {
+           
+           txNdiasp.setText(String.valueOf(cacheNdiasp));
+        }
+        
+    }//GEN-LAST:event_txNdiaspFocusLost
+
+    private void txCesFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txCesFocusLost
+      
+        if (!enter) {
+           
+           txCes.setText("$ "+formateador.format(cacheCes));
+           
+        }
+        
+    }//GEN-LAST:event_txCesFocusLost
+
+    private void txPresFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txPresFocusLost
+        
+        if (!enter) {
+           
+           txPres.setText("$ "+formateador.format(cachePres));
+        }
+    }//GEN-LAST:event_txPresFocusLost
+
+    private void txNdiaspKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txNdiaspKeyTyped
+       
+        char car = evt.getKeyChar();
+        
+        if (car=='.'){   
+           
+           char x;
+           int conta=0;
+           
+           for (int y=0; y < txNdiasp.getText().length(); y++ ){
+                        
+                x = txNdiasp.getText().charAt(y);
+                 
+                if (x=='.'){
+                   conta++;
+                }
+                
+                if (conta==1){
+                    evt.consume(); 
+                }
+           }
+        }
+            
+        if(((car<'0') || (car>'9')) && ((car<'.') || (car>'.'))){
+           evt.consume(); 
+        }        
+        
+    }//GEN-LAST:event_txNdiaspKeyTyped
+
+    private void txCesKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txCesKeyTyped
+        
+        char car = evt.getKeyChar();
+        
+        if (car=='.'){   
+           
+           char x;
+           int conta=0;
+           
+           for (int y=0; y < txCes.getText().length(); y++ ){
+                        
+                x = txCes.getText().charAt(y);
+                 
+                if (x=='.'){
+                   conta++;
+                }
+                
+                if (conta==1){
+                    evt.consume(); 
+                }
+           }
+        }
+            
+        if(((car<'0') || (car>'9')) && ((car<'.') || (car>'.'))){
+           evt.consume(); 
+        }        
+        
+        
+    }//GEN-LAST:event_txCesKeyTyped
+
+    private void txPresKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txPresKeyTyped
+        
+        char car = evt.getKeyChar();
+        
+        if (car=='.'){   
+           
+           char x;
+           int conta=0;
+           
+           for (int y=0; y < txPres.getText().length(); y++ ){
+                        
+                x = txPres.getText().charAt(y);
+                 
+                if (x=='.'){
+                   conta++;
+                }
+                
+                if (conta==1){
+                    evt.consume(); 
+                }
+           }
+        }
+            
+        if(((car<'0') || (car>'9')) && ((car<'.') || (car>'.'))){
+           evt.consume(); 
+        }        
+    }//GEN-LAST:event_txPresKeyTyped
+
+    private void cbDiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbDiaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbDiaActionPerformed
+
+    private void cbMotivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbMotivoActionPerformed
+        
+        if (cbMotivo.getSelectedIndex() == 1 || cbMotivo.getSelectedIndex() == 2 ||   // 1 Acuerdo Mutuo  /  2 Renuncia
+            cbMotivo.getSelectedIndex() == 4 || cbMotivo.getSelectedIndex() == 14){   // 4 Fin contrato   /  14 Abandono trabajo injustificado  
+            
+            tagnos3 = 0;
+            aservicios3 = 0;
+            txNagnos.setText(""+tagnos3);
+            
+            txVagnos.setText("$ "+formateador.format(aservicios3));
+            
+            total = total - aservicios;
+            total = total + aservicios3;
+           
+            lbTotal.setText("$ "+formateador.format(total));
+            txPagado.setText(""+Math.round(total));
+            renuncia = true;
+            
+        
+        }else {
+            
+                if (renuncia){
+                
+                   txNagnos.setText(""+tagnos2);
+                   
+                   txVagnos.setText("$ "+formateador.format(aservicios));
+                   
+                   total = total + aservicios;
+
+                   lbTotal.setText("$ "+formateador.format(total));
+                   txPagado.setText(""+Math.round(total));
+                   renuncia = false;
+                    
+                }else if (!renuncia){
+                
+                    txNagnos.setText(""+tagnos2);
+                    txVagnos.setText("$ "+formateador.format(aservicios));
+                                  
+                    
+                    total = total - aservicios;
+                    
+                    total = total + aservicios;
+                   
+                    lbTotal.setText("$ "+formateador.format(total));
+                    txPagado.setText(""+Math.round(total));
+                
+                }
+        
+        
+        }
+    }//GEN-LAST:event_cbMotivoActionPerformed
+
+    private void btAutorizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAutorizarActionPerformed
+        
+        String Query = "";
+        int tipopago = 0;
+        
+        if (cbTipoPago.getSelectedIndex() == 0){
+        
+            tipopago = 3;
+        
+        }else if (cbTipoPago.getSelectedIndex() == 1){
+        
+            tipopago = 2;
+        }
+        
+        
+        if(fmMain.OkCancel("¿Autorizar Gasto?")== JOptionPane.OK_OPTION){
+            
+            ExeSql Sql = new ExeSql();
+            ResultSet Rs = null;
+            
+            Query = "SELECT * FROM prv_cuentasxpagar cxp \n" +
+                    "WHERE cxp.tipdocto IN ('FIN')\n" +
+                    "AND cxp.rut ='"+txRut.getText().trim()+"'";
+                
+            try {
+               
+                Rs = Sql.Select(Query);
+                
+                if (Sql.GetRowCount() > 0){
+                        
+                    JOptionPane.showMessageDialog(null,"El Gasto ya fue Autorizado!!");
+                    return;
+                        
+                }
+                 
+                double pagado = Double.parseDouble(txPagado.getText());
+                
+                Sql.ExeSql("INSERT INTO prv_cuentasxpagar\n"
+                         + "(rut,tipdocto,nrodocto,fpago,monto,tipo,nrocuota,tipopago) \n"
+                         + "VALUES ("
+                         + txRut.getText().trim() + ",'"
+                         + "FIN',"
+                         + 0 + ",'"
+                         + dateFormat.format(Ffiniquito) + "',"
+                         //+ total + ","
+                         + pagado + ","
+                         + 0 +","
+                         + 1 +","
+                         + tipopago + ")");
+                            
+                       
+                    Sql.Commit();
+                        
+               
+                    
+                JOptionPane.showMessageDialog(null,"Gasto Autorizado");
+                    
+             
+                    
+            }catch (SQLException | HeadlessException e) {
+                    
+                    fmMain.Mensaje(e.getMessage());
+                    
+                    Sql.Rollback();
+                   
+                    
+            }finally{
+                
+                Sql.Close();
+            }
+             
+           btAutorizar.setEnabled(false);
+        }
+        
+        
+        
+        
+        
+    }//GEN-LAST:event_btAutorizarActionPerformed
+
+    private void txIempleadorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txIempleadorKeyTyped
+        
+        char car = evt.getKeyChar();
+        
+        if (car=='.'){   
+           
+           char x;
+           int conta=0;
+           
+           for (int y=0; y < txIempleador.getText().length(); y++ ){
+                        
+                x = txIempleador.getText().charAt(y);
+                 
+                if (x=='.'){
+                   conta++;
+                }
+                
+                if (conta==1){
+                    evt.consume(); 
+                }
+           }
+        }
+            
+        if(((car<'0') || (car>'9')) && ((car<'.') || (car>'.'))){
+           evt.consume(); 
+        }        
+        
+        
+        
+    }//GEN-LAST:event_txIempleadorKeyTyped
+
+    private void txIempleadorFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txIempleadorFocusGained
+        
+        if (txIempleador.getText().equals("")) {
+                
+           txIempleador.setText("0");
+        }
+        
+        txIempleador.setText(SetDouble(txIempleador.getText().toString().trim()));
+        
+        iempleador = Double.parseDouble(SetDouble(txIempleador.getText().toString()));
+        cacheiemp = Double.parseDouble(SetDouble(txIempleador.getText().toString()));
+        
+        enter = false;
+        
+        
+       
+    }//GEN-LAST:event_txIempleadorFocusGained
+
+    private void txIempleadorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txIempleadorFocusLost
+        
+         if (!enter) {
+           
+           txIempleador.setText("$ "+formateador.format(cacheiemp));
+           
+        }
+        
+    }//GEN-LAST:event_txIempleadorFocusLost
+
+    private void txIempleadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txIempleadorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txIempleadorActionPerformed
+
+    private void txIempleadorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txIempleadorKeyPressed
+        
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+        
+            enter = true;
+            
+            if (txIempleador.getText().equals("")) {
+                
+                txIempleador.setText("0");
+            }
+            
+            total = total - iempleador;     //Se descuenta el valor suma
+                       
+            total = total + Double.parseDouble(txIempleador.getText());
+            
+            lbTotal.setText("$ "+formateador.format(total));
+            txPagado.setText(""+Math.round(total));
+            
+            txIempleador.setText("$ "+formateador.format(Double.parseDouble(txIempleador.getText())));
+            
+            txCes.requestFocus();
+            
+        
+        }
+        
+        
+        
+    }//GEN-LAST:event_txIempleadorKeyPressed
+
+    private void btCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCalcularActionPerformed
+        double ndiasp = 0;
+        double diasxmes = 0; 
+        double vacxdias = 0;
+        double totaldias = 0;
+          
+        diasxmes = 1.25*tmeses; 
+        vacxdias = (1.25 / 30)*tdias;
+        
+        totaldias = Math.round(Double.parseDouble(lbTvac.getText()));
+        
+        pagovacp = totaldias * vdia2;
+        txVacp.setText("$ "+formateador.format(pagovacp));
+        total = total + pagovacp;
+        lbTotal.setText("$ "+formateador.format(total));
+        txPagado.setText(""+Math.round(total));       
+        
+    }//GEN-LAST:event_btCalcularActionPerformed
+
+    private void txVagnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txVagnosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txVagnosActionPerformed
+    
+    public String getHastaAsString() {
+       
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+       
+        return( sdf.format( (dtTermino.getDate()).getTime() ) );
+    }
+    
+    private int CheckToInt(boolean Input) {    
+        
+        if(Input==true){
+           return 1;
+        }else{
+           return 0;
+        }
+    }
+    
+    public static String SetDouble(String Numero){
+        
+        String Retorno=Numero.replace(",", "");
+        Retorno=Retorno.replace(",", "");
+        Retorno=Retorno.replace("$ ", "");
+        Retorno=Retorno.replace("'","");
+        Retorno=Retorno.replace(".","");
+    
+        Retorno = EliminaCaracteres(Retorno,",");
+    
+        return Retorno;
+    }
+    
+    static public String formatearRut(String rut){
+        int cont=0;
+        String format;
+        if(rut.length() == 0){
+            
+          return ""; 
+        
+        }else{
+            
+            rut = rut.replace(".", "");
+            rut = rut.replace("-", "");
+            format = "-"+rut.substring(rut.length()-1);
+            
+            for(int i = rut.length()-2;i>=0;i--){
+                
+                format = rut.substring(i, i+1)+format;
+                cont++;
+                
+                if(cont == 3 && i != 0){
+                    format = "."+format;
+                    cont = 0;
+                }
+            }
+            return format;
+        }
+    }    
+
+    public static String generaDigito(String rut) {
+        
+        int digito = 0;
+        String dv = "";
+        
+        try{
+            rut = rut.toUpperCase();
+            rut = rut.replace(".", "");
+            rut = rut.replace("-", "");
+            
+            int rutAux = Integer.parseInt(rut.substring(0, rut.length() - 1));
+           
+            int m = 0, s = 1;
+            
+            for (; rutAux != 0; rutAux /= 10) {       //rutAux = (rutAux / 10)
+            
+                s = (s + rutAux % 10 * (9 - m++ % 6)) % 11;  
+            
+            }
+          
+            digito = s-1;
+            
+            if (digito == -1){
+                
+                dv = "K";
+            
+            }else{
+            
+                dv = Integer.toString(digito);
+            }
+            
+        }catch (java.lang.NumberFormatException e){
+        }catch (Exception e) {
+        }
+        return dv;
+    }    
+    
+    
+    
+    
+    
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(jdFiniquitos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(jdFiniquitos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(jdFiniquitos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(jdFiniquitos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the dialog */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                jdFiniquitos dialog = new jdFiniquitos(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btAutorizar;
+    private javax.swing.JButton btCalcular;
+    private javax.swing.JButton btCancelar;
+    private javax.swing.JButton btEditar;
+    private javax.swing.JButton btGuardar;
+    private javax.swing.JButton btImprimir;
+    private javax.swing.JButton btIr;
+    private javax.swing.JButton btLimpiar;
+    private javax.swing.JButton btNuevo;
+    private javax.swing.JComboBox<String> cbAgno;
+    private javax.swing.JComboBox<String> cbDia;
+    private javax.swing.JComboBox<String> cbMes;
+    private javax.swing.JComboBox cbMotivo;
+    private javax.swing.JComboBox cbTipoPago;
+    private javax.swing.JCheckBox chkAviso;
+    private javax.swing.JCheckBox chkVprop;
+    private org.jdesktop.swingx.JXDatePicker dtTermino;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lbPagado;
+    private javax.swing.JLabel lbTotal;
+    private javax.swing.JLabel lbTvac;
+    private javax.swing.JTextField txCes;
+    private javax.swing.JTextField txIempleador;
+    private javax.swing.JTextField txIndemiza;
+    private javax.swing.JTextField txInicioContrato;
+    private javax.swing.JTextField txNagnos;
+    private javax.swing.JTextField txNdiasf;
+    private javax.swing.JTextField txNdiasp;
+    private javax.swing.JTextField txNombre;
+    private javax.swing.JTextField txPagado;
+    private javax.swing.JTextField txPres;
+    private javax.swing.JTextField txRut;
+    private javax.swing.JTextField txVacp;
+    private javax.swing.JTextField txVagnos;
+    // End of variables declaration//GEN-END:variables
+}

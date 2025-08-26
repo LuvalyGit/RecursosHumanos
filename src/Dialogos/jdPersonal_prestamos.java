@@ -1,0 +1,1041 @@
+
+package Dialogos;
+
+import Conexion.ExeSql;
+import Formularios.fmMain;
+import Dialogos.jdHistorial;
+import static Formularios.fmMain.intNivelUsuario;
+import static PanelForm.pfGastosSueldos.formatearRut;
+import java.awt.Dimension;
+import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
+
+
+/**
+ *
+ * @author Roberto Lopez
+ */
+public class jdPersonal_prestamos extends javax.swing.JDialog {
+
+    boolean guardado = false;
+    Calendar cal = Calendar.getInstance(); 
+    Calendar meses = Calendar.getInstance(); 
+    
+                                           
+    int year  = cal.get(Calendar.YEAR);
+    int year1 = year-1;
+    int month = cal.get(Calendar.MONTH)+1;
+    int m     = month;
+    int cont  = 0; 
+    int ncod  = 0;
+    int nuevo = 0;
+    
+    String Id     = "";
+    String elmes  = ""; 
+    String uagno  = "";
+    String Dvp = "";
+    String y      = Integer.toString(year);
+    String Desde  = "";
+    String Hasta  = "";
+    
+    DecimalFormat formateador = new DecimalFormat("###,###");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    
+    public jdPersonal_prestamos(java.awt.Frame parent, boolean modal) {
+        
+        super(parent, modal);
+        initComponents();
+        
+        dtDesde.setFormats(new String[] {"dd/MM/yyyy"});
+        dtHasta.setFormats(new String[] {"dd/MM/yyyy"});
+        
+        
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);   //se implemeta evento Window Listener
+         
+            addWindowListener(new WindowAdapter() {          //para realizar una acción cuando se cierre 
+            @Override                                       //directamente la ventana sin elegir una opcion
+            
+            public void windowClosing(WindowEvent e) {
+               
+               guardado = false;        //variable global que valida el cierre
+                
+            }
+        });
+        
+       jLabel1.setVisible(false);
+       
+        
+    }
+    
+    public void SetRegistro(int rnuevo,
+                            String rut,
+                            String dv,
+                            String nombre,
+                            String monto,
+                            String cuotas,
+                            String vcuota,
+                            String desde,
+                            String hasta,
+                            String obs,
+                            String id,
+                            int vigente
+                            ){
+        
+        Desde = desde;
+        Hasta = hasta;
+        txRut.setText(rut);
+        Dvp = dv;
+        txNombre.setText(nombre);
+        txMonto.setText(monto);
+        txNcuota.setText(cuotas);
+        txVcuota.setText(vcuota);
+        
+        if (vigente == 1){
+        
+            chk_vigente.setSelected(true);
+        
+        }else{
+        
+                chk_vigente.setSelected(false);
+        
+        }
+        
+        
+        
+        nuevo = rnuevo;
+        
+        if (nuevo == 1){                //si existe el registro
+            
+            Id = id;
+            
+            jLabel1.setText(Id);
+            btEditar.setEnabled(true);
+       
+            btGuardar.setEnabled(false);
+            btCancelar.setEnabled(false);
+            btImprimir.setEnabled(true);
+        
+            txMonto.setEnabled(false);
+            txNcuota.setEnabled(false);
+            dtDesde.setEnabled(false);
+            dtDesde.getEditor().setEditable(false); 
+            dtHasta.setEnabled(false);
+            dtHasta.getEditor().setEditable(false); 
+            txObs.setEnabled(false);
+            chk_vigente.setEnabled(false);
+        
+        }else if (nuevo == 0){          //si es un nuevo registro
+           
+           Id = ""; 
+           btEditar.setEnabled(false);
+       
+           btGuardar.setEnabled(true);
+           btCancelar.setEnabled(true);
+           btImprimir.setEnabled(false);
+        
+           txMonto.setEnabled(true);
+           txNcuota.setEnabled(true);
+           dtDesde.setEnabled(true);
+           dtDesde.getEditor().setEditable(false); 
+//           dtHasta.setEnabled(true);
+           dtHasta.getEditor().setEditable(false); 
+           txObs.setEnabled(true); 
+        
+        }
+        
+        try{
+            
+            dtDesde.setDate(dateFormat.parse(Desde));
+            dtHasta.setDate(dateFormat.parse(Hasta));
+            
+        }catch (ParseException ex) {
+            
+            Logger.getLogger(jdPersonal_prestamos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        txObs.setText(obs);
+    }
+   
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        chk_vigente = new javax.swing.JCheckBox();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        txRut = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        txNombre = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        txMonto = new javax.swing.JTextField();
+        jLabel21 = new javax.swing.JLabel();
+        dtDesde = new org.jdesktop.swingx.JXDatePicker();
+        jLabel22 = new javax.swing.JLabel();
+        dtHasta = new org.jdesktop.swingx.JXDatePicker();
+        jLabel12 = new javax.swing.JLabel();
+        txObs = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        txVcuota = new javax.swing.JTextField();
+        txNcuota = new javax.swing.JTextField();
+        btEditar = new javax.swing.JButton();
+        btGuardar = new javax.swing.JButton();
+        btCancelar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        btImprimir = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        chk_vigente.setText("Vigente");
+        chk_vigente.setToolTipText("");
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel11.setBackground(new java.awt.Color(242, 222, 184));
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel11.setText("Rut");
+        jLabel11.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        jLabel11.setOpaque(true);
+
+        txRut.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txRut.setEnabled(false);
+        txRut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txRutActionPerformed(evt);
+            }
+        });
+        txRut.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txRutKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txRutKeyTyped(evt);
+            }
+        });
+
+        jLabel10.setBackground(new java.awt.Color(242, 222, 184));
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel10.setText("Nombre");
+        jLabel10.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        jLabel10.setOpaque(true);
+
+        txNombre.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txNombre.setEnabled(false);
+        txNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txNombreKeyReleased(evt);
+            }
+        });
+
+        jLabel17.setBackground(new java.awt.Color(242, 222, 184));
+        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel17.setText("N° de Cuotas ");
+        jLabel17.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        jLabel17.setOpaque(true);
+
+        txMonto.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txMonto.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txMonto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txMontoKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txMontoKeyTyped(evt);
+            }
+        });
+
+        jLabel21.setBackground(new java.awt.Color(242, 222, 184));
+        jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel21.setText("Desde");
+        jLabel21.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        jLabel21.setOpaque(true);
+
+        dtDesde.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dtDesdeActionPerformed(evt);
+            }
+        });
+        dtDesde.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                dtDesdeKeyTyped(evt);
+            }
+        });
+
+        jLabel22.setBackground(new java.awt.Color(242, 222, 184));
+        jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel22.setText("Hasta");
+        jLabel22.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        jLabel22.setOpaque(true);
+
+        dtHasta.setEnabled(false);
+        dtHasta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dtHastaActionPerformed(evt);
+            }
+        });
+        dtHasta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                dtHastaKeyTyped(evt);
+            }
+        });
+
+        jLabel12.setBackground(new java.awt.Color(242, 222, 184));
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel12.setText("Observación");
+        jLabel12.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        jLabel12.setOpaque(true);
+
+        txObs.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txObs.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txObsKeyReleased(evt);
+            }
+        });
+
+        jLabel13.setBackground(new java.awt.Color(242, 222, 184));
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel13.setText("Monto del Préstamo");
+        jLabel13.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        jLabel13.setOpaque(true);
+
+        jLabel14.setBackground(new java.awt.Color(242, 222, 184));
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel14.setText("Valor Cuota");
+        jLabel14.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        jLabel14.setOpaque(true);
+
+        txVcuota.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txVcuota.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txVcuota.setEnabled(false);
+        txVcuota.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txVcuotaKeyTyped(evt);
+            }
+        });
+
+        txNcuota.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txNcuota.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txNcuota.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txNcuotaActionPerformed(evt);
+            }
+        });
+        txNcuota.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txNcuotaKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txNcuotaKeyTyped(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txVcuota, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(4, 4, 4))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
+                                                .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txRut, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(dtDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(dtHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 462, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txObs, javax.swing.GroupLayout.PREFERRED_SIZE, 551, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txNcuota, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(130, Short.MAX_VALUE))))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(txRut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(txNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(txMonto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel17)
+                    .addComponent(txNcuota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(txVcuota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(11, 11, 11)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dtDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dtHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addComponent(jLabel12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txObs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37))
+        );
+
+        btEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos16/Pencil16.png"))); // NOI18N
+        btEditar.setText("Editar");
+        btEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btEditarActionPerformed(evt);
+            }
+        });
+
+        btGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos16/save16.png"))); // NOI18N
+        btGuardar.setText("Guardar");
+        btGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btGuardarActionPerformed(evt);
+            }
+        });
+
+        btCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos16/Cancel16.png"))); // NOI18N
+        btCancelar.setText("Cancelar");
+        btCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCancelarActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("EL IDE");
+        jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        btImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos16/impresora16.png"))); // NOI18N
+        btImprimir.setText("Imprimir");
+        btImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btImprimirActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36)
+                        .addComponent(chk_vigente, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(chk_vigente)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
+       
+        guardado = false; 
+          
+        if (nuevo == 0){
+       
+           dispose(); 
+       
+        }else if (nuevo == 1){
+         
+            btEditar.setEnabled(true);
+       
+            btGuardar.setEnabled(false);
+            btCancelar.setEnabled(false);
+            btImprimir.setEnabled(true);
+        
+            txMonto.setEnabled(false);
+            txNcuota.setEnabled(false);
+            
+            dtDesde.setEnabled(false);
+            dtDesde.getEditor().setEditable(false); 
+            dtHasta.setEnabled(false);
+            dtHasta.getEditor().setEditable(false); 
+            txObs.setEnabled(false); 
+            chk_vigente.setEnabled(false);
+       
+        }
+       
+    }//GEN-LAST:event_btCancelarActionPerformed
+
+    private void btGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGuardarActionPerformed
+        
+        if (txNombre.getText().equals("")){
+           
+            fmMain.Mensaje("Debe Ingresar Rut del Trabajador");
+            txRut.requestFocus();
+            return;
+        
+        }
+        
+        if (txMonto.getText().equals("") || txMonto.getText().equals("0")){
+           
+            fmMain.Mensaje("Debe Ingresar Valor del Préstamo");
+            return;
+       
+        }  
+        
+        if (txNcuota.getText().equals("") || txNcuota.getText().equals("0")){
+           
+            fmMain.Mensaje("Debe Ingresar N° de Cuotas");
+            return;
+       
+        }  
+
+        if (dtDesde.getDate() == null){
+           
+            fmMain.Mensaje("Debe Ingresar fecha Inicial");
+            return;
+        
+        }
+        
+        if (dtHasta.getDate() == null){
+           
+            fmMain.Mensaje("Debe Ingresar fecha Final");
+            return;
+        
+        }
+        
+        btEditar.setEnabled(true);
+        btGuardar.setEnabled(false);
+        btCancelar.setEnabled(false);
+        btImprimir.setEnabled(true);
+        
+        txMonto.setEnabled(false);
+        txNcuota.setEnabled(false);
+        dtDesde.setEnabled(false);
+        dtHasta.setEnabled(false);
+        txObs.setEnabled(false);
+        chk_vigente.setEnabled(false);
+        
+        ExeSql Sql = new ExeSql();
+        
+        int rut = Integer.parseInt(txRut.getText().toString());
+        String vcuota = txVcuota.getText();
+        int tipo = 5;
+        double monto = Double.parseDouble(txMonto.getText().toString());
+        int ncuota = Integer.parseInt(txNcuota.getText().toString());
+        
+        int vigente = 0;
+        
+        if (nuevo == 0){
+            
+            try{
+                 
+               Id = "PR"+getDesdeAsString().substring(2);             //PRESTAMOS   
+               
+                chk_vigente.setSelected(true);
+               
+                vigente = 1;
+               
+               
+               Sql.ExeSql("INSERT INTO personal_plhx(rut,ndias_horas,dfecha,hfecha,tipo,observacion,id,monto,cuotas,activo) \n" +
+                          "VALUES (" + rut + "," + vcuota + ",'"+getDesdeAsString()+"','"+
+                          getHastaAsString()+"',"+tipo+",'"+txObs.getText()+"','"+Id+"',"+Math.round(monto)+","+ncuota+","+vigente+")");
+             
+               guardado = true;    
+            
+            }catch (SQLException ex) {
+                    
+                    Sql.Rollback();
+                    
+                    Logger.getLogger(jdPersonal_prestamos.class.getName()).log(Level.SEVERE, null, ex);
+                    guardado = false;
+                    
+            }
+                
+        }else if (nuevo == 1){
+        
+            try{
+                
+                
+                if (chk_vigente.isSelected()){
+               
+                   vigente = 1;
+               
+               }else{
+               
+                   vigente = 0;
+               
+               }
+                
+                
+                
+                
+                Sql.ExeSql("UPDATE personal_plhx SET \n"+
+                           "ndias_horas=" + vcuota + ", \n" +
+                           "monto=" + Math.round(monto) + ", \n" +
+                           "cuotas=" + ncuota + ", \n" +
+                           "dfecha='" + getDesdeAsString() + "'," +
+                           "hfecha='" + getHastaAsString() + "'," +
+                           "observacion='" + txObs.getText() + "', \n" +
+                           "activo= " + vigente + " \n" +
+                           "WHERE rut=" + rut +  "\n" +
+                           "AND id= '" + Id + "'\n" +
+                           "AND tipo=" + tipo);
+                
+                Sql.Commit();
+                guardado = true;   
+                
+            }catch (SQLException ex) {
+                
+                Sql.Rollback();
+                Logger.getLogger(jdPersonal_prestamos.class.getName()).log(Level.SEVERE, null, ex);
+                guardado = false;
+            }
+        
+        }
+        
+        if (guardado){
+               
+            fmMain.Mensaje("Registro Guardado con éxito");
+            dispose(); 
+                
+        }        
+        
+    }//GEN-LAST:event_btGuardarActionPerformed
+
+    private void btEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEditarActionPerformed
+       
+        intNivelUsuario = fmMain.trae_nivel(fmMain.GetUsuario());
+     
+        if (( intNivelUsuario < 85)){    
+           
+           fmMain.Mensaje("Usuario: " + fmMain.GetUsuario() + " no está autorizado") ;
+           return;
+        
+        } 
+        
+        nuevo = 1;
+       
+        btEditar.setEnabled(false);
+       
+        btGuardar.setEnabled(true);
+        btCancelar.setEnabled(true);
+        btImprimir.setEnabled(false);
+       
+        txMonto.setEnabled(true);
+        txNcuota.setEnabled(true);
+        dtDesde.setEnabled(true);
+        dtDesde.getEditor().setEditable(false); 
+//      dtHasta.setEnabled(true);
+        dtHasta.getEditor().setEditable(false); 
+        txObs.setEnabled(true);
+         chk_vigente.setEnabled(true);
+
+    }//GEN-LAST:event_btEditarActionPerformed
+
+    private void txRutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txRutActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txRutActionPerformed
+
+    private void txRutKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txRutKeyPressed
+        
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+           // btIr.doClick();
+        }
+        
+    }//GEN-LAST:event_txRutKeyPressed
+
+    private void txRutKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txRutKeyTyped
+
+        char validar = evt.getKeyChar();    //Código agregado por R. Lopez
+        if (Character.isLetter(validar)){   //se valida que solo se ingresen
+
+            evt.consume();                  //números al textfield "txRut"
+        }
+
+        if(txRut.getText().length()>=8) {  //se valida que solo se ingresen
+
+            evt.consume();                 //un máximo de 8 digitos al textfield "txRut"
+
+        }                                  //Fin código agregado
+    }//GEN-LAST:event_txRutKeyTyped
+    
+    private void txNombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txNombreKeyReleased
+       
+        txNombre.setText(txNombre.getText().toUpperCase());
+    }//GEN-LAST:event_txNombreKeyReleased
+
+    private void dtDesdeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dtDesdeActionPerformed
+        
+        int ncuotas = Integer.parseInt(txNcuota.getText());
+        
+        meses.setTime(dtDesde.getDate());
+        meses.add(Calendar.MONTH,ncuotas-1);
+        meses.getTime();
+        dtHasta.setDate(meses.getTime());
+       
+    }//GEN-LAST:event_dtDesdeActionPerformed
+
+    private void dtDesdeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtDesdeKeyTyped
+
+        char car = evt.getKeyChar();
+
+        if(((car<'0') || (car>'9')) && ((car<'.') || (car>'.'))){
+
+            evt.consume();
+        }
+        
+    }//GEN-LAST:event_dtDesdeKeyTyped
+
+    private void dtHastaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dtHastaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dtHastaActionPerformed
+
+    private void dtHastaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtHastaKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dtHastaKeyTyped
+
+    private void txObsKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txObsKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txObsKeyReleased
+
+    private void txMontoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txMontoKeyTyped
+        char car = evt.getKeyChar();
+        
+        if (car=='.'){   
+           
+           char x;
+           int conta=0;
+           
+           for (int y=0; y < txMonto.getText().length(); y++ ){
+                        
+                x = txMonto.getText().charAt(y);
+                 
+                if (x=='.'){
+                   conta++;
+                }
+                
+                if (conta==1){
+                    evt.consume(); 
+                }
+           }
+        }
+            
+        if(((car<'0') || (car>'9')) && ((car<'.') || (car>'.'))){
+           evt.consume(); 
+        }        
+    }//GEN-LAST:event_txMontoKeyTyped
+
+    private void txVcuotaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txVcuotaKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txVcuotaKeyTyped
+
+    private void txNcuotaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txNcuotaKeyTyped
+        
+         char car = evt.getKeyChar();
+        
+        if (car=='.'){   
+           
+           char x;
+           int conta=0;
+           
+           for (int y=0; y < txNcuota.getText().length(); y++ ){
+                        
+                x = txNcuota.getText().charAt(y);
+                 
+                if (x=='.'){
+                   conta++;
+                }
+                
+                if (conta==1){
+                    evt.consume(); 
+                }
+           }
+        }
+            
+        if(((car<'0') || (car>'9')) && ((car<'.') || (car>'.'))){
+           evt.consume(); 
+        }        
+        
+        
+    }//GEN-LAST:event_txNcuotaKeyTyped
+
+    private void txNcuotaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txNcuotaKeyReleased
+        int prestamo = Integer.parseInt(txMonto.getText());
+        int ncuotas = Integer.parseInt(txNcuota.getText());
+        
+        int vcuota = prestamo / ncuotas;
+        
+        txVcuota.setText(""+vcuota);
+        
+        meses.setTime(dtDesde.getDate());
+        meses.add(Calendar.MONTH,ncuotas-1);
+        meses.getTime();
+        dtHasta.setDate(meses.getTime());
+    }//GEN-LAST:event_txNcuotaKeyReleased
+
+    private void txMontoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txMontoKeyReleased
+
+        int prestamo = Integer.parseInt(txMonto.getText());
+        int ncuotas = Integer.parseInt(txNcuota.getText());
+        
+        int vcuota = prestamo / ncuotas;
+        
+        txVcuota.setText(""+vcuota);
+        
+    }//GEN-LAST:event_txMontoKeyReleased
+
+    private void txNcuotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txNcuotaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txNcuotaActionPerformed
+
+    private void btImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btImprimirActionPerformed
+        
+         try {
+            
+             
+//           jdGetPrestamos prestamos = new jdGetPrestamos(null, true);
+//           prestamos.setLocationRelativeTo(null);
+//           prestamos.setTitle("PRESTAMOS");
+//           prestamos.setVisible(true);
+           
+           int forma = Integer.parseInt(txNcuota.getText());
+           
+                  
+//            String dato,nombre = "";
+            Map parametro = new HashMap();
+            
+            parametro.put("LOGO",getClass().getResourceAsStream("/Reportes/Logo.jpg"));                     //Ruta Logo Reporte 
+            
+            parametro.put("NOMBRE",txNombre.getText());
+            parametro.put("RUT",formatearRut(txRut.getText()+Dvp));
+            
+            if (forma < 15){
+            
+                 parametro.put("FORMA","PARCIAL");
+            
+            }else if (forma == 15){
+            
+                parametro.put("FORMA","COMPLETA");
+            
+            }
+            
+            parametro.put("PRESTAMO",formateador.format(Double.parseDouble(txMonto.getText())));
+//            parametro.put("CUENTA",(prestamos.GetCuenta()));
+//            parametro.put("BANCO",(prestamos.GetBanco()));
+            
+            parametro.put("CUENTA","");
+            parametro.put("BANCO","");
+                                 
+            parametro.put("FECHAI",dateFormat.format(dtDesde.getDate()));
+            parametro.put("FECHAT",dateFormat.format(dtHasta.getDate()));
+                
+            parametro.put("CUOTAS",txNcuota.getText());
+            parametro.put("VALOR_CUOTA",formateador.format(Double.parseDouble(txVcuota.getText())));
+           
+            
+            JasperReport reporte = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/rpPrestamos.jasper")); //Ruta del Reporte
+            JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro,new JREmptyDataSource());
+           
+            JasperViewer view = new JasperViewer(jprint,false);
+            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            view.setVisible(true);
+            
+            
+        }catch (JRException ex) {
+        
+            ex.printStackTrace(); 
+            System.out.println ("informes r" + ex.toString ());
+            Logger.getLogger(jdPersonal_Plhx.class.getName()).log(Level.SEVERE, null, ex);
+        
+        }
+        
+        
+        
+    }//GEN-LAST:event_btImprimirActionPerformed
+     
+    public String getDesdeAsString() {
+        //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+       SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return( sdf.format( (dtDesde.getDate()).getTime() ) );
+    }
+    
+    public String getHastaAsString() {
+        //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return( sdf.format( (dtHasta.getDate()).getTime() ) );
+    }
+    
+     public Object[] GetRegistro(){
+        
+        if(guardado)
+                    
+            return new Object[]{txMonto.getText(),
+                                dtDesde.getDate(),
+                                dtHasta.getDate(),
+                                txObs.getText(),
+                                jLabel1.getText()};   
+            
+        else
+            return null;
+    }
+ 
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(jdPersonal_prestamos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(jdPersonal_prestamos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(jdPersonal_prestamos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(jdPersonal_prestamos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the dialog */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                jdPersonal_prestamos dialog = new jdPersonal_prestamos(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btCancelar;
+    private javax.swing.JButton btEditar;
+    private javax.swing.JButton btGuardar;
+    private javax.swing.JButton btImprimir;
+    private javax.swing.JCheckBox chk_vigente;
+    private org.jdesktop.swingx.JXDatePicker dtDesde;
+    private org.jdesktop.swingx.JXDatePicker dtHasta;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField txMonto;
+    private javax.swing.JTextField txNcuota;
+    private javax.swing.JTextField txNombre;
+    private javax.swing.JTextField txObs;
+    private javax.swing.JTextField txRut;
+    private javax.swing.JTextField txVcuota;
+    // End of variables declaration//GEN-END:variables
+}

@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4a0834d9-d64d-484d-8d3a-b11588a95c7e">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="88"/>
+	<parameter name="LOGO" class="java.io.InputStream"/>
+	<parameter name="NOMBRE" class="java.lang.String"/>
+	<parameter name="RUT" class="java.lang.String"/>
+	<parameter name="PERIODO" class="java.lang.String"/>
+	<parameter name="FORMA" class="java.lang.String"/>
+	<parameter name="FECHAS" class="java.lang.String"/>
+	<parameter name="DIAS" class="java.lang.String"/>
+	<parameter name="FERIADOS" class="java.lang.String"/>
+	<parameter name="DELPERIODO" class="java.lang.String"/>
+	<parameter name="ADELANTADOS" class="java.lang.String"/>
+	<parameter name="PENDIENTES" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="139" splitType="Stretch">
+			<staticText>
+				<reportElement x="145" y="103" width="267" height="20" uuid="9afb2d8a-9492-42d6-9b14-6e41e06ae227"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COMPROBANTE DE FERIADO LEGAL]]></text>
+			</staticText>
+			<textField pattern="dd MMMMM yyyy">
+				<reportElement x="439" y="25" width="100" height="17" uuid="3147b837-afa6-474e-b297-bd1e28ba2f90"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="392" y="25" width="41" height="17" uuid="4e35c867-d9a7-4e35-b3d1-fa0de7e150e0"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Temuco,]]></text>
+			</staticText>
+			<image hAlign="Center" isUsingCache="false">
+				<reportElement x="9" y="25" width="105" height="56" uuid="6692be77-8766-4c41-8474-3f0130140457"/>
+				<imageExpression><![CDATA[$P{LOGO}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="7" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="411" splitType="Stretch">
+			<staticText>
+				<reportElement x="77" y="43" width="447" height="20" uuid="0c28518a-f52a-44c3-b497-40a3e83c2fb5"/>
+				<text><![CDATA[ En cumplimiento a las disposiciones legales vigentes se deja constancia que a contar de las fechas que ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="27" y="64" width="168" height="17" uuid="a7833da3-dbc3-4ff7-a285-575322db8d22"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[se indican,  el trabajador(a), Don (ña)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="395" y="64" width="38" height="17" uuid="6cd2d759-c1ea-402d-94d5-dfbdfde7a2c6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[, R.U.T. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="28" y="82" width="90" height="17" uuid="ad3fc482-c2a5-472a-b260-c0cab7b1471a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[hará uso, en forma ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="28" y="100" width="292" height="17" uuid="27ba9830-061c-4b17-b982-67d893298003"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[con remuneración íntegra, de acuerdo al siguiente detalle :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="197" y="82" width="215" height="17" uuid="f64ec595-67ef-4ccc-a3b5-d162838da6da"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[de su Feriado Legal, correspondiente al periodo ]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="259" y="168" width="100" height="20" uuid="933a5c6f-58d3-407e-a2e6-5e21adf145b2"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="55" y="168" width="204" height="20" uuid="589324ee-5c9a-4e21-b7ac-45602f4261f3"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="359" y="168" width="147" height="20" uuid="0fe82237-caa8-46ac-bf5f-dd5eb0c23f51"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="359" y="169" width="147" height="18" uuid="496811d0-af50-4c18-b7ce-a841b6a729f2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[SABADOS, DOMINGOS Y FERIADOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="55" y="168" width="204" height="20" uuid="9bd1d03e-4d73-47e1-b7b6-b5358d867d16"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[PERIODO FERIADO LEGAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="259" y="169" width="100" height="18" uuid="14e44a19-137b-49d9-aeb1-62c274f4750d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[N° DE DIAS HABILES]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="55" y="188" width="204" height="20" uuid="5319a6e3-e721-4837-8752-adc1561566bd"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="259" y="188" width="100" height="20" uuid="9708622b-2e25-4516-9e1e-ec3ac64f498d"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="359" y="188" width="147" height="20" uuid="a26d78fc-d26b-469e-8476-343602b7da36"/>
+			</rectangle>
+			<textField>
+				<reportElement x="196" y="64" width="196" height="17" uuid="b5c62cb7-fe3c-4fa4-adf3-de52fde6cbc2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{NOMBRE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="435" y="64" width="89" height="17" uuid="feca0145-4c33-4509-8133-a8cc2f52ec54"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{RUT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="421" y="82" width="85" height="18" uuid="442b2d9f-8b86-40a2-bc47-500a1f6560de"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PERIODO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="118" y="82" width="78" height="17" uuid="bcffc981-b750-478c-834f-4e1f17656566"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{FORMA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="55" y="189" width="204" height="20" uuid="e8e18b66-93bf-486c-8fc3-5e14cbc8a31c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{FECHAS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="189" width="59" height="20" uuid="bc3df0ef-c0f9-44c1-a428-495276d581a0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DIAS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="398" y="189" width="72" height="20" uuid="5c44f64e-1cb8-4148-82a4-404f447b39c7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{FERIADOS}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="12" y="370" width="169" height="1" uuid="7cbbcc96-6ecd-4d96-83fa-9f5824eb456b"/>
+			</line>
+			<staticText>
+				<reportElement x="23" y="371" width="149" height="20" uuid="8228c55d-8366-486a-b555-a1c124e5c8d4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[FIRMA DEL TRABAJADOR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="365" y="370" width="149" height="20" uuid="c59426e2-3aac-45e2-be75-e80662910686"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[FIRMA LUVALY SPA]]></text>
+			</staticText>
+			<line>
+				<reportElement x="355" y="371" width="169" height="1" uuid="6a498c56-6ee1-4854-9e9d-a3bef5d8400c"/>
+			</line>
+			<staticText>
+				<reportElement x="114" y="291" width="104" height="20" uuid="f8035939-486c-4512-8f7c-b2f855d682a4"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIAS ADELANTADOS  :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="114" y="233" width="104" height="20" uuid="fe525a9d-ba83-40f1-a376-48d637bb3678"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIAS DEL PERIODO  :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="231" y="233" width="39" height="20" uuid="80b6625d-0e5b-4090-8909-aacb655bf8df"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DELPERIODO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="231" y="291" width="39" height="20" uuid="9e718343-34bd-4adb-902f-2d797b28a873"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ADELANTADOS}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="114" y="262" width="104" height="20" uuid="7cc1c3f5-8075-45b5-86e9-91d145b5f09c"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIAS PENDIENTES  :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="231" y="262" width="39" height="20" uuid="acb41c6a-7246-4f5c-bad3-b6b237dff2d0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PENDIENTES}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="6" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="6" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="4" splitType="Stretch"/>
+	</summary>
+</jasperReport>

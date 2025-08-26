@@ -1,0 +1,1359 @@
+package Formularios;
+
+import Conexion.Conector;
+ 
+import Conexion.ExeSql;
+import Dialogos.jdBuscaSii;
+import Dialogos.jdCierreSueldos;
+import Dialogos.jdFeriadoLegal;
+import Dialogos.jdFiniquitos;
+import Dialogos.jdHDRemuneraciones;
+import Dialogos.jdHistorial;
+import Dialogos.jdValores;
+import Dialogos.jdLiquidaciones_mensuales;
+import Dialogos.jdLogin;
+import Dialogos.jdPrestamos;
+import Dialogos.jdPreviRed;
+import PanelForm.pfBonosyComisiones;
+import PanelForm.pfGastosSueldos;
+import PanelForm.pfPersonal;
+import PanelForm.pfPruebas;
+import PanelForm.pfResumenPagos;
+import Utilidades.PanelTab;
+import Utilidades.Procesar;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.sql.ResultSet;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+/**
+ *
+ * @author Informática / Roberto López
+ */
+
+public class fmMain extends javax.swing.JFrame {
+    
+    static int[] PanEstado = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};         //new int[10];
+    private static double Sys_IVA=0;
+    private static String Sys_Decimal=".";
+    private static String Sys_Miles =",";
+    private static int FacNewYear=0;
+    
+    private static String UsuarioNombreReal;
+    private static String UsuarioClave;
+    private static String UsuarioNombre;
+    private static boolean UsuarioAdministrador;
+    private static boolean UsuarioAjuste;
+    private static boolean UsuarioCobranza;
+    private static boolean UsuarioTransforma;
+    private static boolean UsuarioAtorizaOCP;
+    private static boolean UsuarioGastos;
+    private static boolean UsuarioBodega;
+    private static int UsuarioCCosto;
+    private static int UsuarioId;
+    private static boolean Internet;
+    public static int disc =0;
+    public int intNivelMnu = 0;
+    public static int intNivelUsuario = 0;   //Variable nueva
+    public static int ccosto_usr =0;
+    public static int IntPosicionFinal =-1;
+    private static int AdministraBodega;
+    public static boolean cierra = false;
+    public static boolean elimina = false;
+    
+    
+    public fmMain() {
+        
+        initComponents();
+//        jMenuItem3.setVisible(false);   //Finiquitos
+        jMenuItem10.setVisible(false);
+        jdLogin Login = new jdLogin(null, true);
+        Login.setLocationRelativeTo(null);
+        Login.setVisible(true);
+        CargaVariablesSistema();
+        lbNombre.setText(UsuarioNombreReal);
+        String Servidor = Conector.GetSistema();
+       
+        jButton1.setVisible(false);
+        lblServidor.setText(Servidor);
+        
+        try{
+        
+            setIconImage(new ImageIcon(getClass().getResource("/Iconos/personal1.png")).getImage());
+        
+        }catch (Exception e) {
+        }
+        
+        System.out.println(GetUsuario());
+       
+    }
+
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jSeparator1 = new javax.swing.JSeparator();
+        jMenuItem8 = new javax.swing.JMenuItem();
+        jLabel1 = new javax.swing.JLabel();
+        jMenuItem38 = new javax.swing.JMenuItem();
+        jMenuItem39 = new javax.swing.JMenuItem();
+        jMenuItem44 = new javax.swing.JMenuItem();
+        jMenuItem52 = new javax.swing.JMenuItem();
+        jMenuItem62 = new javax.swing.JMenuItem();
+        jMenuItem34 = new javax.swing.JMenuItem();
+        jMenuItem73 = new javax.swing.JMenuItem();
+        jMenuItem74 = new javax.swing.JMenuItem();
+        jPanel1 = new javax.swing.JPanel();
+        pnPestanas = new javax.swing.JTabbedPane();
+        jPanel2 = new javax.swing.JPanel();
+        Calendario = new org.jdesktop.swingx.JXMonthView();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        fecha_version = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        lbNombre = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        lblServidor = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        recursos_humanos = new javax.swing.JMenuBar();
+        personal = new javax.swing.JMenu();
+        datostrabajador = new javax.swing.JMenuItem();
+        feriadolegal = new javax.swing.JMenuItem();
+        licenciamedica = new javax.swing.JMenuItem();
+        horasextras = new javax.swing.JMenuItem();
+        ausentismo = new javax.swing.JMenuItem();
+        prestamos = new javax.swing.JMenuItem();
+        finiquitos = new javax.swing.JMenuItem();
+        Remuneraciones = new javax.swing.JMenu();
+        liquidacion_sueldo = new javax.swing.JMenuItem();
+        haberes_descuentos = new javax.swing.JMenuItem();
+        bonos_comisiones = new javax.swing.JMenuItem();
+        cierre_Mes = new javax.swing.JMenuItem();
+        previred = new javax.swing.JMenuItem();
+        informes = new javax.swing.JMenu();
+        resumenpagos = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
+        liquidacionesmasivas = new javax.swing.JMenuItem();
+        configuracion = new javax.swing.JMenu();
+        valores = new javax.swing.JMenuItem();
+
+        jMenuItem8.setText("jMenuItem8");
+
+        jLabel1.setText("jLabel1");
+
+        jMenuItem38.setText("jMenuItem38");
+
+        jMenuItem39.setText("jMenuItem39");
+
+        jMenuItem44.setText("jMenuItem44");
+
+        jMenuItem52.setText("jMenuItem52");
+
+        jMenuItem62.setText("jMenuItem62");
+
+        jMenuItem34.setText("jMenuItem34");
+
+        jMenuItem73.setText("jMenuItem73");
+
+        jMenuItem74.setText("jMenuItem74");
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("RECURSOS HUMANOS");
+
+        jPanel1.setBackground(new java.awt.Color(212, 238, 208));
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1353, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 12, Short.MAX_VALUE)
+        );
+
+        getContentPane().add(jPanel1, java.awt.BorderLayout.SOUTH);
+
+        pnPestanas.setBackground(new java.awt.Color(161, 182, 197));
+        pnPestanas.setFont(new java.awt.Font("Arial", 1, 10)); // NOI18N
+        pnPestanas.setOpaque(true);
+
+        jPanel2.setBackground(new java.awt.Color(161, 182, 197));
+        jPanel2.setName(""); // NOI18N
+
+        Calendario.setBackground(new java.awt.Color(204, 255, 255));
+        Calendario.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        Calendario.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
+
+        jPanel4.setBackground(new java.awt.Color(204, 255, 255));
+        jPanel4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setFont(new java.awt.Font("Bell MT", 3, 36)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 102));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/personal1.png"))); // NOI18N
+        jLabel2.setLabelFor(jLabel2);
+        jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 200, 180));
+
+        fecha_version.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        fecha_version.setForeground(new java.awt.Color(255, 0, 0));
+        fecha_version.setText("30.08.2019");
+        jPanel4.add(fecha_version, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 160, -1, -1));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 204));
+        jLabel3.setText("Versión");
+        jPanel4.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 160, -1, -1));
+
+        jLabel7.setFont(new java.awt.Font("Calibri", 3, 28)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(51, 102, 255));
+        jLabel7.setText("HUMANOS");
+        jPanel4.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 80, 130, 40));
+
+        jLabel8.setFont(new java.awt.Font("Calibri", 3, 28)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(51, 102, 255));
+        jLabel8.setText("RECURSOS");
+        jPanel4.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 50, 130, 40));
+
+        jPanel3.setBackground(new java.awt.Color(204, 255, 255));
+        jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        lbNombre.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lbNombre.setForeground(new java.awt.Color(0, 0, 51));
+        lbNombre.setText("Usuario");
+
+        jLabel4.setForeground(new java.awt.Color(0, 0, 51));
+        jLabel4.setText("Usuario:");
+
+        jLabel5.setForeground(new java.awt.Color(0, 0, 51));
+        jLabel5.setText("Servidor:");
+
+        lblServidor.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblServidor.setForeground(new java.awt.Color(0, 0, 51));
+        lblServidor.setText("Servidor");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lbNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblServidor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(lbNombre))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(lblServidor))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Calendario, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 546, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(338, 338, 338))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(92, 92, 92)
+                        .addComponent(jButton1))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(Calendario, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(275, Short.MAX_VALUE))
+        );
+
+        pnPestanas.addTab("Inicio", jPanel2);
+
+        getContentPane().add(pnPestanas, java.awt.BorderLayout.CENTER);
+
+        personal.setText("Personal");
+
+        datostrabajador.setText("Datos Trabajador");
+        datostrabajador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                datostrabajadorActionPerformed(evt);
+            }
+        });
+        personal.add(datostrabajador);
+
+        feriadolegal.setText("Feriado Legal");
+        feriadolegal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                feriadolegalActionPerformed(evt);
+            }
+        });
+        personal.add(feriadolegal);
+
+        licenciamedica.setText("Licencia Médica");
+        licenciamedica.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                licenciamedicaActionPerformed(evt);
+            }
+        });
+        personal.add(licenciamedica);
+
+        horasextras.setText("Horas Extras");
+        horasextras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                horasextrasActionPerformed(evt);
+            }
+        });
+        personal.add(horasextras);
+
+        ausentismo.setText("Ausentismo");
+        ausentismo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ausentismoActionPerformed(evt);
+            }
+        });
+        personal.add(ausentismo);
+
+        prestamos.setText("Préstamos");
+        prestamos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                prestamosActionPerformed(evt);
+            }
+        });
+        personal.add(prestamos);
+
+        finiquitos.setText("Finiquitos");
+        finiquitos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                finiquitosActionPerformed(evt);
+            }
+        });
+        personal.add(finiquitos);
+
+        recursos_humanos.add(personal);
+
+        Remuneraciones.setText("Remuneraciones");
+
+        liquidacion_sueldo.setText("Liquidaciones de Sueldo");
+        liquidacion_sueldo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                liquidacion_sueldoActionPerformed(evt);
+            }
+        });
+        Remuneraciones.add(liquidacion_sueldo);
+
+        haberes_descuentos.setText("Haberes / Descuentos");
+        haberes_descuentos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                haberes_descuentosActionPerformed(evt);
+            }
+        });
+        Remuneraciones.add(haberes_descuentos);
+
+        bonos_comisiones.setText("Bonos / Comisiones");
+        bonos_comisiones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bonos_comisionesActionPerformed(evt);
+            }
+        });
+        Remuneraciones.add(bonos_comisiones);
+
+        cierre_Mes.setText("Cerrar Mes");
+        cierre_Mes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cierre_MesActionPerformed(evt);
+            }
+        });
+        Remuneraciones.add(cierre_Mes);
+
+        previred.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/logo_previred.png"))); // NOI18N
+        previred.setText("PREVIRED");
+        previred.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                previredActionPerformed(evt);
+            }
+        });
+        Remuneraciones.add(previred);
+
+        recursos_humanos.add(Remuneraciones);
+
+        informes.setText("Informes");
+        informes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                informesActionPerformed(evt);
+            }
+        });
+
+        resumenpagos.setText("Resumen pagos");
+        resumenpagos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resumenpagosActionPerformed(evt);
+            }
+        });
+        informes.add(resumenpagos);
+
+        jMenuItem10.setText("jMenuItem10");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        informes.add(jMenuItem10);
+
+        liquidacionesmasivas.setText("Liquidaciones Masivas");
+        liquidacionesmasivas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                liquidacionesmasivasActionPerformed(evt);
+            }
+        });
+        informes.add(liquidacionesmasivas);
+
+        recursos_humanos.add(informes);
+
+        configuracion.setText("Configuración");
+        configuracion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                configuracionActionPerformed(evt);
+            }
+        });
+
+        valores.setText("Valores");
+        valores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                valoresActionPerformed(evt);
+            }
+        });
+        configuracion.add(valores);
+
+        recursos_humanos.add(configuracion);
+
+        setJMenuBar(recursos_humanos);
+
+        getAccessibleContext().setAccessibleDescription("");
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    public static void SetUsuario(String Nombre, String Usuario, String Clave, boolean EsInternet, boolean Admin, boolean Ajuste, boolean Cobranza, 
+                                  boolean Gastos, boolean Transformacion, boolean AdminOCP, boolean Bodega, int CCosto, int Id, int Nivel,              //Variabel Nueva
+                                  int AdminBodega){
+        
+        UsuarioNombreReal       = Nombre;
+        UsuarioNombre           = Usuario;
+        UsuarioClave            = Clave;
+
+        UsuarioAdministrador    = Admin;
+        UsuarioAjuste           = Ajuste;
+        UsuarioCobranza         = Cobranza;
+        UsuarioTransforma       = Transformacion;
+        UsuarioAtorizaOCP       = AdminOCP;
+        UsuarioGastos           = Gastos;
+        UsuarioBodega           = Bodega;
+        AdministraBodega        = AdminBodega;
+    
+        UsuarioCCosto           = CCosto;
+        UsuarioId               = Id;
+        intNivelUsuario         = Nivel;      //Codigo nuevo
+        Internet                = EsInternet;
+    
+    }
+    
+    public static void SetNombreUsuario(String ElNombre){
+        UsuarioNombre = ElNombre;
+    }
+
+
+    public static void ErrorUsuarioLog(String Usuario,String Error){
+        
+        ExeSql Sql = new ExeSql();
+    
+        try{
+            Sql.ExeSql("INSERT INTO usuarios_eventos (usuario,tipo)VALUES ('" + Usuario + "','" + Error + "')");
+            Sql.Commit();
+            
+        }catch (Exception e){
+            
+            Sql.Rollback();
+            
+        }finally{
+            Sql.Close();
+        }
+    }
+
+    public static int GetEstado(int Pos){
+        return PanEstado[Pos];
+    }
+    
+    public static void DeleteEstado(int Pos){
+    
+        for(int i=Pos ; i<= 12 ; i++) {
+            
+            PanEstado[i]=PanEstado[i+1];
+        }
+    
+    }   
+
+    public static boolean GetInternet(){
+        return Internet;
+    }
+
+    public static int GetAdminBodega(){
+        return AdministraBodega;
+    }
+
+    public static String GetUsuario(){
+        return UsuarioNombre;
+    }
+
+    public static String GetPass(){
+        return UsuarioClave;
+    }
+
+    public static String GetDecimal(){
+        return Sys_Decimal;
+    }
+
+    public static String GetMiles(){
+        return Sys_Miles;
+    }
+
+    public static double GetIva(){
+        return Sys_IVA;
+    }
+    
+    public static boolean GetUsuarioAdministrador(){
+        return UsuarioAdministrador;
+    }
+
+    public static boolean GetUsuarioCobranza(){
+        return UsuarioCobranza;
+    }
+
+    public static boolean GetUsuarioAjuste(){
+        return UsuarioAjuste;
+    }
+
+    public static boolean GetUsuarioTransforma(){
+        return UsuarioTransforma;
+    }
+
+    public static boolean GetUsuarioAdminOCP(){
+        return UsuarioAtorizaOCP;
+    }
+
+    public static boolean GetUsuarioBodega(){
+        return UsuarioBodega;
+    }
+
+    public static boolean GetUsuarioGastos(){
+        return UsuarioGastos;
+    }
+
+    public static String GetCentrodeCosto(){
+        return String.valueOf(UsuarioCCosto);
+    }
+
+    public static String GetUsuarioId(){
+        return String.valueOf(UsuarioId);
+    }
+
+    public static String GetStringDeFinal(char cara , String nombrePalabra ){
+ 
+        int j;   
+        j=0;
+       
+        for(int i=nombrePalabra.length()-1; i >0 ; i-- ){
+        
+            if( nombrePalabra.charAt(i)== cara){
+              j=i;
+              break;
+            }
+        }   
+        return nombrePalabra.substring(j+1).trim();
+    }
+
+    public static String GetStringDeInicio(char cara , String nombrePalabra ){
+ 
+        int j;   
+        j=0;
+
+        for(int i=0; i <=nombrePalabra.length() ; i++ ){
+            if( nombrePalabra.charAt(i)== cara){
+                j=i;
+                break;
+            }
+        }   
+     
+        return nombrePalabra.substring(j+1).trim();
+    }
+
+
+    public static boolean validarRut(String rut) {
+    
+        boolean validacion = false;
+        try{
+            rut = rut.toUpperCase();
+            rut = rut.replace(".", "");
+            rut = rut.replace("-", "");
+            int rutAux = Integer.parseInt(rut.substring(0, rut.length() - 1));
+
+            char dvx = rut.charAt(rut.length() - 1);
+            int m = 0, s = 1;
+            for (; rutAux != 0; rutAux /= 10) {
+                s = (s + rutAux % 10 * (9 - m++ % 6)) % 11;
+            }
+            if (dvx == (char) (s != 0 ? s + 47 : 75)) {
+                validacion = true;
+            }
+            
+        }catch (java.lang.NumberFormatException e) {
+        }catch (Exception e) {
+        }
+        return validacion;
+    }
+
+    public static String FormatoNumeroBig(BigInteger Numero){
+        
+        DecimalFormatSymbols simbolo=new DecimalFormatSymbols();
+        simbolo.setDecimalSeparator('.');
+        simbolo.setGroupingSeparator(',');
+        DecimalFormat formateador = new DecimalFormat("###,##0",simbolo);
+        return formateador.format(Numero);
+    
+    }
+    
+    public static String FormatoNumeroBigLimpio(BigInteger Numero){
+    
+        DecimalFormatSymbols simbolo=new DecimalFormatSymbols();
+        simbolo.setDecimalSeparator('.');
+        simbolo.setGroupingSeparator(',');
+        DecimalFormat formateador = new DecimalFormat("#0",simbolo);
+        return formateador.format(Numero);
+    
+    }
+    
+    public static String FormatoNumero(double Numero){
+    
+        DecimalFormatSymbols simbolo=new DecimalFormatSymbols();
+        simbolo.setDecimalSeparator('.');
+        simbolo.setGroupingSeparator(',');
+        DecimalFormat formateador = new DecimalFormat("###,##0.00",simbolo);
+        return formateador.format(Numero);
+    
+    }
+
+    public static String FormatoNumeroSinDecimal(double Numero){
+    
+        DecimalFormatSymbols simbolo=new DecimalFormatSymbols();
+        simbolo.setDecimalSeparator('.');
+        simbolo.setGroupingSeparator(',');
+        DecimalFormat formateador = new DecimalFormat("###,##0",simbolo);
+        return formateador.format(Numero);
+    
+    }
+
+    public static String FormatoTotal(double Numero){
+    
+        DecimalFormatSymbols simbolo=new DecimalFormatSymbols();
+        simbolo.setDecimalSeparator('.');
+        simbolo.setGroupingSeparator(',');
+        DecimalFormat formateador = new DecimalFormat("###,###",simbolo);
+        return formateador.format(Numero);
+    
+    }
+    
+    public static String SetGuardar(String Numero){
+    
+        String Retorno=Numero.replace(",", "");
+        Retorno=Retorno.replace(",", "");
+        Retorno=Retorno.replace("$", "");
+    
+        Retorno = EliminaCaracteres(Retorno,",");
+    
+        return Retorno;
+    }
+
+    public static void Msje (String Titulo, String Mensaje, int xx , int yy){
+    
+        JOptionPane pane = new JOptionPane(Mensaje);  
+        JDialog dialog = pane.createDialog(Titulo);  
+        dialog.setLocation(xx, yy);  
+        dialog.setVisible(true);  
+    }
+
+
+    public static String SetGuardarEntero(String Numero){
+    
+        String Retorno=Numero.replace(",", "");
+    
+        Retorno=Retorno.replace(",", "");
+        Retorno=Retorno.replace("$", "");
+        Retorno=Retorno.replace(".", "");
+        Retorno=Retorno.replace("$", "");
+    
+        Retorno = EliminaCaracteres(Retorno,",");
+    
+        return Retorno;
+    }
+    
+    public static String EliminaCaracteres(String s_cadena, String s_caracteres){
+  
+        String nueva_cadena = "";
+        Character caracter = null;
+        boolean valido = true;
+ 
+  /* Va recorriendo la cadena s_cadena y copia a la cadena que va a regresar,
+     sólo los caracteres que no estén en la cadena s_caracteres */
+        for (int i=0; i<s_cadena.length(); i++){
+       
+            valido = true;
+              
+            for (int j=0; j<s_caracteres.length(); j++){
+                
+                caracter = s_caracteres.charAt(j);
+ 
+                if (s_cadena.charAt(i) == caracter){
+                    
+                    valido = false;
+                    break;
+                }
+            }
+            
+            if (valido)
+                
+                nueva_cadena += s_cadena.charAt(i);
+        }
+ 
+        return nueva_cadena;
+    }
+    
+    public static boolean EsLetra(java.awt.event.KeyEvent evt){
+    
+        if(evt.getKeyCode() > KeyEvent.VK_A && evt.getKeyCode() < KeyEvent.VK_Z || evt.getKeyChar()=='ñ')
+            return true;
+        else
+            return false;
+    
+    }
+
+    public static String SetString(String Texto){
+        
+        if(Texto.isEmpty() || Texto.trim().equals(""))
+            return "null";
+        else
+            return "'" + Texto.trim() +"'";
+    }
+
+    public static void LimpiaGrilla(DefaultTableModel dfTm){
+        
+        while(dfTm.getRowCount()>0){
+        
+            dfTm.removeRow(0);
+        }
+    }
+    
+    public static int OkCancel(String Mensaje){
+        
+        int result = JOptionPane.showConfirmDialog(null, Mensaje,"Confirmar", JOptionPane.OK_CANCEL_OPTION);
+        return result;
+    }
+
+    public static void Mensaje(String Mensaje){
+        
+        int Pos = 0;
+        
+        if(Mensaje != null){
+            
+            Pos = Mensaje.indexOf("Where");
+            
+            if(Pos > 0){
+            
+                System.out.println(Mensaje);
+                Mensaje = Mensaje.substring(0, Pos);
+            }
+        
+            JOptionPane.showMessageDialog(null, Mensaje);
+        }
+    }
+
+    private void CargaVariablesSistema(){
+        
+        ExeSql  Sql = new ExeSql();
+        
+        try{
+            
+            ResultSet Rs= Sql.Select("SELECT iva,decimal,fac_newyear FROM parsys");
+            
+            Rs.next();
+            
+            Sys_IVA = Rs.getFloat("iva")/100;
+            Sys_Decimal = Rs.getString("decimal");
+            FacNewYear = Rs.getInt("fac_newyear");
+            
+        }catch (Exception e) {
+            
+            JOptionPane.showMessageDialog(null, "Carga Variables " + e);
+        
+        }finally{
+        
+            Sql.Close();
+        }
+    }
+
+
+
+    public static int trae_nivel(String Usu){
+        
+        ExeSql Sql = new ExeSql();
+        ResultSet Rs;
+        String Ubica="", Query="";
+        int i =0;
+        int Salida=0;
+        
+        try {
+            
+            Query = "SELECT u.usuario,p.rut,cc.ccosto ccosto_pcc, u.nivel \n" +
+                    "FROM personal p \n" +
+                    "LEFT JOIN pacceso a ON p.rut=a.rut \n" +
+                    "LEFT JOIN personal_ccostos cc ON p.rut=cc.rut \n" +
+                    "LEFT JOIN usuario u ON u.usuario = p.usuario \n" +
+                    "WHERE u.usuario ='" + Usu.trim() +"'";
+                  
+            Rs = Sql.Select(Query );
+
+            if(Sql.GetRowCount()==0){  
+                    
+                Toolkit.getDefaultToolkit().beep();  
+                fmMain.Mensaje("No existe Usuario" );
+                Salida= 0;
+        
+            }      
+
+            if (Rs.next()){
+                    
+                Salida= Rs.getInt("nivel");
+                ccosto_usr = Rs.getInt("ccosto_pcc");
+                
+            }
+                        
+        }catch (Exception e) {
+         
+            System.out.println(e.getMessage());
+        
+        }finally{
+         
+            Sql.Close();
+        
+        }       
+    
+        return Salida;
+    }
+
+  
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+          //Verifica SO
+        String ruta_local="";
+        String carpeta = "blue5";
+        String sistema = System.getProperty("os.name").toLowerCase();
+                            
+        File f = new File("");
+        
+        if (sistema.contains("win")){
+                         
+            ruta_local = "c:/" + carpeta + "/";
+            f = new File(ruta_local.substring(0,ruta_local.length()-1));
+        
+        }else{
+        
+            ruta_local = "/" + carpeta + "/";
+            //folder = new File(ruta_local);
+            f = new File(ruta_local);
+        }
+
+        if(!f.isDirectory()) {
+            
+          String newFolder = ruta_local; //cualquierCarpeta es el nombre de la Carpeta que vamos a crear
+                    
+          File myNewFolder = new File(newFolder);
+          myNewFolder.mkdirs(); //creamos la carpeta
+            
+        }else{
+            
+            System.out.println("La carpeta ya estaba creada");
+        
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void prestamosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prestamosActionPerformed
+        intNivelMnu = 80;
+        intNivelUsuario = fmMain.trae_nivel(fmMain.GetUsuario());
+
+        if (((intNivelMnu > intNivelUsuario )|| (ccosto_usr!=4) ) && (intNivelUsuario<85)){
+
+            fmMain.Mensaje("Usuario: " + fmMain.GetUsuario() + " no esta autorizado") ;
+            return;
+        }
+
+        jdPrestamos Prestamos = new jdPrestamos(null,false);
+        Prestamos.setLocationRelativeTo(null);
+        Prestamos.setTitle("PRESTAMOS");
+        Prestamos.setVisible(true);
+    }//GEN-LAST:event_prestamosActionPerformed
+
+    private void ausentismoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ausentismoActionPerformed
+        intNivelMnu = 80;
+        intNivelUsuario = fmMain.trae_nivel(fmMain.GetUsuario());
+
+        if (((intNivelMnu > intNivelUsuario )|| (ccosto_usr!=4) ) && (intNivelUsuario<85)){
+
+            fmMain.Mensaje("Usuario: " + fmMain.GetUsuario() + " no esta autorizado") ;
+            return;
+        }
+
+        jdHistorial pHistorial = new jdHistorial(null,false,4);
+        pHistorial.setLocationRelativeTo(null);
+        pHistorial.setTitle("AUSENTISMO");
+        pHistorial.setVisible(true);
+    }//GEN-LAST:event_ausentismoActionPerformed
+
+    private void horasextrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_horasextrasActionPerformed
+
+        intNivelMnu = 80;
+        intNivelUsuario = fmMain.trae_nivel(fmMain.GetUsuario());
+
+        if (((intNivelMnu > intNivelUsuario )|| (ccosto_usr!=4) ) && (intNivelUsuario<85)){
+
+            fmMain.Mensaje("Usuario: " + fmMain.GetUsuario() + " no esta autorizado") ;
+            return;
+        }
+
+        jdHistorial pHistorial = new jdHistorial(null,false,3);
+        pHistorial.setLocationRelativeTo(null);
+        pHistorial.setTitle("HORAS EXTRAS");
+        pHistorial.setVisible(true);
+
+    }//GEN-LAST:event_horasextrasActionPerformed
+
+    private void licenciamedicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_licenciamedicaActionPerformed
+
+        intNivelMnu = 80;
+        intNivelUsuario = fmMain.trae_nivel(fmMain.GetUsuario());
+
+        if (((intNivelMnu > intNivelUsuario )|| (ccosto_usr!=4) ) && (intNivelUsuario<85)){
+
+            fmMain.Mensaje("Usuario: " + fmMain.GetUsuario() + " no esta autorizado") ;
+            return;
+        }
+
+        jdHistorial pHistorial = new jdHistorial(null,false,2);
+        pHistorial.setLocationRelativeTo(null);
+        pHistorial.setTitle("LICENCIA MEDICA");
+        pHistorial.setVisible(true);
+
+    }//GEN-LAST:event_licenciamedicaActionPerformed
+
+    private void feriadolegalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_feriadolegalActionPerformed
+        intNivelMnu = 80;
+        intNivelUsuario = fmMain.trae_nivel(fmMain.GetUsuario());
+
+        if (((intNivelMnu > intNivelUsuario )|| (ccosto_usr!=4) ) && (intNivelUsuario<85)){
+
+            fmMain.Mensaje("Usuario: " + fmMain.GetUsuario() + " no esta autorizado") ;
+            return;
+        }
+
+      //jdHistorial pHistorial = new jdHistorial(null,false,1);
+        jdFeriadoLegal pFeriadoLegal = new jdFeriadoLegal(null,false,1);
+      
+        pFeriadoLegal.setLocationRelativeTo(null);
+        pFeriadoLegal.setTitle("FERIADO LEGAL");
+        pFeriadoLegal.setVisible(true);
+
+    }//GEN-LAST:event_feriadolegalActionPerformed
+
+    private void datostrabajadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_datostrabajadorActionPerformed
+
+        try{
+
+            intNivelMnu = 80;
+            intNivelUsuario = fmMain.trae_nivel(fmMain.GetUsuario());
+
+            if (((intNivelMnu > intNivelUsuario )|| (ccosto_usr!=4) ) && (intNivelUsuario<85)){
+                fmMain.Mensaje("Usuario: " + fmMain.GetUsuario() + " no esta autorizado") ;
+                return;
+            }
+            //--------------------------------------------------------------------------------------
+             
+            
+            
+            
+            pfPersonal Activos = new pfPersonal();
+            pnPestanas.addTab("Datos Personal", Activos);
+            PanelTab btc=new PanelTab(pnPestanas,0);
+            pnPestanas.setTabComponentAt(pnPestanas.indexOfComponent(Activos), btc);
+            pnPestanas.setSelectedIndex(pnPestanas.getTabCount()-1);
+
+        }catch (ParseException ex) {
+
+            Logger.getLogger(fmMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_datostrabajadorActionPerformed
+
+    private void previredActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previredActionPerformed
+        intNivelMnu = 80;
+        intNivelUsuario = fmMain.trae_nivel(fmMain.GetUsuario());
+
+        if (((intNivelMnu > intNivelUsuario )|| (ccosto_usr!=4) ) && (intNivelUsuario<100)){
+
+            fmMain.Mensaje("Usuario: " + fmMain.GetUsuario() + " no esta autorizado") ;
+            return;
+        }
+
+        jdPreviRed pRed = new jdPreviRed();
+        pRed.setTitle("Archivo PREVIRED");
+        pRed.setLocationRelativeTo(null);
+        pRed.setVisible(true);
+
+    }//GEN-LAST:event_previredActionPerformed
+
+    private void cierre_MesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cierre_MesActionPerformed
+
+        //--------------------------------------------------------------------------------------
+        /*
+        Valida el nivel de usuario
+        Administrador  = 100
+        Admin Area     = 90
+        Supervisores   = 80
+        Normal         = 70
+        Normal Vtas    = 71
+        Visita         = 60
+        Cada menu del sistema tendra un valor de acuerdo al nivel que quiero que acceda.
+        */
+
+        intNivelMnu = 80;
+        intNivelUsuario = fmMain.trae_nivel(fmMain.GetUsuario());
+
+        if (((intNivelMnu > intNivelUsuario ) || (ccosto_usr!=4) ) && (intNivelUsuario<85)){
+
+            fmMain.Mensaje("Usuario: " + fmMain.GetUsuario() + " no esta autorizado") ;
+            return;
+        }
+        //--------------------------------------------------------------------------------------
+
+        jdCierreSueldos Cierre = new jdCierreSueldos(null,true);
+        Cierre.setTitle("Cierre de Periodo Remuneraciones");
+        Cierre.setLocationRelativeTo(null);
+        Cierre.setVisible(true);
+    }//GEN-LAST:event_cierre_MesActionPerformed
+
+    private void bonos_comisionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bonos_comisionesActionPerformed
+        intNivelMnu = 80;
+        intNivelUsuario = fmMain.trae_nivel(fmMain.GetUsuario());
+
+        if (((intNivelMnu > intNivelUsuario )|| (ccosto_usr!=4) ) && (intNivelUsuario<100)){
+
+            fmMain.Mensaje("Usuario: " + fmMain.GetUsuario() + " no esta autorizado") ;
+            return;
+        }
+       
+
+        Procesar pro = new Procesar();
+        pro.setLocationRelativeTo(null);
+        pro.setVisible(true);
+
+        pfBonosyComisiones BonoComision = new pfBonosyComisiones();
+        pnPestanas.addTab("Bonos y Comisiones", BonoComision);
+        PanelTab btc=new PanelTab(pnPestanas,0);
+        pnPestanas.setTabComponentAt(pnPestanas.indexOfComponent(BonoComision), btc);
+        pnPestanas.setSelectedIndex(pnPestanas.getTabCount()-1);
+
+    }//GEN-LAST:event_bonos_comisionesActionPerformed
+
+    private void haberes_descuentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_haberes_descuentosActionPerformed
+
+        intNivelMnu = 80;
+        intNivelUsuario = fmMain.trae_nivel(fmMain.GetUsuario());
+
+        if (((intNivelMnu > intNivelUsuario )|| (ccosto_usr!=4) ) && (intNivelUsuario<85)){
+
+            fmMain.Mensaje("Usuario: " + fmMain.GetUsuario() + " no esta autorizado") ;
+            return;
+        }
+
+        jdHDRemuneraciones HaberDescuento = new jdHDRemuneraciones(null,true);
+        HaberDescuento.setLocationRelativeTo(null);
+        HaberDescuento.setVisible(true);
+    }//GEN-LAST:event_haberes_descuentosActionPerformed
+
+    private void liquidacion_sueldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_liquidacion_sueldoActionPerformed
+
+        intNivelMnu = 80;
+        intNivelUsuario = fmMain.trae_nivel(fmMain.GetUsuario());
+
+        if (((intNivelMnu > intNivelUsuario )|| (ccosto_usr!=4) ) && (intNivelUsuario<85)){
+
+            fmMain.Mensaje("Usuario: " + fmMain.GetUsuario() + " no esta autorizado") ;
+            return;
+        }
+
+        Procesar pro = new Procesar();
+        pro.setLocationRelativeTo(null);
+        pro.setVisible(true);
+
+        pfGastosSueldos Sueldos = new pfGastosSueldos();
+        pnPestanas.addTab("Liquidación de Sueldo", Sueldos);
+        PanelTab btc=new PanelTab(pnPestanas,0);
+        pnPestanas.setTabComponentAt(pnPestanas.indexOfComponent(Sueldos), btc);
+        pnPestanas.setSelectedIndex(pnPestanas.getTabCount()-1);
+
+    }//GEN-LAST:event_liquidacion_sueldoActionPerformed
+
+    private void finiquitosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finiquitosActionPerformed
+        
+        intNivelMnu = 80;
+        intNivelUsuario = fmMain.trae_nivel(fmMain.GetUsuario());
+
+        if (((intNivelMnu > intNivelUsuario )|| (ccosto_usr!=4) ) && (intNivelUsuario<85)){
+
+            fmMain.Mensaje("Usuario: " + fmMain.GetUsuario() + " no esta autorizado") ;
+            return;
+        }
+
+        jdFiniquitos Finiquitos = new jdFiniquitos(null,false);
+        Finiquitos.setLocationRelativeTo(null);
+        Finiquitos.setTitle("FINIQUITOS");
+        Finiquitos.setVisible(true);
+        
+        
+        
+    }//GEN-LAST:event_finiquitosActionPerformed
+
+    private void resumenpagosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resumenpagosActionPerformed
+        
+        
+        intNivelMnu = 80;
+        intNivelUsuario = fmMain.trae_nivel(fmMain.GetUsuario());
+
+        if (((intNivelMnu > intNivelUsuario )|| (ccosto_usr!=4) ) && (intNivelUsuario<85)){
+
+            fmMain.Mensaje("Usuario: " + fmMain.GetUsuario() + " no esta autorizado") ;
+            return;
+        }
+
+        pfResumenPagos rPagos = new pfResumenPagos();
+        pnPestanas.addTab("Liquidación de Sueldo", rPagos);
+        PanelTab btc=new PanelTab(pnPestanas,0);
+        pnPestanas.setTabComponentAt(pnPestanas.indexOfComponent(rPagos), btc);
+        pnPestanas.setSelectedIndex(pnPestanas.getTabCount()-1);
+
+        
+    }//GEN-LAST:event_resumenpagosActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+       
+        intNivelMnu = 80;
+        intNivelUsuario = fmMain.trae_nivel(fmMain.GetUsuario());
+
+        if (((intNivelMnu > intNivelUsuario )|| (ccosto_usr!=4) ) && (intNivelUsuario<85)){
+
+            fmMain.Mensaje("Usuario: " + fmMain.GetUsuario() + " no esta autorizado") ;
+            return;
+        }
+
+        pfPruebas Pruebas = new pfPruebas();
+        pnPestanas.addTab("PRUEBAS", Pruebas);
+        PanelTab btc=new PanelTab(pnPestanas,0);
+        pnPestanas.setTabComponentAt(pnPestanas.indexOfComponent(Pruebas), btc);
+        pnPestanas.setSelectedIndex(pnPestanas.getTabCount()-1);
+        
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
+
+    private void liquidacionesmasivasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_liquidacionesmasivasActionPerformed
+        
+        intNivelMnu = 80;
+        intNivelUsuario = fmMain.trae_nivel(fmMain.GetUsuario());
+
+        if (((intNivelMnu > intNivelUsuario ) || (ccosto_usr!=4) ) && (intNivelUsuario<85)){
+
+            fmMain.Mensaje("Usuario: " + fmMain.GetUsuario() + " no esta autorizado") ;
+            return;
+        }
+        //--------------------------------------------------------------------------------------
+
+        jdLiquidaciones_mensuales Lmensual = new jdLiquidaciones_mensuales(null,false);
+        Lmensual.setTitle("Impresion Liquidaciones Masivo");
+        Lmensual.setLocationRelativeTo(null);
+        Lmensual.setVisible(true);
+        
+    }//GEN-LAST:event_liquidacionesmasivasActionPerformed
+
+    private void valoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_valoresActionPerformed
+        
+        try {
+            intNivelMnu = 80;
+            intNivelUsuario = fmMain.trae_nivel(fmMain.GetUsuario());
+            
+            if (((intNivelMnu > intNivelUsuario ) || (ccosto_usr!=4) ) && (intNivelUsuario<85)){
+                
+                fmMain.Mensaje("Usuario: " + fmMain.GetUsuario() + " no esta autorizado") ;
+                return;
+            }
+            //--------------------------------------------------------------------------------------
+            
+            jdValores Ind =  new jdValores(null,false);
+            Ind.setTitle("Valores");
+            Ind.setLocationRelativeTo(null);
+            Ind.setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(fmMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    }//GEN-LAST:event_valoresActionPerformed
+
+    private void configuracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_configuracionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_configuracionActionPerformed
+
+    private void informesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_informesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_informesActionPerformed
+
+
+    
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(fmMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(fmMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(fmMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(fmMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new fmMain().setVisible(true);
+                    
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.jdesktop.swingx.JXMonthView Calendario;
+    private javax.swing.JMenu Remuneraciones;
+    private javax.swing.JMenuItem ausentismo;
+    private javax.swing.JMenuItem bonos_comisiones;
+    private javax.swing.JMenuItem cierre_Mes;
+    private javax.swing.JMenu configuracion;
+    private javax.swing.JMenuItem datostrabajador;
+    private javax.swing.JLabel fecha_version;
+    private javax.swing.JMenuItem feriadolegal;
+    private javax.swing.JMenuItem finiquitos;
+    private javax.swing.JMenuItem haberes_descuentos;
+    private javax.swing.JMenuItem horasextras;
+    private javax.swing.JMenu informes;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem34;
+    private javax.swing.JMenuItem jMenuItem38;
+    private javax.swing.JMenuItem jMenuItem39;
+    private javax.swing.JMenuItem jMenuItem44;
+    private javax.swing.JMenuItem jMenuItem52;
+    private javax.swing.JMenuItem jMenuItem62;
+    private javax.swing.JMenuItem jMenuItem73;
+    private javax.swing.JMenuItem jMenuItem74;
+    private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lbNombre;
+    private javax.swing.JLabel lblServidor;
+    private javax.swing.JMenuItem licenciamedica;
+    private javax.swing.JMenuItem liquidacion_sueldo;
+    private javax.swing.JMenuItem liquidacionesmasivas;
+    private javax.swing.JMenu personal;
+    public static javax.swing.JTabbedPane pnPestanas;
+    private javax.swing.JMenuItem prestamos;
+    private javax.swing.JMenuItem previred;
+    private javax.swing.JMenuBar recursos_humanos;
+    private javax.swing.JMenuItem resumenpagos;
+    private javax.swing.JMenuItem valores;
+    // End of variables declaration//GEN-END:variables
+}

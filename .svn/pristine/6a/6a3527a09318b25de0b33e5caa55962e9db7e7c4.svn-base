@@ -1,0 +1,1032 @@
+
+package Dialogos;
+
+import Conexion.ExeSql;
+import Formularios.fmMain;
+import static Formularios.fmMain.intNivelUsuario;
+import PanelForm.pfGastosSueldos;
+import static PanelForm.pfGastosSueldos.formatearRut;
+import java.awt.HeadlessException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanArrayDataSource;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import javax.swing.RowFilter;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+import org.apache.commons.math3.util.Precision;
+
+/**
+ *
+ * @author Cdiaz  / Roberto Lopez
+ */
+public class jdLiquidaciones_mensuales extends javax.swing.JDialog {
+    
+    String rut = "";
+    String Dv = "";
+    String nombre = "";
+    String depto = "";
+    String cargo = "";
+    String contrato = "";
+    String cargas = "";
+    
+    String[][] Malla = new String [10000][7]; 
+    
+    DefaultTableModel TableModel;
+    
+    DecimalFormat formateador = new DecimalFormat("###,###");
+    
+    public jdLiquidaciones_mensuales(java.awt.Frame parent, boolean modal) {
+    
+        super(parent, modal);
+        initComponents();
+        Calendar c = Calendar.getInstance();
+        cbAgno.setSelectedItem(Integer.toString(c.get(Calendar.YEAR))); 
+        cbMes.setSelectedIndex((c.get(Calendar.MONTH))); 
+        TableModel = (DefaultTableModel) Grilla.getModel();
+    
+    }
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        btCancelar = new javax.swing.JButton();
+        cbAgno = new javax.swing.JComboBox<String>();
+        cbMes = new javax.swing.JComboBox<String>();
+        btImprimir = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        Grilla = new javax.swing.JTable();
+        btCargar = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setIconImage(null);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
+
+        btCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/Exit.png"))); // NOI18N
+        btCancelar.setText("Salir");
+        btCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCancelarActionPerformed(evt);
+            }
+        });
+
+        cbAgno.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030" }));
+        cbAgno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbAgnoActionPerformed(evt);
+            }
+        });
+
+        cbMes.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
+        cbMes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbMesActionPerformed(evt);
+            }
+        });
+
+        btImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/print.png"))); // NOI18N
+        btImprimir.setText("Imprimir");
+        btImprimir.setEnabled(false);
+        btImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btImprimirActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("SELECCIONE AÑO");
+
+        jLabel2.setText("SELECCIONE MES");
+
+        Grilla.setAutoCreateRowSorter(true);
+        Grilla.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Rut", "Nombre", "Departamento", "Cargo", "Contrato", "Cargas", "Dias Trab.", "Vacaciones", "Licencia", "Inasistencia", "Sueldo_Base", "Gratificacion", "Colacion", "Movilizacion", "Gratif_Voluntaria", "Asign_Familiar", "Viaticos", "Semana_Corrida", "Comision_Ges_Mixta", "Bono_Produccion", "Comision_Ges_Cobranza", "Comisión_Venta", "Asig_Fam_Retroact", "Diferencia_Sueldo_Ant.", "H. Atraso", "Aguinaldo", "Dif_Pago_H_Extras", "Bono_Cumpl_Margen", "Bono_Cumpl_Presup", "Bono_Cumpl_Fact", "Bono_Cumpl_Result", "Dias_no_Contra", "Horas_Extras", "Rem_Feriado_Legal", "Tipo_Salud", "Total_Salud", "Adicional_Isapre", "Total_Adicional", "Ahorro_Previsional", "Total_Ahorro_Previsional", "Comision_Afp", "Total_Comision_Afp", "APV_A", "APV_B", "Detalle_Cesantia", "Total_Cesantia", "Impuesto_Unico", "Detalle_Prestamo", "Total_Prestamo", "Chilena_Cons", "Anticipo", "Horas_Atraso", "Dias_no_Contr.", "Detalle_Descuento", "Total_Descuento", "Detalle_Cesantia", "Detallel_Mutual", "Detalle_SIS", "Total_Cesantia", "Total_Mutual", "Total_SIS", "Total Haberes", "Total Imponible", "Total Tributario", "Total Descuentos", "Total a Pagar", "Rut2", "Nombre2", "Det_Prest_Caja", "Total_Prest_Caja", "Desc_Hextras"
+            }
+        ));
+        Grilla.setMaximumSize(new java.awt.Dimension(1175, 64));
+        Grilla.setMinimumSize(new java.awt.Dimension(1170, 64));
+        jScrollPane1.setViewportView(Grilla);
+        if (Grilla.getColumnModel().getColumnCount() > 0) {
+            Grilla.getColumnModel().getColumn(0).setMinWidth(90);
+            Grilla.getColumnModel().getColumn(0).setPreferredWidth(90);
+            Grilla.getColumnModel().getColumn(0).setMaxWidth(90);
+            Grilla.getColumnModel().getColumn(1).setMinWidth(300);
+            Grilla.getColumnModel().getColumn(1).setPreferredWidth(300);
+            Grilla.getColumnModel().getColumn(1).setMaxWidth(300);
+            Grilla.getColumnModel().getColumn(2).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(2).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(2).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(3).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(3).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(3).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(4).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(4).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(4).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(5).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(5).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(5).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(6).setMinWidth(70);
+            Grilla.getColumnModel().getColumn(6).setPreferredWidth(70);
+            Grilla.getColumnModel().getColumn(6).setMaxWidth(70);
+            Grilla.getColumnModel().getColumn(7).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(7).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(7).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(8).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(8).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(8).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(9).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(9).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(9).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(10).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(10).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(10).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(11).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(11).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(11).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(12).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(12).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(12).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(13).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(13).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(13).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(14).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(14).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(14).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(15).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(15).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(15).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(16).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(16).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(16).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(17).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(17).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(17).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(18).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(18).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(18).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(19).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(19).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(19).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(20).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(20).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(20).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(21).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(21).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(21).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(22).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(22).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(22).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(23).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(23).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(23).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(24).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(24).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(24).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(25).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(25).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(25).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(26).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(26).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(26).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(27).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(27).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(27).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(28).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(28).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(28).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(29).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(29).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(29).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(30).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(30).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(30).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(31).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(31).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(31).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(32).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(32).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(32).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(33).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(33).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(33).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(34).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(34).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(34).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(35).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(35).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(35).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(36).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(36).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(36).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(37).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(37).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(37).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(38).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(38).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(38).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(39).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(39).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(39).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(40).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(40).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(40).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(41).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(41).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(41).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(42).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(42).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(42).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(43).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(43).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(43).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(44).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(44).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(44).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(45).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(45).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(45).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(46).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(46).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(46).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(47).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(47).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(47).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(48).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(48).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(48).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(49).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(49).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(49).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(50).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(50).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(50).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(51).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(51).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(51).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(52).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(52).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(52).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(53).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(53).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(53).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(54).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(54).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(54).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(55).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(55).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(55).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(56).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(56).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(56).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(57).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(57).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(57).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(58).setMinWidth(100);
+            Grilla.getColumnModel().getColumn(58).setPreferredWidth(100);
+            Grilla.getColumnModel().getColumn(58).setMaxWidth(100);
+            Grilla.getColumnModel().getColumn(59).setMinWidth(85);
+            Grilla.getColumnModel().getColumn(59).setPreferredWidth(85);
+            Grilla.getColumnModel().getColumn(59).setMaxWidth(85);
+            Grilla.getColumnModel().getColumn(60).setMinWidth(80);
+            Grilla.getColumnModel().getColumn(60).setPreferredWidth(80);
+            Grilla.getColumnModel().getColumn(60).setMaxWidth(80);
+            Grilla.getColumnModel().getColumn(61).setMinWidth(100);
+            Grilla.getColumnModel().getColumn(61).setPreferredWidth(100);
+            Grilla.getColumnModel().getColumn(61).setMaxWidth(100);
+            Grilla.getColumnModel().getColumn(62).setMinWidth(100);
+            Grilla.getColumnModel().getColumn(62).setPreferredWidth(100);
+            Grilla.getColumnModel().getColumn(62).setMaxWidth(100);
+            Grilla.getColumnModel().getColumn(63).setMinWidth(100);
+            Grilla.getColumnModel().getColumn(63).setPreferredWidth(100);
+            Grilla.getColumnModel().getColumn(63).setMaxWidth(100);
+            Grilla.getColumnModel().getColumn(64).setMinWidth(110);
+            Grilla.getColumnModel().getColumn(64).setPreferredWidth(110);
+            Grilla.getColumnModel().getColumn(64).setMaxWidth(110);
+            Grilla.getColumnModel().getColumn(65).setMinWidth(100);
+            Grilla.getColumnModel().getColumn(65).setPreferredWidth(100);
+            Grilla.getColumnModel().getColumn(65).setMaxWidth(100);
+            Grilla.getColumnModel().getColumn(66).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(66).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(66).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(67).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(67).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(67).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(68).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(68).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(68).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(69).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(69).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(69).setMaxWidth(0);
+            Grilla.getColumnModel().getColumn(70).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(70).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(70).setMaxWidth(0);
+        }
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1238, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        btCargar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos22/Cargar.png"))); // NOI18N
+        btCargar.setText("Cargar");
+        btCargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCargarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cbMes, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbAgno, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(85, 85, 85)
+                .addComponent(btCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(462, 462, 462))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(cbAgno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cbMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))))
+                .addGap(40, 40, 40)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+    
+    private void cbAgnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAgnoActionPerformed
+            //RevisaMes();
+    }//GEN-LAST:event_cbAgnoActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+       
+    }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        //RevisaMes();
+    }//GEN-LAST:event_formWindowActivated
+
+    private void cbMesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbMesActionPerformed
+       // RevisaMes();
+    }//GEN-LAST:event_cbMesActionPerformed
+
+    private void btImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btImprimirActionPerformed
+                              
+        intNivelUsuario = fmMain.trae_nivel(fmMain.GetUsuario());
+        
+        if (intNivelUsuario<85 ){
+                  
+           fmMain.Mensaje("Usuario: " + fmMain.GetUsuario() + " no está autorizado") ;
+           return;
+        
+        }
+        
+       ImprimeLiquidacion();
+
+    }//GEN-LAST:event_btImprimirActionPerformed
+
+    
+    private void ImprimeLiquidacion() {
+        
+        String ruta = "";
+        try { 
+          
+            Map parametro = new HashMap();
+            
+            parametro.put("MES",cbMes.getSelectedItem());
+            parametro.put("AGNO",cbAgno.getSelectedItem());
+             
+         // parametro.put("LOGO",getClass().getResourceAsStream("/Reportes/Logo.jpg"));                     //Ruta Logo Reporte 
+           
+            String sSistemaOperativo = System.getProperty("os.name");               //Determina el Sistema Operativo del Equipo
+            
+            if (sSistemaOperativo.contains("Win")){
+        
+                ruta = "/Reportes/rpLiquidaciones.jasper";               
+        
+            }else{
+            
+                ruta = "/Reportes/rpLiquidaciones2.jasper";  ;  
+            }
+            
+            JasperReport reporte = (JasperReport) JRLoader.loadObject(getClass().getResource(ruta)); //Ruta del Reporte
+//          JasperReport reporte = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/rpLiquidaciones2.jasper")); //Ruta del Reporte
+//          JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro, new JREmptyDataSource());
+            
+            JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro, new JRTableModelDataSource(Grilla.getModel()));
+
+            JasperViewer view = new JasperViewer(jprint,false);
+            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            view.setVisible(true);
+         
+        }catch (JRException ex) {
+        
+            ex.printStackTrace(); 
+            System.out.println ("informes r" + ex.toString ());
+            Logger.getLogger(jdLiquidaciones_mensuales.class.getName()).log(Level.SEVERE, null, ex);
+        
+        }
+       
+    }
+    
+    private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
+        dispose();
+    }//GEN-LAST:event_btCancelarActionPerformed
+
+    private void btCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCargarActionPerformed
+        
+        try {
+            ExeSql Sql = new ExeSql();
+            ExeSql Sql2 = new ExeSql();
+            ExeSql Sql3 = new ExeSql();
+            
+            ResultSet Rs;
+            ResultSet Rs2;
+            ResultSet Rs3;
+            btImprimir.setEnabled(true);
+            
+            while(TableModel.getRowCount()>0){
+             
+                TableModel.removeRow(0);
+            }
+            
+            
+            Rs = Sql.Select("SELECT p.rut,"
+                          + "p.dvp,"
+                          + "p.apellidopaterno,"
+                          + "p.apellidomaterno,"
+                          + "p.nombre,"
+                          + "pc.nombre As depto,"
+                          + "pg2.nombre As cargo,"
+                          + "pg1.nombre As contrato,"
+                          + "p.ncargas,"
+                          + "d.totalcesantia,"
+                          + "d.totalmutual,"
+                          + "d.totalsis,"
+                          + "d.totalhaberes,"
+                          + "d.totaldescuentos," 
+                          + "d.totalapagar \n" +
+                         
+                    "FROM psueldos d \n" +
+                    "LEFT JOIN personal p ON d.rut=p.rut \n" +
+                    "LEFT JOIN pccostos pc ON p.iddepto=pc.id  \n" +
+                    "LEFT JOIN par_general pg1 ON p.idcontrato=pg1.codigo\n" +
+                    "LEFT JOIN par_general pg2 ON p.idcargo=pg2.codigo\n" +
+                    "WHERE d.agno="+ cbAgno.getSelectedItem() +" AND d.mes="+(cbMes.getSelectedIndex()+1) +"\n"+
+                    "AND p.empresa = 1 \n"+
+                    "ORDER BY p.rut"
+            );
+            
+             
+             
+            Rs2 = Sql2.Select("SELECT dt.*,pg.nombre AS nom_cod \n"+
+                    "FROM psueldosdet dt \n" +
+                    "LEFT JOIN psueldos d ON dt.rut=d.rut AND dt.mes=d.mes AND dt.agno=d.agno \n" +
+                    "LEFT JOIN par_general pg ON dt.codigo=pg.codigo  \n" +  
+                    "WHERE dt.agno="+ cbAgno.getSelectedItem() +" AND dt.mes="+(cbMes.getSelectedIndex()+1) +"\n"+
+                    "AND pg.tipo IN ('REM_DESCUENTOS','REM_HABERES','REM_OTROS','REM_TOTALES')"+  
+                    "ORDER BY dt.rut"
+            );
+            
+            while(Rs.next()){
+                
+               // String totalcesantia = "$ "+formateador.format(Rs.getDouble("totalcesantia"));
+               // String totalmutual = "$ "+formateador.format(Rs.getDouble("totalmutual"));
+               // String totalsis = "$ "+formateador.format(Rs.getDouble("totalsis"));
+                String totalhaberes = "$ "+formateador.format(Rs.getDouble("totalhaberes"));
+                //String totaldescuentos = "$ "+formateador.format(Rs.getDouble("totaldescuentos"));
+               // String totalapagar = "$ "+formateador.format(Rs.getDouble("totalapagar"));
+                
+           //************************************************************************************************************************//     
+                Rs3 = Sql3.Select("SELECT ndias_horas, tipo \n"+            
+                                   "FROM personal_plhx \n"+
+                                   "WHERE rut="+Rs.getString("rut").toString()+" \n"+
+                                   "AND EXTRACT(YEAR FROM dfecha) = "+cbAgno.getSelectedItem()+ "\n"+
+                                   "AND EXTRACT(MONTH FROM dfecha) = "+(cbMes.getSelectedIndex()+1)+ "\n"+ 
+                                   "AND tipo IN ('1','2','4')");
+                
+                
+                int dias1 = 0;
+                int dias2 = 0;
+                int dias4 = 0; 
+                
+                    
+                if (Sql3.GetRowCount() > 0){                                            
+                        
+                    while (Rs3.next()){
+                            
+                        if (Rs3.getString("tipo").equals("1")){             //Dias de FERIADO LEGAL
+                            
+                            dias1 = dias1 + Rs3.getInt("ndias_horas"); 
+                            
+                        }else if (Rs3.getString("tipo").equals("2")){       //Dias de LICENCIA MEDICA
+                            
+                            dias2 = dias2 + Rs3.getInt("ndias_horas");  
+                            
+                        }else if (Rs3.getString("tipo").equals("4")){       //Dias de AUSENTISMO
+                            
+                            dias4 = dias4 + Rs3.getInt("ndias_horas");  
+                            
+                        }
+                         
+                    }
+                     
+                }else {                                                                 
+                     
+                    dias1 = 0;
+                    dias2 = 0;
+                    dias4 = 0;
+                                               
+                }   
+            //************************************************************************************************************//     
+                
+                TableModel.addRow(new Object[]{
+                                 formatearRut(Rs.getString("rut")+Rs.getString("dvp")),       //COLUMN_0  
+                                   Rs.getString("apellidopaterno")+" "+Rs.getString("apellidomaterno")+" "+Rs.getString("nombre"), //COLUMN_1
+                                   Rs.getString("depto"),           //COLUMN_2    Detartamento  
+                                   Rs.getString("cargo"),           //COLUMN_3    Cargo
+                                   Rs.getString("contrato"),        //COLUMN_4    Contrato 
+                                   Rs.getString("ncargas"),         //COLUMN_5    Cargas
+                                   "",                              //COLUMN_6    Dias Trabajados psueldosdet)
+                                   String.valueOf(dias1),          //COLUMN_7    Vacaciones    (personal_plhx)
+                                   String.valueOf(dias2),          //COLUMN_8    Licencia      (personal_plhx)
+                                   String.valueOf(dias4),          //COLUMN_9    Inasistencia  (personal_plhx)
+                                   "",          //COLUMN_10   Sueldo Base   (psueldosdet)
+                                   "",          //COLUMN_11   Gratificacion (psueldosdet)
+                                   "",          //COLUMN_12   Colacion      (psueldosdet)
+                                   "",          //COLUMN_13   Movilizacion  (psueldosdet)
+                                   "",          //COLUMN_14   Gratif. Voluntaria (psueldosdet)
+                                   "",          //COLUMN_15   Asig. Familiar     (psueldosdet)
+                                   "",          //COLUMN_16   Viaticos           (psueldosdet)
+                                   "",          //COLUMN_17   Semana Corrida     (psueldosdet)
+                                   "",          //COLUMN_18   Comision Ges Mixta (psueldosdet)
+                                   "",          //COLUMN_19   Bono Produccion    (psueldosdet)
+                                   "",          //COLUMN_20   Comision Ges Cobranza (psueldosdet)
+                                   "",          //COLUMN_21   Comision Venta (psueldosdet)
+                                   "",          //COLUMN_22   Asig. Fam. Retroact (psueldosdet)
+                                   "",          //COLUMN_23   Dif. Sueldo Anterior (psueldosdet)
+                                   "",          //COLUMN_24   Horas Atraso (psueldosdet)
+                                   "",          //COLUMN_25   Aguinaldo (psueldosdet)
+                                   "",          //COLUMN_26   Dif. Pago H. Extras (psueldosdet)
+                                   "",          //COLUMN_27   Bono Cumpl. Margen (psueldosdet)
+                                   "",          //COLUMN_28   Bono Cumpl. Presup (psueldosdet)
+                                   "",          //COLUMN_29   Bono Cumpl. Fact (psueldosdet)
+                                   "",          //COLUMN_30   Bono Cumpl. Resul (psueldosdet)
+                                   "",          //COLUMN_31   Dias no Contrat (psueldosdet)
+                                   "",          //COLUMN_32   Horas Extras (psueldosdet)
+                                   "",          //COLUMN_33   Remunaracio Feriado Legal (psueldosdet)
+                                   "",          //COLUMN_34   Tipo Salud (psueldosdet)
+                                   "",          //COLUMN_35   Total Salud (psueldosdet)     
+                                   "",          //COLUMN_36   Adicional Isapre (psueldosdet)
+                                   "",          //COLUMN_37   Total Adicional (psueldosdet)     
+                                   "",          //COLUMN_38   Ahorro Previsional (psueldosdet)
+                                   "",          //COLUMN_39   Total Ahorro Previsional (psueldosdet)
+                                   "",          //COLUMN_40   Comision Afp (psueldosdet)
+                                   "",          //COLUMN_41   Total Comision Afp (psueldosdet)
+                                   "",          //COLUMN_42   APV_A (psueldosdet)
+                                   "",          //COLUMN_43   APV_B (psueldosdet)
+                                   "",          //COLUMN_44   Detalle Cesantia (psueldosdet)
+                                   "",          //COLUMN_45   Total Cesantia (psueldosdet)
+                                   "",          //COLUMN_46   Impuesto Unico (psueldosdet)
+                                   "",          //COLUMN_47   Detalle Prestamo(psueldosdet)
+                                   "",          //COLUMN_48   Total Prestamo (psueldosdet)
+                                   "",          //COLUMN_49   Chilena Cons. (psueldosdet)
+                                   "",          //COLUMN_50   Anticipo (psueldosdet)
+                                   "",          //COLUMN_51   Horas Atraso (psueldosdet)
+                                   "",          //COLUMN_52   Dias no Contra. (psueldosdet)
+                                   "",          //COLUMN_53   Detalle Descuento (psueldosdet)
+                                   "",          //COLUMN_54   Total Descuento (psueldosdet)
+                                   "",          //COLUMN_55   Detalle Cesantia (psueldosdet)
+                                   "",          //COLUMN_56   Detalle Mutual (psueldosdet)
+                                   "",          //COLUMN_57   Detalle SIS (psueldosdet)
+                                   "",          //COLUMN_58   Seguro Cesantía (Empleador)(psueldosdet)  
+                                   "",          //COLUMN_59   Seguro Accidente del Trabajo (Empleador) (psueldosdet)  
+                                   "",          //COLUMN_60   Seguro de Invalidez y Sobrevivencia (Empleador) (psueldosdet)  
+                                   totalhaberes,        //COLUMN_61
+                                   "0",                //COLUMN_62   Total Imponible  (psueldosdet)
+                                   "0",                //COLUMN_63   Total Tributario (psueldosdet)
+                                   "0",                //COLUMN_64   Total Descuentos (psueldosdet)
+                                   "0",               //COLUMN_65 Total a Pagar (pseueldosdet)
+                                   Rs.getString("rut"),       //COLUMN_66       Rut pie Firma
+                                   Rs.getString("nombre")+" "+Rs.getString("apellidopaterno")+" "+Rs.getString("apellidomaterno"), //COLUMN_67    Nombre pie Firma
+                                   "",                //COLUMN_68   Detalle Prestamo Caja Compensación
+                                   "",                //COLUMN_69    Total Prestamo Caja Compensación
+                                   ""                 //COLUMN_70   Descripciom Horas extras  
+                                   
+                });
+                
+            }  
+          
+            
+            double timponible = 0;
+            
+            String monto = "";
+             
+            while(Rs2.next()){
+                
+                monto = "$ "+formateador.format(Rs2.getDouble("monto"));
+                
+                for(int i=0; i < Grilla.getRowCount();i++){
+                    
+                    
+                    if (Rs2.getString("rut").equals(Grilla.getValueAt(i,66).toString())){
+                        
+                        if (Rs2.getString("codigo").equals("0")){               //SUELDO BASE
+                         
+                            Grilla.setValueAt(monto, i, 10);
+                            Grilla.setValueAt(Rs2.getString("dtrab").toString(), i, 6);
+                           
+                         
+                        }else if (Rs2.getString("codigo").equals("1")){         //GRATIFICACION
+                         
+                            Grilla.setValueAt(monto, i, 11);
+                           
+                         
+                        }else if (Rs2.getString("codigo").equals("2")){                 //COLACION
+                         
+
+                            Grilla.setValueAt(monto, i, 12);
+                     
+                         
+                        }else if (Rs2.getString("codigo").equals("3")){                 //MOVILIZACION
+                         
+                            Grilla.setValueAt(monto, i, 13);
+                           
+                         
+                        }else if (Rs2.getString("codigo").equals("4")){                 //GRATIF. VOLUNTARIA EXTRAORDINARIA
+                         
+                            Grilla.setValueAt(monto, i, 14);
+                           
+                         
+                        }else if (Rs2.getString("codigo").equals("5")){                    //FONASA
+                            
+                            Grilla.setValueAt(Rs2.getString("nom_cod").toString()+" (7%)", i, 34);
+                            Grilla.setValueAt(monto, i, 35);
+                           
+                               
+                        }else if (Rs2.getString("codigo").equals("6")){                 //ASIGNACION FAMILIAR
+                         
+                            Grilla.setValueAt(monto, i, 15);
+                           
+                         
+                        }else if (Rs2.getString("codigo").equals("7")){                 //VIATICOS
+                         
+                            Grilla.setValueAt(monto, i, 16);
+                            
+                         
+                        }else if (Rs2.getString("codigo").equals("8")){                 //SEMANA CORRIDA
+                         
+                            Grilla.setValueAt(monto, i, 17);
+                                                     
+                        }else if (Rs2.getString("codigo").equals("9")){                 //COMISION GESTION MIX DE VENTAS
+                         
+                            Grilla.setValueAt(monto, i, 18);
+                                                     
+                        }else if (Rs2.getString("codigo").equals("10")){                 //BONO DE PRODUCCION
+                         
+                            Grilla.setValueAt(monto, i, 19);
+                                                     
+                        }else if (Rs2.getString("codigo").equals("11")){                 //COMISION GESTION COBRANZA
+                         
+                            Grilla.setValueAt(monto, i, 20);
+                                                     
+                        }else if (Rs2.getString("codigo").equals("28")){                 //COMISION POR VENTAS
+                         
+                            Grilla.setValueAt(monto, i, 21);
+                                                     
+                        }else if (Rs2.getString("codigo").equals("29")){                 //CARGA FAM. RETROACTIVAS
+                         
+                            Grilla.setValueAt(monto, i, 22);
+                                                     
+                        }else if (Rs2.getString("codigo").equals("30")){                 //DIFERENCIA SUELDO MES ANTERIOR
+                         
+                            Grilla.setValueAt(monto, i, 23);
+                                                    
+                        }else if (Rs2.getString("codigo").equals("32")){                 //AGUINALDO
+                         
+                            Grilla.setValueAt(monto, i, 25);
+                                               
+                        }else if (Rs2.getString("codigo").equals("35")){                 //DIFERENCIA PAGO HORAS EXTRAS
+                         
+                            Grilla.setValueAt(monto, i, 26);
+                                                 
+                        }else if (Rs2.getString("codigo").equals("36")){                 //BONO CUMPLIMIENTO MARGEN
+                         
+                            Grilla.setValueAt(monto, i, 27);
+                                              
+                        }else if (Rs2.getString("codigo").equals("37")){                 //BONO CUMPLIMIENTO PRESUPUESTO
+                         
+                            Grilla.setValueAt(monto, i, 28);
+                                                  
+                        }else if (Rs2.getString("codigo").equals("38")){                 //BONO CUMPLIMIENTO FACTURACION
+                         
+                            Grilla.setValueAt(monto, i, 29);
+                                               
+                        }else if (Rs2.getString("codigo").equals("200")){                 //BONO CUMPLIMIENTO RESULTADO  //BONO UNICO EXTRAORDINARIO
+                         
+                            Grilla.setValueAt(monto, i, 30);
+                                                 
+                        }else if (Rs2.getString("codigo").equals("41")){                 //HORAS EXTRAS
+                            
+                            if (Rs2.getString("descripcion").equals("SN")){
+                              
+                                Grilla.setValueAt("HORAS EXTRAS", i, 70);
+                            }else{
+                            
+                                Grilla.setValueAt(Rs2.getString("descripcion").toString(), i, 70);
+                            }
+                            
+                            Grilla.setValueAt(monto, i, 31);
+                                                    
+                        }else if (Rs2.getString("codigo").equals("45")){                 //REMUNERACION POR FERIADO LEGAL
+
+                            Grilla.setValueAt(monto, i, 32);
+                                                    
+                        }else if (Rs2.getString("codigo").equals("13")){            //AFP OBLIGATORIO
+                         
+                            Grilla.setValueAt(Rs2.getString("nom_cod").toString()+" (10%)", i, 38);
+                            Grilla.setValueAt(monto, i, 39);
+                                                       
+                        }else if (Rs2.getString("codigo").equals("14")){            //SEGURO CESANTIA
+                         
+                            Grilla.setValueAt(Rs2.getString("nom_cod").toString()+" (0,6%)", i, 44);
+                            Grilla.setValueAt(monto, i, 45);
+                                                   
+     /*COMISION AFP*/   }else if (Rs2.getString("codigo").equals("12") || Rs2.getString("codigo").equals("15") ||  Rs2.getString("codigo").equals("16") ||
+                                  Rs2.getString("codigo").equals("21") || Rs2.getString("codigo").equals("22")  || Rs2.getString("codigo").equals("23") ){                   
+                            
+                                 double mpor = Rs2.getDouble("porcentaje")*100;
+                          
+                                 Grilla.setValueAt(Rs2.getString("nom_cod").toString()+ " (" +Precision.round(mpor,2)+ "%)", i, 40);
+                                 Grilla.setValueAt(monto, i, 41);      
+                                                            
+ /*ISAPRE OBLIGATORIO*/ }else if (Rs2.getString("codigo").equals("17") || Rs2.getString("codigo").equals("24") || Rs2.getString("codigo").equals("34") || 
+                                  Rs2.getString("codigo").equals("42") || Rs2.getString("codigo").equals("43") || Rs2.getString("codigo").equals("44")){
+ 
+                                 Grilla.setValueAt(Rs2.getString("nom_cod").toString()+" (7%)", i, 34);
+                                 Grilla.setValueAt(monto, i, 35);   
+                                                            
+                        }else if (Rs2.getString("codigo").equals("18")){             //ADICIONAL ISAPRE
+                            
+                            Grilla.setValueAt("ADICIONAL ISAPRE", i, 36);
+                            Grilla.setValueAt(monto, i, 37);   
+                                                       
+                        }else if (Rs2.getString("codigo").equals("25")){             //APV A
+                           
+                            Grilla.setValueAt(monto, i, 42);
+                            
+                        }else if (Rs2.getString("codigo").equals("33")){             //APV B
+                            
+                            Grilla.setValueAt(monto, i, 43);
+                           
+                                                        
+                        }else if (Rs2.getString("codigo").equals("19")){             //IMPUESTO UNICO
+                            
+                            Grilla.setValueAt(monto, i, 46);
+                           
+                                                        
+                        }else if (Rs2.getString("codigo").equals("20")){             //PRESTAMO EMPRESA
+                            
+                            int cuota = Rs2.getInt("dtrab");
+                            int tcuota = Rs2.getInt("porcentaje");
+                            
+                            Grilla.setValueAt(Rs2.getString("nom_cod").toString()+ " (Cuota " +cuota+ " de "+tcuota+")", i, 47);
+                            Grilla.setValueAt(monto, i, 48);
+                           
+                                                       
+                        }else if (Rs2.getString("codigo").equals("26")){             //CHILENA CONSOLIDADA
+                            
+                            Grilla.setValueAt(monto, i, 49);
+                           
+                                                        
+                        }else if (Rs2.getString("codigo").equals("27")){             //ANTICIPO
+                            
+                            Grilla.setValueAt(monto, i, 50);
+                           
+                                                        
+                        }else if (Rs2.getString("codigo").equals("31")){             //HORAS DE ATRASO
+                            
+                            
+                            Grilla.setValueAt(monto, i, 51);
+                           
+                                                        
+                        }else if (Rs2.getString("codigo").equals("40")){             //DIAS NO CONTRATADO
+                            
+                            Grilla.setValueAt(monto, i, 52);
+                           
+                                                      
+                        }else if (Rs2.getString("codigo").equals("78")){             //DESCUENTO
+                            
+                            Grilla.setValueAt(Rs2.getString("descripcion").toString(), i, 53);
+                            Grilla.setValueAt(monto, i, 54);
+                           
+                                                      
+                        }else if (Rs2.getString("codigo").equals("79")){             //PRESTAMO CAJA COMPESACION
+                            
+                            Grilla.setValueAt(Rs2.getString("descripcion").toString(), i, 68);
+                            Grilla.setValueAt(monto, i, 69);
+                          
+                            
+                        }else if (Rs2.getString("codigo").equals("63")){             //TOTAL CESANTIA (EMPLEADOR)
+                            
+                            double mpor = Rs2.getDouble("porcentaje")*100;
+                          
+                            Grilla.setValueAt("SEGURO DE CESANTIA "+ " (" +Precision.round(mpor,2)+ "%)", i, 55);
+                            Grilla.setValueAt(monto, i, 58);
+                      
+                        }else if (Rs2.getString("codigo").equals("64")){             //TOTAL SEGURO ACCIDENTE EN EL TRABAJO (EMPLEADOR)
+                                
+                            double mpor = Rs2.getDouble("porcentaje")*100;
+                          
+                            Grilla.setValueAt("SEGURO ACCIDENTE DEL TRABAJO "+ " (" +Precision.round(mpor,2)+ "%)", i, 56);
+                            Grilla.setValueAt(monto, i, 59);
+                          
+                        }else if (Rs2.getString("codigo").equals("65")){             //TOTAL SEGURO DE INVALIDEZ Y SOBREVIVENCIA (EMPLEADOR)
+                            
+                            double mpor = Rs2.getDouble("porcentaje")*100;
+                          
+                            Grilla.setValueAt("SEGURO DE INVALIDEZ Y SOBREVIVENCIA "+ " (" +Precision.round(mpor,2)+ "%)", i, 57);
+                            Grilla.setValueAt(monto, i, 60);
+                         
+                        }else if (Rs2.getString("codigo").equals("71")){              //TOTAL IMPONIBLE
+                         
+                            timponible = Rs2.getDouble("monto");
+                            String totalhaberes = "$ "+formateador.format(timponible);
+                            Grilla.setValueAt(totalhaberes, i, 62);
+                         
+                        }else if (Rs2.getString("codigo").equals("84")){              //TOTAL TRIBUTABLE
+                         
+                            double ttribut = Rs2.getDouble("monto");
+                            String totaltributable = "$ "+formateador.format(ttribut);
+                            Grilla.setValueAt(totaltributable, i, 63);
+                         
+                        }else if (Rs2.getString("codigo").equals("85")){              //TOTAL DESCUENTOS
+                         
+                            double ttdesc = Rs2.getDouble("monto");
+                            String totaldescuentos = "$ "+formateador.format(ttdesc);
+                            Grilla.setValueAt(totaldescuentos, i, 64);
+                         
+                        }else if (Rs2.getString("codigo").equals("86")){              //TOTAL A PAGAR
+                         
+                            double ttotal = Rs2.getDouble("monto");
+                            String totalapagar = "$ "+formateador.format(ttotal);
+                            Grilla.setValueAt(totalapagar, i, 65);
+                         
+                        }
+                        
+                    }
+                }
+                
+            }
+            
+            
+          
+       TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(TableModel);
+       Grilla.setRowSorter(sorter);
+       String rut =" ";
+        
+       sorter.setRowFilter(RowFilter.notFilter(RowFilter.regexFilter(rut,0)));
+        
+        
+        
+        
+        } catch (SQLException ex) {
+            Logger.getLogger(jdLiquidaciones_mensuales.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_btCargarActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(jdLiquidaciones_mensuales.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(jdLiquidaciones_mensuales.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(jdLiquidaciones_mensuales.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(jdLiquidaciones_mensuales.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the dialog */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                jdLiquidaciones_mensuales dialog = new jdLiquidaciones_mensuales(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable Grilla;
+    private javax.swing.JButton btCancelar;
+    private javax.swing.JButton btCargar;
+    private javax.swing.JButton btImprimir;
+    private javax.swing.JComboBox<String> cbAgno;
+    private javax.swing.JComboBox<String> cbMes;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    // End of variables declaration//GEN-END:variables
+}

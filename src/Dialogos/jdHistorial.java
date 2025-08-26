@@ -1,0 +1,773 @@
+package Dialogos;
+
+import Conexion.ExeSql;
+import Formularios.fmMain;
+import static Formularios.fmMain.intNivelUsuario;
+//import java.awt.event.ActionEvent;
+//import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+//import org.apache.commons.math3.util.Precision;
+
+/**
+ *
+ * @author Roberto Lopez
+ */
+public class jdHistorial extends javax.swing.JDialog {
+    boolean click = false; 
+    
+    Calendar cal = Calendar.getInstance();
+    
+    int item = 0;
+    int year  = cal.get(Calendar.YEAR);
+    int month = cal.get(Calendar.MONTH)+1;
+    int nuevo = 1;
+  
+    String Dv = "";
+    
+    DecimalFormat formateador = new DecimalFormat("###,###");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    
+    DefaultTableModel Tabla;
+    
+    public jdHistorial(java.awt.Frame parent, boolean modal, int nitem) {
+        
+       super(parent, modal);
+       initComponents();
+       
+       item = nitem;
+       
+       formato_columnas(item);
+         
+     //********************************************************************************//    
+        for (int c = 0; c < Grilla.getColumnCount(); c++){
+            
+            Class<?> col_class = Grilla.getColumnClass(c);
+            Grilla.setDefaultEditor(col_class, null);                                       // Tabla queda "enabled", pero no "editable"
+        }
+        
+     //********************************************************************************//   
+        
+       jLabel4.setVisible(false);
+       lbltHoras.setVisible(false); 
+       btEliminar.setEnabled(false);
+        
+    }
+   
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        cbAgno = new javax.swing.JComboBox<String>();
+        cbMes = new javax.swing.JComboBox<String>();
+        btCargar = new javax.swing.JButton();
+        txRut = new javax.swing.JTextField();
+        btIr = new javax.swing.JButton();
+        txNombre = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        lbltHoras = new javax.swing.JLabel();
+        btNuevo = new javax.swing.JButton();
+        btEliminar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        Grilla = new javax.swing.JTable();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel1.setMinimumSize(new java.awt.Dimension(890, 0));
+        jPanel1.setName(""); // NOI18N
+
+        cbAgno.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "AÑO", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028" }));
+        cbAgno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbAgnoActionPerformed(evt);
+            }
+        });
+
+        cbMes.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "MES", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE" }));
+        cbMes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbMesActionPerformed(evt);
+            }
+        });
+
+        btCargar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos22/Cargar.png"))); // NOI18N
+        btCargar.setText("CARGAR");
+        btCargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCargarActionPerformed(evt);
+            }
+        });
+
+        txRut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txRutActionPerformed(evt);
+            }
+        });
+        txRut.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txRutKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txRutKeyTyped(evt);
+            }
+        });
+
+        btIr.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos16/search16.png"))); // NOI18N
+        btIr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btIrActionPerformed(evt);
+            }
+        });
+
+        txNombre.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txNombreKeyReleased(evt);
+            }
+        });
+
+        jLabel2.setText("Rut");
+
+        jLabel3.setText("Nombre");
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel4.setText("Total Horas Extras del Mes");
+
+        lbltHoras.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbltHoras.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbltHoras.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        btNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/Nuevo.png"))); // NOI18N
+        btNuevo.setText("NUEVO");
+        btNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btNuevoActionPerformed(evt);
+            }
+        });
+
+        btEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/Eliminar.png"))); // NOI18N
+        btEliminar.setText("ELIMINAR");
+        btEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btEliminarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(cbAgno, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(cbMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 393, Short.MAX_VALUE)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(btCargar)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(btNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btEliminar))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(49, 49, 49)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(txRut, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(btIr, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(txNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 482, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbltHoras, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(21, 21, 21))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(cbAgno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cbMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lbltHoras, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txRut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2))
+                    .addComponent(btIr, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(11, 11, 11)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        Grilla.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        Grilla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                GrillaMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(Grilla);
+        if (Grilla.getColumnModel().getColumnCount() > 0) {
+            Grilla.getColumnModel().getColumn(4).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(4).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(4).setMaxWidth(0);
+        }
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void cbAgnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAgnoActionPerformed
+
+    }//GEN-LAST:event_cbAgnoActionPerformed
+
+    private void cbMesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbMesActionPerformed
+
+    }//GEN-LAST:event_cbMesActionPerformed
+
+    private void btCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCargarActionPerformed
+        
+        formato_columnas(item);
+        
+        jLabel4.setVisible(false);
+        lbltHoras.setVisible(false);
+        
+        if (cbAgno.getSelectedIndex() == 0){
+        
+            fmMain.Mensaje("Debe elegir un Año");
+            return;
+        }
+        
+        if (cbMes.getSelectedIndex() == 0){
+        
+            fmMain.Mensaje("Debe elegir un Mes");
+            return;
+        }
+        
+//        if(Integer.parseInt(cbAgno.getSelectedItem().toString()) > year){       //Si el año elegido es mayor al año en curso
+//       
+//           fmMain.Mensaje("Año fuera de rango!!");                              //El año está fuera de rango porque aún no hay registros.
+//           return;
+//        }
+        
+        if (txRut.getText().equals("")){
+        
+            fmMain.Mensaje("Debe Ingresar Rut del Trabajador");
+            return;
+        }
+        
+        fmMain.LimpiaGrilla((DefaultTableModel) Grilla.getModel());              //Se limpia la Tabla   
+                
+        ExeSql Sql2 = new ExeSql();
+        ResultSet Rs2;
+        
+   //********************************************************************************************************     
+            
+        Tabla = (DefaultTableModel) Grilla.getModel();
+            
+        try{
+            
+            Rs2 = Sql2.Select("SELECT * FROM personal_plhx \n"+
+                                  "WHERE rut=" + txRut.getText().trim() + "\n" +
+                                  "AND tipo = " + item + "\n" +
+                                  "AND EXTRACT(YEAR FROM dfecha)<= "+cbAgno.getSelectedItem() + "\n"+
+                                  "AND (EXTRACT(MONTH FROM dfecha)<= "+cbMes.getSelectedIndex() + " OR EXTRACT(MONTH FROM dfecha)>= "+cbMes.getSelectedIndex() + ") \n"+ 
+                                  "AND EXTRACT(YEAR FROM hfecha) >= "+cbAgno.getSelectedItem() + "\n"+
+                                  "AND EXTRACT(MONTH FROM hfecha) >= "+cbMes.getSelectedIndex() + "\n"+ 
+                                  "ORDER BY dfecha ASC");
+           
+        
+            int tEntero = 0;
+            int nEntero = 0;
+            int nDecimal = 0;
+            int tDecimal = 0;
+                
+            double nminutos = 0; 
+            double nhoras = 0;
+            double thoras = 0;
+                
+            String sDecimal = "";
+            
+            if (Sql2.GetRowCount() > 0){
+                  
+                while (Rs2.next()){
+                    
+                    Tabla.addRow(new Object[]{Rs2.getString("ndias_horas"), dateFormat.format(Rs2.getDate("dfecha")),
+                                 dateFormat.format(Rs2.getDate("hfecha")), Rs2.getString("observacion"), Rs2.getString("id")});
+                    
+               //*******************************************************************************************************//
+                    if (item == 3){
+                            
+                        double horaex = Double.parseDouble(Rs2.getString("ndias_horas"));
+                        String str = String.valueOf(horaex);
+                        
+                        nEntero = Integer.parseInt(str.substring(0, str.indexOf('.')));      //se extrae el valor entero 
+                        nDecimal = Integer.parseInt(str.substring(str.indexOf('.') + 1));  //se extrae el valor decimal desde el punto a la derecha
+                        sDecimal = str.substring(str.indexOf('.') + 2);  //se extrae el segundo valor decimal
+                        String str2 =String.valueOf(nDecimal);
+                        
+                        if (str2.substring(str2.indexOf('.') + 2).equals("") && sDecimal.equals("")){   //si el resultado es por ejemplo .2
+                        
+                            nDecimal = nDecimal * 10;                                                   //se transforma en .20
+                        }                       
+                        
+                        tEntero = tEntero + nEntero;
+                        tDecimal = tDecimal + nDecimal;
+                    }
+                          
+                }
+                    
+                if (item == 3){
+                        
+                    nhoras = (int)(tDecimal / 60);              //extrae solo la parte entera de un número o resultado double
+                    nminutos = nhoras * 60;
+                    
+                    thoras = nhoras + tEntero;
+                    
+                    double mextras = (tDecimal-nminutos)/100;       
+                    double hextras = (thoras+mextras);
+                                              
+                    lbltHoras.setText(""+hextras);
+                    jLabel4.setVisible(true);
+                    lbltHoras.setVisible(true);
+                            
+                }   
+                 //***********************************************************************************************************//     
+            }     
+                
+        }catch (SQLException ex) {
+            
+            Logger.getLogger(jdHistorial.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_btCargarActionPerformed
+
+    private void txRutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txRutActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txRutActionPerformed
+
+    private void txRutKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txRutKeyPressed
+        
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+            btIr.doClick();
+        }
+    }//GEN-LAST:event_txRutKeyPressed
+
+    private void txRutKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txRutKeyTyped
+
+        char validar = evt.getKeyChar();    //Código agregado por R. Lopez
+        
+        if (Character.isLetter(validar)){   //se valida que solo se ingresen
+
+            evt.consume();                  //números al textfield "txRut"
+        }
+
+        if(txRut.getText().length()>=8) {  //se valida que solo se ingresen
+
+            evt.consume();                 //un máximo de 8 digitos al textfield "txRut"
+
+        }                                  //Fin código agregado
+    }//GEN-LAST:event_txRutKeyTyped
+
+    private void btIrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btIrActionPerformed
+        
+        if (!txRut.getText().isEmpty() && txNombre.getText().isEmpty()) {  //se agrego filtro a sentencia IF
+
+            CargaPersonal(txRut.getText().trim());                         //si rut no està vacío y nombre está vacío
+
+        }else{
+
+            jdAgregaPersonas Dato = new jdAgregaPersonas(null, true);      //si rut y nombre están vacìos
+            Dato.setLocationRelativeTo(null);
+            Dato.setTitle("Trabajador");
+            //Dato.CargaDatos("SELECT rut AS codigo,nombre,dvp FROM personal WHERE rut > 1000 AND activo = true AND empresa = 1 ORDER BY nombre");
+            
+             Dato.CargaDatos("SELECT rut AS codigo,nombre,dvp FROM personal WHERE rut>1000 AND activo = true \n" +
+                                "AND empresa ="+1+" AND personalrh = true \n"+
+                                "ORDER BY nombre ");
+            
+            
+            Dato.setVisible(true);
+            CargaPersonal(Dato.GetCodigo());
+        }
+    }//GEN-LAST:event_btIrActionPerformed
+
+    public void CargaPersonal(String Rut) {
+    
+        ExeSql Sql = new ExeSql();
+        ResultSet Rs;
+                   
+        try{
+ 
+            Rs = Sql.Select("SELECT * FROM personal WHERE rut=" + Rut);
+          
+            if(Sql.GetRowCount()>0){
+                
+                Rs.next();
+                
+                txRut.setText(Rs.getString("rut").trim());
+                Dv = Rs.getString("dvp").trim();
+                
+                txNombre.setText(Rs.getString("nombre").trim()+" "+Rs.getString("apellidopaterno").trim()+" "+Rs.getString("apellidomaterno").trim());
+                
+            }else{
+                
+                fmMain.Mensaje("El Rut no existe");
+                
+            }
+           
+        }catch (Exception e) {
+            
+            System.out.println(e.getMessage());
+            
+        }finally{
+            
+           Sql.Close();
+        }
+    
+    }
+    
+    private void txNombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txNombreKeyReleased
+
+        txNombre.setText(txNombre.getText().toUpperCase());
+    }//GEN-LAST:event_txNombreKeyReleased
+
+    private void GrillaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GrillaMouseClicked
+        
+        DefaultTableModel Tabla = (DefaultTableModel) Grilla.getModel();
+        
+        if(evt.getClickCount()==2){
+           
+          jdPersonal_Plhx PersonalPhlx = new jdPersonal_Plhx(null,false);
+          PersonalPhlx.setLocationRelativeTo(null);
+          
+          //PersonalPhlx.setTitle("Nuevo Registro");
+        
+          PersonalPhlx.SetRegistro(1,
+                                   txRut.getText(),
+                                   Dv,
+                                   txNombre.getText(),
+                                   item,
+                                   Grilla.getValueAt(Grilla.getSelectedRow(),0).toString(),
+                                   Grilla.getValueAt(Grilla.getSelectedRow(),1).toString(),
+                                   Grilla.getValueAt(Grilla.getSelectedRow(),2).toString(),
+                                   Grilla.getValueAt(Grilla.getSelectedRow(),3).toString(),
+                                   Grilla.getValueAt(Grilla.getSelectedRow(),4).toString());
+          
+           PersonalPhlx.setVisible(true); 
+           
+           if(PersonalPhlx.GetRegistro()!=null){
+                   
+                Tabla.insertRow(Grilla.getSelectedRow(), PersonalPhlx.GetRegistro());
+                Tabla.removeRow(Grilla.getSelectedRow());
+                   
+                btCargar.doClick();   
+           }
+                      
+           
+        }else if(evt.getClickCount()==1){ 
+           
+            if (( intNivelUsuario < 85)){    
+           
+                btEliminar.setEnabled(false); 
+        
+            }else {  
+            
+        
+                btEliminar.setEnabled(true);
+            }
+        
+        }
+    
+    
+    }//GEN-LAST:event_GrillaMouseClicked
+
+    private void btNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNuevoActionPerformed
+        
+        
+        jLabel4.setVisible(false);
+        lbltHoras.setVisible(false);
+        
+        if (cbAgno.getSelectedIndex() == 0){
+        
+            fmMain.Mensaje("Debe elegir un Año");
+            return;
+        }
+        
+        if (cbMes.getSelectedIndex() == 0){
+        
+            fmMain.Mensaje("Debe elegir un Mes");
+            return;
+        }
+        
+//        if(Integer.parseInt(cbAgno.getSelectedItem().toString()) > year){       //Si el año elegido es mayor al año en curso
+//       
+//           fmMain.Mensaje("Año fuera de rango!!");                              //El año está fuera de rango porque aún no hay registros.
+//           return;
+//        }
+        
+        if (txRut.getText().equals("")){
+        
+            fmMain.Mensaje("Debe Ingresar Rut del Trabajador");
+            return;
+        }
+        
+        jdPersonal_Plhx PersonalPhlx = new jdPersonal_Plhx(null,true);
+        PersonalPhlx.setLocationRelativeTo(null);
+          
+        PersonalPhlx.setTitle("Nuevo Registro");
+        
+        Date dfecha = Calendar.getInstance().getTime();  
+        String fecha = dateFormat.format(dfecha);
+        
+        PersonalPhlx.SetRegistro(0,txRut.getText(),
+                                 Dv, 
+                                 txNombre.getText(),
+                                 item,
+                                 "",
+                                 fecha,
+                                 fecha,
+                                 "",
+                                 "");
+          
+        PersonalPhlx.setVisible(true); 
+        
+        if(PersonalPhlx.GetRegistro()!=null){
+                   
+//            Tabla.insertRow(Grilla.getSelectedRow(), PersonalPhlx.GetRegistro());
+//            Tabla.removeRow(Grilla.getSelectedRow());
+//                   
+            btCargar.doClick();   
+        }
+        
+        
+        
+    }//GEN-LAST:event_btNuevoActionPerformed
+
+    private void btEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEliminarActionPerformed
+       
+        intNivelUsuario = fmMain.trae_nivel(fmMain.GetUsuario());
+        
+     
+        if (( intNivelUsuario < 100)){    
+           
+           fmMain.Mensaje("Usuario: " + fmMain.GetUsuario() + " no está autorizado") ;
+           return;
+        
+        } 
+        
+        if(fmMain.OkCancel("Está seguro de eliminar registro?") == JOptionPane.OK_OPTION){                      //Se solicita confirmación de la eliminacion
+            
+            ExeSql Sql = new ExeSql();
+           
+            try{
+                Sql.ExeSql("DELETE FROM personal_plhx \n"+                                                      //Se elimina el registro de la BD
+                           "WHERE id ='"+ Tabla.getValueAt(Grilla.getSelectedRow(), 4) +"' \n"+   
+                           "AND rut="+ txRut.getText());
+                
+                Tabla.removeRow(Grilla.getSelectedRow());                           //Se borra el registro de la Grilla
+                        
+            
+            }catch (SQLException ex) {
+          
+                Logger.getLogger(jdHistorial.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }     
+         
+        btEliminar.setEnabled(false);
+        
+    }//GEN-LAST:event_btEliminarActionPerformed
+    
+    
+    private void formato_columnas(int tipo){
+         
+        TableModel modelo = null; 
+        
+        if (tipo == 1 || tipo == 2  || tipo == 4){ 
+           
+            Object[][] datos = new Object [][] {};
+            String[] cabezera = new String [] {"N° DIAS","DESDE","HASTA","OBSERVACIONES",""};
+            modelo = new DefaultTableModel (datos, cabezera);
+       
+        }else if (tipo == 3){
+       
+           Object[][] datos = new Object [][] {};
+           String[] cabezera = new String [] {"N° HORAS","DESDE","HASTA","OBSERVACIONES",""};
+           modelo = new DefaultTableModel (datos, cabezera);
+       
+        }else if (tipo == 5){
+       
+           Object[][] datos = new Object [][] {};
+           String[] cabezera = new String [] {"VALOR CUOTA","DESDE","HASTA","OBSERVACIONES",""};
+           modelo = new DefaultTableModel (datos, cabezera);
+       
+        }  
+        
+        
+        Grilla.setModel(modelo);
+        
+        Grilla.getColumnModel().getColumn(0).setMinWidth(70);             //se asigna ancho a cada columna   
+        Grilla.getColumnModel().getColumn(1).setMinWidth(90);            //se asigna ancho a cada columna   
+        Grilla.getColumnModel().getColumn(2).setMinWidth(90);
+        Grilla.getColumnModel().getColumn(3).setMinWidth(550);  
+        Grilla.getColumnModel().getColumn(4).setPreferredWidth(0);  
+        Grilla.getColumnModel().getColumn(4).setMinWidth(0);  
+        Grilla.getColumnModel().getColumn(4).setMaxWidth(0);  
+        
+        DefaultTableCellRenderer renderer2 = (DefaultTableCellRenderer)Grilla.getTableHeader().getDefaultRenderer();    //centra encabezados de columnas
+        renderer2.setHorizontalAlignment(JLabel.CENTER); 
+        
+        DefaultTableCellRenderer Alinear2 = new DefaultTableCellRenderer();                         //configura centrado datos de columnas  
+        Alinear2.setHorizontalAlignment(SwingConstants.CENTER);
+        
+        
+        for (int i = 0; i < 4;i++){
+        
+            Grilla.getColumnModel().getColumn(i).setCellRenderer(Alinear2);       //centra datos de columnas
+        
+        }
+        
+    }
+    
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(jdHistorial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(jdHistorial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(jdHistorial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(jdHistorial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the dialog */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                jdHistorial dialog = new jdHistorial(new javax.swing.JFrame(), true,0);
+//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+//                    @Override
+//                    public void windowClosing(java.awt.event.WindowEvent e) {
+//                        System.exit(0);
+//                    }
+//                });
+//                dialog.setVisible(true);
+//            }
+//        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable Grilla;
+    public javax.swing.JButton btCargar;
+    private javax.swing.JButton btEliminar;
+    private javax.swing.JButton btIr;
+    private javax.swing.JButton btNuevo;
+    private javax.swing.JComboBox<String> cbAgno;
+    private javax.swing.JComboBox<String> cbMes;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbltHoras;
+    private javax.swing.JTextField txNombre;
+    private javax.swing.JTextField txRut;
+    // End of variables declaration//GEN-END:variables
+}

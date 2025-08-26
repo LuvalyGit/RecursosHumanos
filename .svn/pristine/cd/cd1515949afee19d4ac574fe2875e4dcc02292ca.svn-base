@@ -1,0 +1,651 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="81fb0e75-916e-43c0-8f7f-9680a6a3ae78">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="NOMBRES" class="java.lang.String"/>
+	<parameter name="RUT" class="java.lang.String"/>
+	<parameter name="CARGO" class="java.lang.String"/>
+	<parameter name="CAUSA" class="java.lang.String"/>
+	<parameter name="AGNOS" class="java.lang.String"/>
+	<parameter name="DIAS" class="java.lang.String"/>
+	<parameter name="AVISO" class="java.lang.String"/>
+	<parameter name="TAGNOS" class="java.lang.String"/>
+	<parameter name="TDIAS" class="java.lang.String"/>
+	<parameter name="SEGURO" class="java.lang.String"/>
+	<parameter name="PRESTAMO" class="java.lang.String"/>
+	<parameter name="TEXTO_TOTAL" class="java.lang.String"/>
+	<parameter name="LOGO" class="java.io.InputStream"/>
+	<parameter name="TOTAL" class="java.lang.String"/>
+	<parameter name="DIA" class="java.lang.String"/>
+	<parameter name="MES" class="java.lang.String"/>
+	<parameter name="AGNO" class="java.lang.String"/>
+	<parameter name="DIAI" class="java.lang.String"/>
+	<parameter name="MESI" class="java.lang.String"/>
+	<parameter name="AGNOI" class="java.lang.String"/>
+	<parameter name="DIAF" class="java.lang.String"/>
+	<parameter name="MESF" class="java.lang.String"/>
+	<parameter name="AGNOF" class="java.lang.String"/>
+	<parameter name="APELLIDOP" class="java.lang.String"/>
+	<parameter name="APELLIDOM" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="96" splitType="Stretch">
+			<staticText>
+				<reportElement x="144" y="63" width="283" height="20" uuid="9e430d5e-54aa-4804-8f56-0ad836a141fe"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FINIQUITO DE CONTRATO DE TRABAJO]]></text>
+			</staticText>
+			<image hAlign="Center">
+				<reportElement x="460" y="6" width="105" height="56" uuid="c82551ee-2a6a-4ecc-a745-7c5bf61f090e"/>
+				<imageExpression><![CDATA[$P{LOGO}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="5" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="1" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="616" splitType="Stretch">
+			<frame>
+				<reportElement x="17" y="27" width="543" height="579" uuid="9f705cb0-9ea2-4fe1-8d20-d4547620c8a3"/>
+				<staticText>
+					<reportElement x="214" y="0" width="323" height="20" uuid="38a47ac9-3436-4f56-8d29-85fad9bf590f"/>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[, entre la EMPRESA COMERCIALIZADORA LUIS VALDES LYON SpA.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="9" y="0" width="65" height="20" uuid="40599cf9-bc45-463c-8d1e-035facb6f3a0"/>
+					<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+					<text><![CDATA[En Temuco, a        ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="42" y="20" width="66" height="20" uuid="1267b627-99b5-49ce-b53a-a1dd0e1a47a6"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[76.231.391-K,]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="110" y="20" width="280" height="20" uuid="25ad900c-d478-41ff-9977-57011b3563ef"/>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[con domicilio en Avda. Huérfanos # 01871,Temuco y don/doña]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="38" y="89" width="98" height="20" uuid="d4323e3e-6938-43e2-9d73-a80316c9d24d"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[PRIMERO: Don/doña ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="397" y="89" width="114" height="20" uuid="de8e1aee-230f-4f86-b2f5-d92321e1adea"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[declara haberle prestado]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="1" y="140" width="126" height="20" uuid="d0ec45a6-5f7c-4ae5-824e-fcd7bea8772b"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[Empresa Comercializadora ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="126" y="140" width="123" height="20" uuid="df63de4c-94c5-4056-86e8-26d6d74f18f8"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[LUIS VALDES LYON SPA  ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="249" y="140" width="67" height="20" uuid="839c857b-62e2-44a7-91b1-bb0c72885daf"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[, en calidad de ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="284" y="40" width="35" height="20" uuid="50586fd0-95aa-4590-baee-68c8ea9e98b4"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[R.U.T. ]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="320" y="40" width="73" height="20" uuid="9944c28a-513c-4a9a-8aff-49efcd7b420d"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{RUT}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="393" y="40" width="118" height="20" uuid="22958788-2a88-4af3-8525-b64b5bad385a"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[, se  acuerda  el  siguiente]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="317" y="140" width="221" height="20" uuid="0de65d37-eb6a-4d90-a842-e26f39f09cb3"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{CARGO}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="1" y="160" width="40" height="20" uuid="f54c16df-863b-4877-a59d-0c5c80a9a176"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[desde el ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="179" y="160" width="40" height="20" uuid="d1fd2958-4f0d-41c5-96f3-938c3e75b387"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[hasta el]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="180" width="328" height="20" uuid="550c5d9f-838b-4e47-a507-7f7b15fed4b7"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[fecha esta última de terminación de sus servicios por la siguiente causa :]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="1" y="201" width="536" height="20" uuid="aaee4126-9d8d-4800-8f24-871cf5a38213"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{CAUSA}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="359" y="231" width="178" height="20" uuid="fa343db2-4462-4555-9b28-78d387b76dc3"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[declara recibir en este acto, a su entera ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="1" y="231" width="100" height="20" uuid="9e9e5bbd-905b-46b0-9523-c6cd7b4a621a"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[SEGUNDO: Don/doña ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="1" y="251" width="243" height="20" uuid="3adeba06-64da-489c-87ca-6079430db958"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[satisfacción, de parte de la Empresa Comercializadora]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="244" y="251" width="123" height="20" uuid="938cc435-1257-4090-bb7f-7960aeb4f4d1"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[LUIS VALDES LYON SPA  ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="367" y="251" width="170" height="20" uuid="a0015c59-74bd-4408-a40c-dfdc6dcc89e7"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[, las sumas que a continuación se ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="1" y="271" width="174" height="20" uuid="e1020053-96ec-4ab9-852a-dcc5f59a1ef2"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[indican, por los siguientes conceptos :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="36" y="303" width="265" height="20" uuid="61ec5424-864f-4773-95f5-7e4691120f05"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[Indemnización sustitutiva de aviso previo]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="36" y="325" width="169" height="20" uuid="b179cc0f-57f7-4ebe-9fd7-9e278eff28cb"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[Indemnización por años de servicio   (]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="36" y="346" width="130" height="20" uuid="52303c97-0da6-49f3-81fb-a38d119ac516"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[Vacaciones Proporcionales ( ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="222" y="325" width="36" height="20" uuid="ed0aebaa-e137-4242-9f78-186b15b9e208"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[años )]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="205" y="325" width="17" height="20" uuid="4bfff2ee-afa8-49e9-8c7a-d4f8269c39df"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{AGNOS}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="182" y="346" width="35" height="20" uuid="bd1e6dec-7ac8-4e6c-a74c-1ddae4b14bf3"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[días )]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="165" y="346" width="17" height="20" uuid="6e02a897-eff0-4a3d-b937-40cd4fae7491"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{DIAS}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="36" y="367" width="265" height="20" uuid="c6c14aae-4e0d-45e3-b537-d2b858f99b99"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[Descuento Seguro Cesantía Empleador]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="36" y="388" width="265" height="20" uuid="851acde4-e214-43f6-b088-4f44723607b1"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[Descuento Préstamo Empleador]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="371" y="303" width="63" height="20" uuid="bc69ae51-daa0-46fe-9f62-ab5014d0ced9"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{AVISO}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="371" y="324" width="63" height="20" uuid="8595664e-40d0-402b-9321-8ef09934d1cd"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{TAGNOS}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="371" y="345" width="63" height="20" uuid="42bb7104-1959-4b21-b03b-9c4954a5d800"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{TDIAS}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="371" y="366" width="63" height="20" uuid="697706c7-62d6-49be-99fe-ff080178509d"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{SEGURO}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="371" y="387" width="63" height="20" uuid="5d8449f3-0c82-4289-96a5-9a548854cd35"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{PRESTAMO}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="25" y="441" width="27" height="20" uuid="5d4f7e07-969a-4fc7-b277-5251de375a8f"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[Son :]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="53" y="441" width="461" height="20" uuid="9ac7b20d-d09e-466e-8950-c11c94ad4a1d"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{TEXTO_TOTAL}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="377" y="470" width="160" height="20" uuid="c18e3f36-1ca9-45d5-ba9d-144572d3cc17"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[deja constancia que durante todo el]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="1" y="470" width="98" height="20" uuid="ad09865c-08d4-4edd-83a2-a9361e3d2b97"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[TERCERO: Don/doña]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="1" y="490" width="283" height="20" uuid="e8ea0653-5220-40a8-bee7-7fa0f188827d"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[tiempo que  le  prestó servicios  a  la Empresa Comecializadora]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="284" y="490" width="123" height="20" uuid="72e477fd-78cc-4204-a75d-53f12af31e03"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[LUIS VALDES LYON SPA  ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="407" y="490" width="130" height="20" uuid="e3287d5a-cf08-4f8f-9368-c30afe8121fb"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[, recibió  de ésta,  correcta y]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="510" width="537" height="20" uuid="1bd9e055-9a36-4272-9ae9-a1896148afc0"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[oportunamente  el  total  de  las  remuneraciones  convenidas, de acuerdo con  su  contrato de  trabajo, clase de  trabajo]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="530" width="537" height="20" uuid="90b013fd-f3c0-4089-b3b6-592d73b3c141"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[ejecutado, reajustes legales, pago  de  asignaciones familiares   ( si  procedía )  autorizadas por  la respectiva Institución]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="550" width="537" height="20" uuid="8f622e7c-eb99-4bc1-9e88-9c2e8838f615"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[de previsión, horas extraordinarias cuando las trabajó, feriados legales, gratificaciones y participaciones, en conformidad]]></text>
+				</staticText>
+				<line>
+					<reportElement x="364" y="414" width="82" height="1" uuid="923e86ad-2ada-46e1-a529-5323d675d850"/>
+				</line>
+				<staticText>
+					<reportElement x="195" y="420" width="107" height="20" uuid="ff1379ba-96a2-46b7-ba1a-bd227a2aeb8a"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[TOTAL FINIQUITO]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="371" y="420" width="63" height="20" uuid="7b751fe9-4fbb-4373-84cd-18ab4d2d94e2"/>
+					<textElement textAlignment="Right">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{TOTAL}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="360" y="366" width="10" height="20" uuid="2fc921e8-fbce-41ff-ac9c-845e58659519"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<text><![CDATA[(]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="436" y="366" width="10" height="20" uuid="52602dcb-1b1f-4987-82c1-19829e885b05"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<text><![CDATA[)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="436" y="387" width="10" height="20" uuid="47cb7eb0-531f-414d-8298-4513e0584afb"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<text><![CDATA[)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="360" y="387" width="10" height="20" uuid="529e1f7d-1925-449e-91e6-09019e4e0481"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<text><![CDATA[(]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="75" y="0" width="16" height="20" uuid="b2f59fa6-838c-4680-8cf3-1ff23e98d2e6"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{DIA}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="91" y="0" width="17" height="20" uuid="b538aa09-a795-48c1-94ae-e3d71cbec946"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[de]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="107" y="0" width="62" height="20" uuid="56ed268c-c3e3-4d1b-9f38-ffa1dd900a36"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{MES}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="166" y="0" width="17" height="20" uuid="15bad093-2c8c-4276-8a7d-448ae5f54752"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[de]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="182" y="0" width="30" height="20" uuid="bc202608-6d23-4bbc-9889-8c35311cbe90"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{AGNO}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="41" y="160" width="16" height="20" uuid="86c30817-a873-4a11-bc8f-39523e7e7bc4"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{DIAI}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="57" y="160" width="17" height="20" uuid="a26bdac5-a63e-4f5d-a8b7-6b8cfb74b0c6"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[de]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="73" y="160" width="57" height="20" uuid="62755cce-99ae-47b0-a3b4-be8a656eb827"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{MESI}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="129" y="160" width="17" height="20" uuid="f7a02a26-2b0a-4663-bfe6-86bf5b632037"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[de]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="145" y="160" width="30" height="20" uuid="6225efc7-632b-4e0c-af52-283a92bd43e0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{AGNOI}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="218" y="160" width="16" height="20" uuid="c6b6d344-22ee-45ab-9bfc-22049b66970b"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{DIAF}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="234" y="160" width="17" height="20" uuid="1683f0e3-e974-4233-b80f-8a753ebd6e34"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[de]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="250" y="160" width="62" height="20" uuid="4ef5fc42-ba82-46c1-90f6-d04ea8bd2858"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{MESF}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="312" y="160" width="17" height="20" uuid="7cb6ff39-16c0-4d36-a807-8fe12d8b5bc2"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[de]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="328" y="160" width="30" height="20" uuid="0cda2ce6-f975-4275-85e4-d3b5a5c5a683"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{AGNOF}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="9" y="20" width="32" height="20" uuid="266c1182-164d-4bbd-ae8f-62299aff449b"/>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[R.U.T. ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="75" y="69" width="155" height="20" uuid="1de9a9df-0dd9-4504-9c31-33dc4fb659b7"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[finiquito :]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="390" y="20" width="147" height="20" uuid="318e5fbf-018f-4f4c-a889-90f8b55bcb52"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{NOMBRES}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="9" y="40" width="100" height="20" uuid="c78bd459-4eab-481d-88e7-fb57a047e706"/>
+					<textFieldExpression><![CDATA[$P{APELLIDOP}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+		<band height="385">
+			<frame>
+				<reportElement x="17" y="38" width="543" height="337" uuid="a891a6a2-0173-41cf-9b2a-685115e13dd8"/>
+				<staticText>
+					<reportElement x="1" y="4" width="537" height="20" uuid="d1144dea-5e00-4e43-91ff-411a217e25e6"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[a la ley y que nada se le adeuda por los conceptos antes indicados ni por ningún otro, sea de origen legal o contractual]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="1" y="24" width="537" height="20" uuid="5c006f79-7410-40e2-b2f3-487ae89266c0"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[derivado de la prestación de sus servicios,  y  motivo por el cual,  no  teniendo reclamo ni cargo alguno que formular en]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="1" y="44" width="177" height="20" uuid="741556bc-d9dd-4f34-8808-1631e30b1c09"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[contra de la Empresa Comercializadora]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="178" y="44" width="123" height="20" uuid="05eea28e-4089-4d14-a1b1-6f80b9ec0e45"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[LUIS VALDES LYON SPA  ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="302" y="44" width="236" height="20" uuid="2b94148d-8708-405d-bd98-ba6ca0ed7a4c"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[, le otorga  el más amplio finiquito,  declaración que]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="1" y="64" width="537" height="20" uuid="6969c102-0c0c-498f-8060-b54dbebf1898"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[formula libre y espontáneamente, en perfecto y cabal conocimiento de cada uno y de todos sus derechos.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="1" y="88" width="537" height="20" uuid="e73e7d5a-bbed-4fe3-b692-77b974520af8"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[Para constancia firma las partes el presente finiquito de dos ejemplares, quedando uno de ellos en poder del empleador]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="1" y="108" width="165" height="20" uuid="491fe176-0fee-4323-a8a6-133eb36bda90"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[y el otro en poder del trabajador.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="283" width="165" height="20" uuid="78e33e38-9f8b-4255-a5f2-65a0381071c6"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Firma del Empleador]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="304" width="165" height="20" uuid="0dc881bf-99fb-4efa-8e37-c29a76487bff"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[RUT N° 76.231.391-K]]></text>
+				</staticText>
+				<line>
+					<reportElement x="4" y="277" width="162" height="1" uuid="e7048c4f-5f7d-44a6-a725-55cbd2157348"/>
+				</line>
+				<line>
+					<reportElement x="360" y="277" width="162" height="1" uuid="579aa67d-252a-4fb2-84ba-6c3a3dec1692"/>
+				</line>
+				<staticText>
+					<reportElement x="358" y="283" width="165" height="20" uuid="862274a0-cf03-4df6-ae4c-c06ee6041af0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Firma del Trabajador]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="358" y="304" width="54" height="20" uuid="89803fb8-2bdc-46cd-b386-a13f832e5419"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[C.I. ]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="413" y="304" width="110" height="20" uuid="50c4c6dd-c847-4109-bd07-76cdb510edb2"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{RUT}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="7" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="5" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="4" splitType="Stretch"/>
+	</summary>
+</jasperReport>

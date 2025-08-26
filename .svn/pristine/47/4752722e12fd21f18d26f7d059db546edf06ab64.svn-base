@@ -1,0 +1,1177 @@
+
+package Dialogos;
+
+import Conexion.ExeSql;
+import Formularios.fmMain;
+import Dialogos.jdHistorial;
+import static Formularios.fmMain.intNivelUsuario;
+import PanelForm.pfGastosSueldos;
+import static PanelForm.pfGastosSueldos.formatearRut;
+import java.awt.Dimension;
+import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
+
+
+/**
+ *
+ * @author Roberto Lopez
+ */
+public class jdPersonal_FeriadoLegal extends javax.swing.JDialog {
+
+    boolean guardado = false;
+    Calendar cal = Calendar.getInstance(); 
+    Calendar dias = Calendar.getInstance(); 
+                                           
+    int year  = cal.get(Calendar.YEAR);
+    int year1 = year-1;
+    int month = cal.get(Calendar.MONTH)+1;
+    int m     = month;
+    int cont  = 0; 
+    int ncod  = 0;
+    int nuevo = 0;
+    
+    String Id     = "";
+    String elmes  = ""; 
+    String uagno  = "";
+    String Dvp     = "";
+    String y      = Integer.toString(year);
+    String Desde  = "";
+    String Hasta  = "";
+    
+    DecimalFormat formateador = new DecimalFormat("###,###");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    
+    public jdPersonal_FeriadoLegal(java.awt.Frame parent, boolean modal) {
+        
+        super(parent, modal);
+        initComponents();
+        
+        dtDesde.setFormats(new String[] {"dd/MM/yyyy"});
+        dtHasta.setFormats(new String[] {"dd/MM/yyyy"});
+        
+        
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);   //se implemeta evento Window Listener
+         
+            addWindowListener(new WindowAdapter() {          //para realizar una acción cuando se cierre 
+            @Override                                       //directamente la ventana sin elegir una opcion
+            
+            public void windowClosing(WindowEvent e) {
+               
+               guardado = false;        //variable global que valida el cierre
+                
+            }
+        });
+        
+       jLabel1.setVisible(false);
+       dtHasta.getEditor().setEditable(false); 
+       btImprimir.setVisible(false);
+        
+    }
+    
+    public void SetRegistro(int rnuevo,String rut, String dv,String nombre, int codtipo, String dias_horas, String desde, String hasta, String obs, String id,
+                            String pdesde, String phasta,String dpend,String dant,String dfest ){
+        
+        ncod = codtipo;
+        Desde = desde;
+        Hasta = hasta;
+        txRut.setText(rut);
+        Dvp = dv;
+        txNombre.setText(nombre);
+        txNdias_horas.setText(dias_horas);
+        
+        txDiasf.setText(dfest);
+        txDiasa.setText(dant);
+        txDiasp.setText(dpend);
+        
+        nuevo = rnuevo;
+        
+        if (nuevo == 1){                //si existe el registro
+            
+            Id = id;
+            
+            jLabel1.setText(Id);
+            btEditar.setEnabled(true);
+       
+            btGuardar.setEnabled(false);
+            btCancelar.setEnabled(false);
+            btImprimir.setEnabled(true);
+        
+            txRut.setEnabled(false);
+            txNombre.setEnabled(false);
+            txNdias_horas.setEnabled(false);
+            dtDesde.setEnabled(false);
+            dtDesde.getEditor().setEditable(false); 
+            
+            dtHasta.setEnabled(false);
+            dtHasta.getEditor().setEditable(false); 
+            
+            txObs.setEnabled(false);
+            
+            cbInicio.setSelectedItem(pdesde);
+            cbTermino.setSelectedItem(phasta);
+            
+            
+            txDiasf.setEnabled(false);
+            txDiasa.setEnabled(false);
+            txDiasp.setEnabled(false);
+       
+            cbInicio.setEnabled(false);
+            cbTermino.setEnabled(false);
+            
+            
+        
+        }else if (nuevo == 0){          //si es un nuevo registro
+           
+           Id = ""; 
+           btEditar.setEnabled(false);
+       
+           btGuardar.setEnabled(true);
+           btCancelar.setEnabled(true);
+           btImprimir.setEnabled(false);
+        
+           txRut.setEnabled(false);
+           txNombre.setEnabled(false);
+           txNdias_horas.setEnabled(true);
+           
+           dtDesde.setEnabled(true);
+           dtDesde.getEditor().setEditable(false); 
+           
+           dtHasta.setEnabled(true);
+           dtHasta.getEditor().setEditable(false); 
+           
+           txObs.setEnabled(true); 
+           
+           cbInicio.setSelectedIndex(0);
+           cbTermino.setSelectedIndex(0);
+           
+           txDiasf.setEnabled(true);
+           txDiasa.setEnabled(true);
+           txDiasp.setEnabled(true);
+       
+           cbInicio.setEnabled(true);
+           cbTermino.setEnabled(true);
+        
+        }
+              
+        btImprimir.setVisible(true);
+        dtHasta.getEditor().setEditable(false); 
+        jLabel17.setText(jLabel17.getText()+"dias");
+        
+       
+        try{
+            
+            dtDesde.setDate(dateFormat.parse(Desde));
+            dtHasta.setDate(dateFormat.parse(Hasta));
+            
+        }catch (ParseException ex) {
+            
+            Logger.getLogger(jdPersonal_FeriadoLegal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        txObs.setText(obs);
+    }
+   
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        txRut = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        txNombre = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        txNdias_horas = new javax.swing.JTextField();
+        jLabel21 = new javax.swing.JLabel();
+        dtDesde = new org.jdesktop.swingx.JXDatePicker();
+        jLabel22 = new javax.swing.JLabel();
+        dtHasta = new org.jdesktop.swingx.JXDatePicker();
+        jLabel12 = new javax.swing.JLabel();
+        txObs = new javax.swing.JTextField();
+        btEditar = new javax.swing.JButton();
+        btGuardar = new javax.swing.JButton();
+        btCancelar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        btImprimir = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        txDiasp = new javax.swing.JTextField();
+        txDiasa = new javax.swing.JTextField();
+        txDiasf = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        cbInicio = new javax.swing.JComboBox<String>();
+        cbTermino = new javax.swing.JComboBox<String>();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel11.setBackground(new java.awt.Color(242, 222, 184));
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel11.setText("Rut");
+        jLabel11.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        jLabel11.setOpaque(true);
+
+        txRut.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txRut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txRutActionPerformed(evt);
+            }
+        });
+        txRut.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txRutKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txRutKeyTyped(evt);
+            }
+        });
+
+        jLabel10.setBackground(new java.awt.Color(242, 222, 184));
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel10.setText("Nombre");
+        jLabel10.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        jLabel10.setOpaque(true);
+
+        txNombre.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txNombreKeyReleased(evt);
+            }
+        });
+
+        jLabel17.setBackground(new java.awt.Color(242, 222, 184));
+        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel17.setText("N° de ");
+        jLabel17.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        jLabel17.setOpaque(true);
+
+        txNdias_horas.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txNdias_horas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txNdias_horasKeyTyped(evt);
+            }
+        });
+
+        jLabel21.setBackground(new java.awt.Color(242, 222, 184));
+        jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel21.setText("Desde");
+        jLabel21.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        jLabel21.setOpaque(true);
+
+        dtDesde.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dtDesdeActionPerformed(evt);
+            }
+        });
+        dtDesde.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                dtDesdeKeyTyped(evt);
+            }
+        });
+
+        jLabel22.setBackground(new java.awt.Color(242, 222, 184));
+        jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel22.setText("Hasta");
+        jLabel22.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        jLabel22.setOpaque(true);
+
+        dtHasta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dtHastaActionPerformed(evt);
+            }
+        });
+        dtHasta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                dtHastaKeyTyped(evt);
+            }
+        });
+
+        jLabel12.setBackground(new java.awt.Color(242, 222, 184));
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel12.setText("Observación");
+        jLabel12.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        jLabel12.setOpaque(true);
+
+        txObs.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txObs.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txObsKeyReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txObs, javax.swing.GroupLayout.PREFERRED_SIZE, 551, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
+                                    .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(4, 4, 4)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txRut, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txNdias_horas, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dtDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dtHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 462, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(txRut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(11, 11, 11)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(txNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(7, 7, 7)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(1, 1, 1))
+                    .addComponent(txNdias_horas))
+                .addGap(8, 8, 8)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(dtDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(dtHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txObs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29))
+        );
+
+        btEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos16/Pencil16.png"))); // NOI18N
+        btEditar.setText("Editar");
+        btEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btEditarActionPerformed(evt);
+            }
+        });
+
+        btGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos16/save16.png"))); // NOI18N
+        btGuardar.setText("Guardar");
+        btGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btGuardarActionPerformed(evt);
+            }
+        });
+
+        btCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos16/Cancel16.png"))); // NOI18N
+        btCancelar.setText("Cancelar");
+        btCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCancelarActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("EL IDE");
+        jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        btImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos16/impresora16.png"))); // NOI18N
+        btImprimir.setText("Imprimir");
+        btImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btImprimirActionPerformed(evt);
+            }
+        });
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel2.setText("Domingos y Festivos ");
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel4.setText("Días Adelantados ");
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel5.setText("Días Pendientes ");
+
+        txDiasp.setEnabled(false);
+        txDiasp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txDiaspActionPerformed(evt);
+            }
+        });
+        txDiasp.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txDiaspKeyPressed(evt);
+            }
+        });
+
+        txDiasa.setEnabled(false);
+        txDiasa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txDiasaActionPerformed(evt);
+            }
+        });
+        txDiasa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txDiasaKeyPressed(evt);
+            }
+        });
+
+        txDiasf.setEnabled(false);
+        txDiasf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txDiasfActionPerformed(evt);
+            }
+        });
+        txDiasf.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txDiasfKeyPressed(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel3.setText("Periodo Feriado Legal ");
+
+        cbInicio.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "INICIO", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028" }));
+        cbInicio.setEnabled(false);
+        cbInicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbInicioActionPerformed(evt);
+            }
+        });
+
+        cbTermino.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "TERMINO", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028" }));
+        cbTermino.setEnabled(false);
+        cbTermino.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbTerminoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txDiasf, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(cbTermino, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txDiasa, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txDiasp, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbTermino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txDiasf, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txDiasa, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txDiasp, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(65, 65, 65)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(51, 51, 51)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
+       
+        guardado = false; 
+          
+        if (nuevo == 0){
+       
+           dispose(); 
+       
+        }else if (nuevo == 1){
+         
+            btEditar.setEnabled(true);
+       
+            btGuardar.setEnabled(false);
+            btCancelar.setEnabled(false);
+            btImprimir.setEnabled(true);
+        
+            txRut.setEnabled(false);
+            txNombre.setEnabled(false);
+            txNdias_horas.setEnabled(false);
+            dtDesde.setEnabled(false);
+            dtDesde.getEditor().setEditable(false); 
+            dtHasta.setEnabled(false);
+            dtHasta.getEditor().setEditable(false); 
+            txObs.setEnabled(false); 
+            
+            txDiasf.setEnabled(false);
+            txDiasa.setEnabled(false);
+            txDiasp.setEnabled(false);
+       
+            cbInicio.setEnabled(false);
+            cbTermino.setEnabled(false);
+        
+        }
+       
+    }//GEN-LAST:event_btCancelarActionPerformed
+
+    private void btGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGuardarActionPerformed
+        
+        if (txNombre.getText().equals("")){
+           
+            fmMain.Mensaje("Debe Ingresar Rut del Trabajador");
+            txRut.requestFocus();
+            return;
+        
+        }
+        
+        if (txNdias_horas.getText().equals("") || txNdias_horas.getText().equals("0")){
+           
+            fmMain.Mensaje("Debe Ingresar N° de dias");
+            return;
+       
+        }  
+
+        if (dtDesde.getDate() == null){
+           
+            fmMain.Mensaje("Debe Ingresar fecha Inicial");
+            return;
+        
+        }
+        
+        if (dtHasta.getDate() == null){
+           
+            fmMain.Mensaje("Debe Ingresar fecha Final");
+            return;
+        
+        }
+        
+        btEditar.setEnabled(true);
+        btGuardar.setEnabled(false);
+        btCancelar.setEnabled(false);
+        btImprimir.setVisible(true);
+        
+        txNombre.setEnabled(false);
+        txNdias_horas.setEnabled(false);
+        dtDesde.setEnabled(false);
+        dtHasta.setEnabled(false);
+        txObs.setEnabled(false);
+        
+        txDiasf.setEnabled(false);
+        txDiasa.setEnabled(false);
+        txDiasp.setEnabled(false);
+       
+        cbInicio.setEnabled(false);
+        cbTermino.setEnabled(false);
+        
+        
+        
+        ExeSql Sql = new ExeSql();
+        
+        if (nuevo == 0){            //NUEVO REGISTRO
+            
+            try{
+                    
+                Id = "FL"+getDesdeAsString().substring(2);             //FERIADO LEGAL
+                
+                if (txDiasf.getText().equals("")){
+           
+                   txDiasf.setText("0");
+                }
+        
+        
+                if (txDiasp.getText().equals("")){
+           
+                    txDiasp.setText("0");
+                }
+        
+        
+                if (txDiasa.getText().equals("")){
+           
+                    txDiasa.setText("0");
+                }
+        
+                if (cbInicio.getSelectedIndex() == 0 || cbTermino.getSelectedIndex() == 0 ){
+        
+                    fmMain.Mensaje("Debe Ingresar un año");
+                    return;
+       
+                }  
+                
+                
+                Sql.ExeSql("INSERT INTO personal_plhx (rut,ndias_horas,dfecha,hfecha,tipo,observacion,id,dperiodo,hperiodo,dpend,dant,dfest) \n" +
+                           "VALUES (" + txRut.getText() + "," + txNdias_horas.getText() + ",'"+getDesdeAsString()+"','"+
+                           getHastaAsString()+"',"+ncod+",'"+txObs.getText()+"','"+Id+"',"+cbInicio.getSelectedItem()+","+
+                           cbTermino.getSelectedItem()+","+txDiasp.getText().trim()+","+txDiasa.getText().trim()+","+txDiasf.getText().trim()+")");
+             
+                guardado = true;    
+            
+            }catch (SQLException ex) {
+                    
+                    Sql.Rollback();
+                    
+                    Logger.getLogger(jdPersonal_FeriadoLegal.class.getName()).log(Level.SEVERE, null, ex);
+                    guardado = false;
+                    
+            }
+                
+        }else if (nuevo == 1){
+        
+            try{
+                Sql.ExeSql("UPDATE personal_plhx SET \n"+
+                           "ndias_horas=" + txNdias_horas.getText() + ", \n" +
+                           "dfecha='" + getDesdeAsString() + "'," +
+                           "hfecha='" + getHastaAsString() + "'," +
+                           "observacion='" + txObs.getText() + "'," +
+                           "dperiodo=" + cbInicio.getSelectedItem() + "," +
+                           "hperiodo=" + cbTermino.getSelectedItem() + "," +
+                           "dpend=" + txDiasp.getText().trim() + "," +
+                           "dant=" + txDiasa.getText().trim() + "," +
+                           "dfest=" + txDiasf.getText().trim() + "\n" +
+                           "WHERE rut=" + txRut.getText() +  "\n" +
+                           "AND dfecha= '" + getDesdeAsString() + "'\n" +
+                           "AND tipo=" + ncod);
+                
+                Sql.Commit();
+                guardado = true;   
+                
+            }catch (SQLException ex) {
+                
+                Sql.Rollback();
+                Logger.getLogger(jdPersonal_FeriadoLegal.class.getName()).log(Level.SEVERE, null, ex);
+                guardado = false;
+            }
+        
+        }
+        
+        if (guardado){
+               
+            fmMain.Mensaje("Registro Guardado con éxito");
+            dispose(); 
+                
+        }        
+        
+    }//GEN-LAST:event_btGuardarActionPerformed
+
+    private void btEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEditarActionPerformed
+       
+       intNivelUsuario = fmMain.trae_nivel(fmMain.GetUsuario());
+     
+        if (( intNivelUsuario < 85)){    
+           
+           fmMain.Mensaje("Usuario: " + fmMain.GetUsuario() + " no está autorizado") ;
+           return;
+        
+        } 
+        
+       nuevo = 1;
+       
+       btEditar.setEnabled(false);
+       
+       btGuardar.setEnabled(true);
+       btCancelar.setEnabled(true);
+       btImprimir.setEnabled(false);
+        
+       txRut.setEnabled(false);
+       txNombre.setEnabled(false);
+       txNdias_horas.setEnabled(true);
+     
+       dtDesde.setEnabled(true);
+       dtDesde.getEditor().setEditable(false); 
+       
+       dtHasta.setEnabled(true);
+       dtHasta.getEditor().setEditable(false); 
+     
+       txObs.setEnabled(true);
+       
+       txDiasf.setEnabled(true);
+       txDiasa.setEnabled(true);
+       txDiasp.setEnabled(true);
+       
+       cbInicio.setEnabled(true);
+       cbTermino.setEnabled(true);
+       
+
+    }//GEN-LAST:event_btEditarActionPerformed
+
+    private void txRutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txRutActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txRutActionPerformed
+
+    private void txRutKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txRutKeyPressed
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+           // btIr.doClick();
+        }
+    }//GEN-LAST:event_txRutKeyPressed
+
+    private void txRutKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txRutKeyTyped
+
+        char validar = evt.getKeyChar();    //Código agregado por R. Lopez
+        if (Character.isLetter(validar)){   //se valida que solo se ingresen
+
+            evt.consume();                  //números al textfield "txRut"
+        }
+
+        if(txRut.getText().length()>=8) {  //se valida que solo se ingresen
+
+            evt.consume();                 //un máximo de 8 digitos al textfield "txRut"
+
+        }                                  //Fin código agregado
+    }//GEN-LAST:event_txRutKeyTyped
+
+    
+//    public void CargaPersonal(String Rut) {
+//    
+//        ExeSql Sql = new ExeSql();
+//        ExeSql Sql2 = new ExeSql();
+//        ResultSet Rs, Rs2;
+//                   
+//        try{
+//            
+//            Rs = Sql.Select("SELECT * FROM personal WHERE rut=" + Rut);
+//          
+//            if(Sql.GetRowCount()>0){
+//                
+//                Rs.next();
+//                
+//                txRut.setText(Rs.getString("rut").trim());
+//                Dv = Rs.getString("dv").trim();
+//                txNombre.setText(Rs.getString("apellidopaterno").trim()+" "+Rs.getString("apellidomaterno").trim()+" "+Rs.getString("nombre").trim());
+//                
+//                if (nuevo == 1){
+//                
+//                    Rs2 = Sql2.Select("SELECT * FROM personal_plhx WHERE rut=" + txRut.getText().trim() + "\n" +
+//                                      "AND tipo = '1' ORDER BY dfecha DESC LIMIT 1");
+//                
+//                    if (Sql2.GetRowCount()>0){
+//                     
+//                       Rs2.next();
+//                     
+//                       txNdias_horas.setText(Rs2.getString("ndias_horas"));
+//                       dtDesde.setDate(Rs2.getDate("dfecha"));    
+//                       dtHasta.setDate(Rs2.getDate("hfecha"));
+//                       txObs.setText(Rs2.getString("observacion"));
+//                    }
+//                
+//                }
+//            }else{
+//                
+//                fmMain.Mensaje("El Rut no existe");
+//                
+//            }
+//           
+//        }catch (Exception e) {
+//            
+//            System.out.println(e.getMessage());
+//            
+//        }finally{
+//            
+//           Sql.Close();
+//        }
+//    
+//    }
+    
+    
+    private void txNombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txNombreKeyReleased
+       
+        txNombre.setText(txNombre.getText().toUpperCase());
+    }//GEN-LAST:event_txNombreKeyReleased
+
+    private void dtDesdeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dtDesdeActionPerformed
+        
+        int ndias = Integer.parseInt(txNdias_horas.getText());
+        
+        dias.setTime(dtDesde.getDate());
+        dias.add(Calendar.DAY_OF_MONTH,ndias-1);
+        dias.getTime();
+        dtHasta.setDate(dias.getTime());
+        
+    }//GEN-LAST:event_dtDesdeActionPerformed
+
+    private void dtDesdeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtDesdeKeyTyped
+
+        char car = evt.getKeyChar();
+
+        if(((car<'0') || (car>'9')) && ((car<'.') || (car>'.'))){
+
+            evt.consume();
+        }
+    }//GEN-LAST:event_dtDesdeKeyTyped
+
+    private void dtHastaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dtHastaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dtHastaActionPerformed
+
+    private void dtHastaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtHastaKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dtHastaKeyTyped
+
+    private void txObsKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txObsKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txObsKeyReleased
+
+    private void txNdias_horasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txNdias_horasKeyTyped
+        char car = evt.getKeyChar();
+        
+        if (car=='.'){   
+           
+           char x;
+           int conta=0;
+           
+           for (int y=0; y < txNdias_horas.getText().length(); y++ ){
+                        
+                x = txNdias_horas.getText().charAt(y);
+                 
+                if (x=='.'){
+                   conta++;
+                }
+                
+                if (conta==1){
+                    evt.consume(); 
+                }
+           }
+        }
+            
+        if(((car<'0') || (car>'9')) && ((car<'.') || (car>'.'))){
+           evt.consume(); 
+        }        
+    }//GEN-LAST:event_txNdias_horasKeyTyped
+
+    private void btImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btImprimirActionPerformed
+        
+         try {
+            
+
+            if (txDiasf.getText().equals("")){
+           
+               txDiasf.setText("0");
+            }
+        
+        
+            if (txDiasp.getText().equals("")){
+           
+                txDiasp.setText("0");
+            }
+        
+        
+            if (txDiasa.getText().equals("")){
+           
+                txDiasa.setText("0");
+            }
+        
+            if (cbInicio.getSelectedIndex() == 0 || cbTermino.getSelectedIndex() == 0 ){
+        
+                fmMain.Mensaje("Debe Ingresar un año");
+                return;
+       
+            }  
+             
+             
+            int forma = Integer.parseInt(txNdias_horas.getText());
+
+            Map parametro = new HashMap();
+            
+            parametro.put("LOGO",getClass().getResourceAsStream("/Reportes/Logo.jpg"));                     //Ruta Logo Reporte 
+            
+            parametro.put("NOMBRE",txNombre.getText());
+            parametro.put("RUT",formatearRut(txRut.getText()+Dvp));
+            
+            if (forma < 15){
+            
+                 parametro.put("FORMA","PARCIAL");
+            
+            }else if (forma == 15){
+            
+                parametro.put("FORMA","COMPLETA");
+            
+            }else {
+            
+                parametro.put("FORMA","PARCIAL");
+            
+            }
+            
+            
+            parametro.put("PERIODO",cbInicio.getSelectedItem().toString() + " - " + cbTermino.getSelectedItem().toString());
+           
+            parametro.put("FECHAS","Del "+dateFormat.format(dtDesde.getDate())+"  al  "+dateFormat.format(dtHasta.getDate()));
+            parametro.put("DIAS",txNdias_horas.getText());
+            parametro.put("FERIADOS",txDiasf.getText());
+            
+            int subtotal = Integer.parseInt(txDiasp.getText().toString().trim()) + Integer.parseInt(txDiasa.getText().toString().trim()) ;
+            
+            int dperiodo = Integer.parseInt(txNdias_horas.getText().toString().trim()) - subtotal ;
+            
+            parametro.put("PENDIENTES",txDiasp.getText().toString().trim());
+            parametro.put("DELPERIODO",String.valueOf(dperiodo));
+            parametro.put("ADELANTADOS",txDiasa.getText().toString().trim());
+           
+            
+            JasperReport reporte = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/rpFeriados.jasper")); //Ruta del Reporte
+            JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro,new JREmptyDataSource());
+           
+            JasperViewer view = new JasperViewer(jprint,false);
+            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            view.setVisible(true);
+            
+            
+        }catch (JRException ex) {
+        
+            ex.printStackTrace(); 
+            System.out.println ("informes r" + ex.toString ());
+            Logger.getLogger(jdPersonal_FeriadoLegal.class.getName()).log(Level.SEVERE, null, ex);
+        
+        }
+        
+        
+        
+    }//GEN-LAST:event_btImprimirActionPerformed
+
+    private void txDiaspActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txDiaspActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txDiaspActionPerformed
+
+    private void txDiaspKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txDiaspKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txDiaspKeyPressed
+
+    private void txDiasaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txDiasaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txDiasaActionPerformed
+
+    private void txDiasaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txDiasaKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txDiasaKeyPressed
+
+    private void txDiasfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txDiasfActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txDiasfActionPerformed
+
+    private void txDiasfKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txDiasfKeyPressed
+
+        
+    }//GEN-LAST:event_txDiasfKeyPressed
+
+    private void cbInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbInicioActionPerformed
+
+    }//GEN-LAST:event_cbInicioActionPerformed
+
+    private void cbTerminoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTerminoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbTerminoActionPerformed
+     
+    public String getDesdeAsString() {
+        //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+       SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return( sdf.format( (dtDesde.getDate()).getTime() ) );
+    }
+    
+    public String getHastaAsString() {
+        //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return( sdf.format( (dtHasta.getDate()).getTime() ) );
+    }
+    
+     public Object[] GetRegistro(){
+        
+        if(guardado)
+                    
+            return new Object[]{txNdias_horas.getText(),
+                                dtDesde.getDate(),
+                                dtHasta.getDate(),
+                                txObs.getText(),
+                                jLabel1.getText()};   
+            
+        else
+            return null;
+    }
+ 
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(jdPersonal_FeriadoLegal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(jdPersonal_FeriadoLegal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(jdPersonal_FeriadoLegal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(jdPersonal_FeriadoLegal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the dialog */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                jdPersonal_FeriadoLegal dialog = new jdPersonal_FeriadoLegal(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btCancelar;
+    private javax.swing.JButton btEditar;
+    private javax.swing.JButton btGuardar;
+    private javax.swing.JButton btImprimir;
+    private javax.swing.JComboBox<String> cbInicio;
+    private javax.swing.JComboBox<String> cbTermino;
+    private org.jdesktop.swingx.JXDatePicker dtDesde;
+    private org.jdesktop.swingx.JXDatePicker dtHasta;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JTextField txDiasa;
+    private javax.swing.JTextField txDiasf;
+    private javax.swing.JTextField txDiasp;
+    private javax.swing.JTextField txNdias_horas;
+    private javax.swing.JTextField txNombre;
+    private javax.swing.JTextField txObs;
+    private javax.swing.JTextField txRut;
+    // End of variables declaration//GEN-END:variables
+}

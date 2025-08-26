@@ -1,0 +1,2274 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package PanelForm;
+
+import Conexion.ExeSql;
+import Formularios.fmMain;
+import Dialogos.jdBonosyComisiones;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.logging.Level; 
+import java.util.logging.Logger;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
+/**
+ *
+ * @author informatica
+ */
+public class pfBonosyComisiones extends javax.swing.JPanel {
+    
+    Boolean Estado      = true;
+    
+    double totalcob    = 0;
+    double totalcob2   = 0;
+    double totalv      = 0;
+    double totalfac    = 0;
+    double totalfec    = 0;
+    double totalncc    = 0;
+    double subtotalncc = 0;
+   
+    int nuevo          = 1;
+    int carga          = 0;
+    int umes           = 0;
+    int dcant, dcant2  = 0;
+    
+    Calendar cal = Calendar.getInstance();
+
+    int year  = cal.get(Calendar.YEAR);
+    int month = cal.get(Calendar.MONTH)+1;
+    int m     = month;
+    int cont  = 0; 
+    
+    String elmes = ""; 
+    String uagno = "";
+    String Dv    = "";
+    String y     = Integer.toString(year);
+    
+    DecimalFormat formateador = new DecimalFormat("###,###");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    
+    DefaultTableModel Tabla;
+    
+    
+    public pfBonosyComisiones() {
+        
+        initComponents();
+        
+        btAgregar.setEnabled(false);
+        btEliminar.setEnabled(false);
+        btNuevo.setEnabled(true);
+        btGuardar.setEnabled(false);
+        btCancelar.setEnabled(false);
+        btActualizar.setEnabled(false);
+        
+        cbMes.setEnabled(false);
+        txMonto.setEnabled(false);
+                
+        DefaultTableCellRenderer renderer = (DefaultTableCellRenderer)Grilla.getTableHeader().getDefaultRenderer();  //Centra los encabezados de la Tabla
+        renderer.setHorizontalAlignment(JLabel.CENTER); 
+        
+        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer(); 
+        Alinear.setHorizontalAlignment(SwingConstants.CENTER);
+        
+        for (int i = 0; i < 8;i++){
+        
+           Grilla.getColumnModel().getColumn(i).setCellRenderer(Alinear);                      //Centra los datos de cada columna de la Tabla
+        
+        }
+        
+        Tabla = (DefaultTableModel) Grilla.getModel();
+        
+     //********************************************************************************//    
+        for (int c = 0; c < Grilla.getColumnCount(); c++){
+            
+            Class<?> col_class = Grilla.getColumnClass(c);
+            Grilla.setDefaultEditor(col_class, null);                                       // Tabla queda "enabled", pero no "editable"
+        }
+        
+     //********************************************************************************//   
+        
+        
+    }
+ 
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        cbItem = new javax.swing.JComboBox();
+        cbAgno = new javax.swing.JComboBox<String>();
+        cbMes = new javax.swing.JComboBox<String>();
+        jLabel8 = new javax.swing.JLabel();
+        txMonto = new javax.swing.JTextField();
+        btAgregar = new javax.swing.JButton();
+        btEliminar = new javax.swing.JButton();
+        btCargar = new javax.swing.JButton();
+        btGuardar = new javax.swing.JButton();
+        btNuevo = new javax.swing.JButton();
+        btCancelar = new javax.swing.JButton();
+        btLimpiar = new javax.swing.JButton();
+        btActualizar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        Grilla = new javax.swing.JTable();
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel2.setText("BONO / COMISION");
+
+        cbItem.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione Item", "CUMPLIMIENTO PRESUPUESTO / VENTAS/FACTURACION", "CUMPLIMIENTO PRESUPUESTO ALIMENTOS PERECIBLES Y NO PERECIBLES", "GESTION DE COBRANZA SALUD", "GESTION DE COBRANZA MUNICIPAL ", "GESTION DE COBRANZA GENERAL", "COMISION POR VENTAS", "CUMPLIMIENTO PRESUPUESTO DE VENTA, ARRIENDO Y SUMINISTROS IMPRESORAS", "CUMPLIMIENTO PRESUPUESTO NEUMATICOS, LUBRICANTES, ACCESORIOS PARA VEHICULOS Y SERVICIOS COMPLEMENTARIOS", "CUMPLIMIENTO PRESUPUESTO MATERIAL DIDÁCTICO, INSTRUMENTOS MUSICALES E IMPLEMENTOS DEPORTIVOS", "CUMPLIMIENTO PRESUPUESTO MENAJE, ASEO Y CUIDADO PERSONAL", "CUMPLIMIENTO PRESUPUESTO MOBILIARIO GRAL., OFICINA, ESCOLAR, CLINICO, URBANO", "CUMPLIMIENTO PRESUPUESTO CM ARTICULOS DE ESCRITORIO Y PAPELERIA", "CUMPLIMIENTO PRESUPUESTO ORTESIS, PROTESIS, ENDOPROTESIS, E INSUMOS DE SALUD" }));
+        cbItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbItemActionPerformed(evt);
+            }
+        });
+
+        cbAgno.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "AÑO", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028" }));
+        cbAgno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbAgnoActionPerformed(evt);
+            }
+        });
+
+        cbMes.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "MES", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE" }));
+        cbMes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbMesActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("Monto");
+
+        txMonto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txMontoKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txMontoKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txMontoKeyTyped(evt);
+            }
+        });
+
+        btAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos16/Agregar.png"))); // NOI18N
+        btAgregar.setText("Agregar");
+        btAgregar.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+                btAgregarAncestorRemoved(evt);
+            }
+        });
+        btAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAgregarActionPerformed(evt);
+            }
+        });
+
+        btEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos22/Eliminar.png"))); // NOI18N
+        btEliminar.setText("Eliminar");
+        btEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btEliminarActionPerformed(evt);
+            }
+        });
+
+        btCargar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos22/Cargar.png"))); // NOI18N
+        btCargar.setText("CARGAR");
+        btCargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCargarActionPerformed(evt);
+            }
+        });
+
+        btGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos16/save16.png"))); // NOI18N
+        btGuardar.setText("Guardar");
+        btGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btGuardarActionPerformed(evt);
+            }
+        });
+
+        btNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos16/New.png"))); // NOI18N
+        btNuevo.setText("Nuevo");
+        btNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btNuevoActionPerformed(evt);
+            }
+        });
+
+        btCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos16/Cancel16.png"))); // NOI18N
+        btCancelar.setText("Cancelar");
+        btCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCancelarActionPerformed(evt);
+            }
+        });
+
+        btLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/refresh16.png"))); // NOI18N
+        btLimpiar.setText("Limpiar");
+        btLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btLimpiarActionPerformed(evt);
+            }
+        });
+
+        btActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos16/Actualiza.png"))); // NOI18N
+        btActualizar.setText("Actualizar");
+        btActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btActualizarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)
+                        .addComponent(btLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbAgno, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(105, 105, 105)
+                        .addComponent(btCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(19, 138, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btCargar, javax.swing.GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE)
+                        .addGap(63, 63, 63))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(cbItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(27, 27, 27)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cbAgno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txMonto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8)
+                    .addComponent(btAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(11, 11, 11))
+        );
+
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel1.setText("BONOS Y COMISIONES");
+
+        Grilla.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "META", "META MINIMA AL 90%", "RESULTADO", "AÑO", "MES", "CODIGO", "LOGRADO", "ESTADO"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        Grilla.setUpdateSelectionOnSort(false);
+        jScrollPane1.setViewportView(Grilla);
+        if (Grilla.getColumnModel().getColumnCount() > 0) {
+            Grilla.getColumnModel().getColumn(5).setMinWidth(0);
+            Grilla.getColumnModel().getColumn(5).setPreferredWidth(0);
+            Grilla.getColumnModel().getColumn(5).setMaxWidth(0);
+        }
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void cbItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbItemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbItemActionPerformed
+
+    private void cbAgnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAgnoActionPerformed
+
+    }//GEN-LAST:event_cbAgnoActionPerformed
+
+    private void cbMesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbMesActionPerformed
+
+    }//GEN-LAST:event_cbMesActionPerformed
+
+    private void txMontoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txMontoKeyPressed
+
+    }//GEN-LAST:event_txMontoKeyPressed
+
+    private void txMontoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txMontoKeyReleased
+
+    }//GEN-LAST:event_txMontoKeyReleased
+
+    private void txMontoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txMontoKeyTyped
+
+        char validar = evt.getKeyChar();
+
+        if (Character.isLetter(validar)){   //se valida que solo se ingresen
+            evt.consume();                  //números al textfield "txRut"
+        }
+    }//GEN-LAST:event_txMontoKeyTyped
+
+    private void btAgregarAncestorRemoved(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_btAgregarAncestorRemoved
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btAgregarAncestorRemoved
+
+    private void btAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAgregarActionPerformed
+
+        double resultado = 0;
+        double metam = 0;
+
+        String logrado = "no";
+        String estado = "cerrado";
+
+        if (cbMes.getSelectedIndex() == 0){
+
+            fmMain.Mensaje("Debe elegir un Mes");
+            return;
+        }
+
+        if (txMonto.getText().equals("")){
+
+            fmMain.Mensaje("Debe Ingresar un Monto");
+            return;
+        }
+
+        for (int i=0; i < Tabla.getRowCount();i++){
+
+            String agno =  Tabla.getValueAt(i, 3).toString().trim();
+            int mes = (int) Tabla.getValueAt(i, 4);
+            int codigo = (int) Tabla.getValueAt(i, 5);
+
+            if (cbAgno.getSelectedItem().equals(agno) && cbMes.getSelectedIndex() == mes && cbItem.getSelectedIndex() == codigo){    //Si registro que se quiere agregar ya existe
+
+                fmMain.Mensaje("Registro ya existe!!");
+                txMonto.setText("");
+                return;
+            }
+        }
+
+        btEliminar.setEnabled(true);
+        btNuevo.setEnabled(false);
+        btGuardar.setEnabled(true);
+        btCancelar.setEnabled(true);
+
+        int agno2 = Integer.parseInt(cbAgno.getSelectedItem().toString().trim());
+        int mes2 = cbMes.getSelectedIndex();
+
+        if(cbItem.getSelectedIndex() == 1){                     //PRESUPUESTO, VENTAS y FACTURACION
+
+            Calculo_Ventas(agno2,mes2,1);           //entrega el total facturado en tiempo real, de acuerdo al año, mes y codigo entregado
+
+            resultado = totalv;
+
+            double monto = Double.parseDouble(txMonto.getText());
+           // metam = (monto * 0.9);                      //Se calcula la Meta Mínima (90% de la Meta General)
+              metam = (monto * 1);                      //Se calcula la Meta Mínima (100% de la Meta General)
+            
+            if (resultado >= metam){                    //Si el Monto Facturado es Mayor o igual a la Meta Mínima
+
+                logrado = "si";                             //Se cumplió la meta
+
+            }else{
+
+                logrado = "no";
+            }
+
+            if (agno2 == year){                        //Si el registro es del año en curso
+
+                if (mes2 < month){                      //si el registro es de un mes anterior al actual
+
+                    estado = "cerrado";                     //entonces debe estar cerrado
+
+                }else if (mes2 == month){               //Si el registro es del mes en curso
+
+                    estado = "abierto";                 //entonces debe estar abierto
+
+                }else if (mes2 > month){                //Si el registro es de un mes superior al actual
+
+                    estado = "abierto";                 //aún no se cursa, así que debe estar abierto.
+
+                }
+
+            }else if (agno2 < year){                    //Si el registro es un año anterior al actual
+
+                estado = "cerrado";                     //Debe estar cerrado
+            }
+
+            Tabla.addRow(new Object[]{ "$ "+formateador.format(monto), "$ "+formateador.format(metam), "$ "+formateador.format(resultado),
+                                       cbAgno.getSelectedItem(), cbMes.getSelectedIndex(), cbItem.getSelectedIndex(), logrado.trim(), estado.trim() });
+
+            txMonto.setText("");
+
+        }else if(cbItem.getSelectedIndex() == 2 || cbItem.getSelectedIndex() == 7 || cbItem.getSelectedIndex() == 8 || cbItem.getSelectedIndex() == 9){
+
+            //CUMPLIMIENTO PRESUPUESTO (LUIS LLANOS)
+
+            ExeSql Sql = new ExeSql();
+            ResultSet Rs = null;
+
+            int cod_conv = 0;
+            int codigo = cbItem.getSelectedIndex();
+            double meta = meta = Double.parseDouble(txMonto.getText());
+            double diferencia = 0;
+
+            if (codigo == 2){
+
+                cod_conv = 4;
+
+            }else if (codigo == 7){
+
+                cod_conv = 5;
+
+            }else if (codigo == 8){
+
+                cod_conv = 8;
+
+            }else if (codigo == 9){
+
+                cod_conv = 10;
+
+            }
+
+            try {
+                Rs = Sql.Select("SELECT conv.convenio, sum(ocd.totlinea) as total \n"+
+                                "FROM occh oc \n" +
+                                "LEFT JOIN occhdet ocd ON oc.rut = ocd.rut AND oc.codigo_oc = ocd.codigo_oc AND oc.orden = ocd.orden\n" +
+                                "LEFT JOIN producto p ON ocd.sku=p.sku \n" +
+                                "LEFT JOIN par_convenio conv ON conv.codigo=p.convenio \n" +
+                                "WHERE EXTRACT (YEAR FROM oc.femision)="+agno2+" \n" +
+                                "AND EXTRACT (MONTH FROM oc.femision)="+mes2+"\n" +
+                                "AND p.convenio IN ("+cod_conv+") \n" +
+                                "GROUP BY conv.codigo");
+
+                if (Sql.GetRowCount() > 0){
+
+                    Rs.next();
+                    resultado = Rs.getDouble("total");
+                    diferencia = resultado - meta;
+
+                    if (diferencia >= 0){
+
+                        logrado = "si";
+
+                    }else{
+                        logrado = "no";
+
+                    }
+
+                    if (agno2 == year){                        //Si el registro es del año en curso
+
+                        if (mes2 < month){                      //si el registro es de un mes anterior al actual
+
+                            estado = "cerrado";                     //entonces debe estar cerrado
+
+                        }else if (mes2 == month){               //Si el registro es del mes en curso
+
+                            estado = "abierto";                 //entonces debe estar abierto
+
+                        }
+
+                    }else if (agno2 < year){                    //Si el registro es un año anterior al actual
+
+                        estado = "cerrado";                     //Debe estar cerrado
+                    }
+
+                }else{
+
+                    if (mes2 > month){               //Si el registro es del mes en curso
+
+                        estado = "abierto";                 //entonces debe estar abierto
+                        logrado = "no";
+                        resultado = 0;
+                        diferencia = 0;
+
+                    }
+                }
+
+                Tabla.addRow(new Object[]{ "$ "+formateador.format(meta), "$ "+formateador.format(resultado), "$ "+formateador.format(diferencia),
+                    cbAgno.getSelectedItem(), cbMes.getSelectedIndex(), cbItem.getSelectedIndex(), logrado.trim(), estado.trim() });
+
+            txMonto.setText("");
+
+        }catch (SQLException ex) {
+
+            Logger.getLogger(jdBonosyComisiones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        }else if(cbItem.getSelectedIndex() == 10 || cbItem.getSelectedIndex() == 11 || cbItem.getSelectedIndex() == 12 || cbItem.getSelectedIndex() == 13){
+
+            //CUMPLIMIENTO PRESUPUESTO (CAMILA)
+
+            ExeSql Sql = new ExeSql();
+            ResultSet Rs = null;
+
+            int cod_conv = 0;
+            int codigo = cbItem.getSelectedIndex();
+            double meta = meta = Double.parseDouble(txMonto.getText());
+            double diferencia = 0;
+
+            if (codigo == 10){
+
+                cod_conv = 3;
+
+            }else if (codigo == 11){
+
+                cod_conv = 6;
+
+            }else if (codigo == 12){
+
+                cod_conv = 7;
+
+            }else if (codigo == 13){
+
+                cod_conv = 9;
+
+            }
+
+            try {
+                Rs = Sql.Select("SELECT conv.convenio, sum(ocd.totlinea) as total \n"+
+                                "FROM occh oc \n" +
+                                "LEFT JOIN occhdet ocd ON oc.rut = ocd.rut AND oc.codigo_oc = ocd.codigo_oc AND oc.orden = ocd.orden\n" +
+                                "LEFT JOIN producto p ON ocd.sku=p.sku \n" +
+                                "LEFT JOIN par_convenio conv ON conv.codigo=p.convenio \n" +
+                                "WHERE EXTRACT (YEAR FROM oc.femision)="+agno2+" \n" +
+                                "AND EXTRACT (MONTH FROM oc.femision)="+mes2+"\n" +
+                                "AND p.convenio IN ("+cod_conv+") \n" +
+                                "GROUP BY conv.codigo");
+
+                if (Sql.GetRowCount() > 0){
+
+                    Rs.next();
+                    resultado = Rs.getDouble("total");
+                    diferencia = resultado - meta;
+
+                    if (diferencia >= 0){
+
+                        logrado = "si";
+
+                    }else{
+                        logrado = "no";
+
+                    }
+
+                    if (agno2 == year){                        //Si el registro es del año en curso
+
+                        if (mes2 < month){                      //si el registro es de un mes anterior al actual
+
+                            estado = "cerrado";                     //entonces debe estar cerrado
+
+                        }else if (mes2 == month){               //Si el registro es del mes en curso
+
+                            estado = "abierto";                 //entonces debe estar abierto
+
+                        }
+
+                    }else if (agno2 < year){                    //Si el registro es un año anterior al actual
+
+                        estado = "cerrado";                     //Debe estar cerrado
+                    }
+
+                }else{
+
+                    if (mes2 > month){               //Si el registro es del mes en curso
+
+                        estado = "abierto";                 //entonces debe estar abierto
+                        logrado = "no";
+                        resultado = 0;
+                        diferencia = 0;
+
+                    }
+                }
+
+                Tabla.addRow(new Object[]{ "$ "+formateador.format(meta), "$ "+formateador.format(resultado), "$ "+formateador.format(diferencia),
+                    cbAgno.getSelectedItem(), cbMes.getSelectedIndex(), cbItem.getSelectedIndex(), logrado.trim(), estado.trim() });
+
+            txMonto.setText("");
+
+        }catch (SQLException ex) {
+
+            Logger.getLogger(jdBonosyComisiones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        else if(cbItem.getSelectedIndex() == 3 || cbItem.getSelectedIndex() == 4 || cbItem.getSelectedIndex() == 5) {              //COBRANZA
+
+            double diferencia = 0;
+
+            Calculo_Cobranza(agno2,mes2,cbItem.getSelectedIndex());
+
+            resultado = totalcob;
+            metam = Double.parseDouble(txMonto.getText());
+
+            diferencia = resultado - metam;
+
+            // double monto = Double.parseDouble(txMonto.getText());
+            // metam = (monto * 0.9);
+
+            if (resultado >= metam){
+
+                logrado = "si";
+
+            }else{
+
+                logrado = "no";
+            }
+
+            if (agno2 == year){                        //Si el registro es del año en curso
+
+                if (mes2 < month){                      //si el registro es de un mes anterior al actual
+
+                    estado = "cerrado";                     //entonces debe estar cerrado
+
+                }else if (mes2 == month){               //Si el registro es del mes en curso
+
+                    estado = "abierto";                 //entonces debe estar abierto
+
+                }else if (mes2 > month){                //Si el registro es de un mes superior al actual
+
+                    estado = "abierto";                 //aún no se cursa, así que debe estar abierto.
+
+                }
+
+            }else if (agno2 < year){                    //Si el registro es un año anterior al actual
+
+                estado = "cerrado";                     //Debe estar cerrado
+            }
+
+            Tabla.addRow(new Object[]{ "$ "+formateador.format(metam), "$ "+formateador.format(resultado), "$ "+formateador.format(diferencia),
+                cbAgno.getSelectedItem(), cbMes.getSelectedIndex(), cbItem.getSelectedIndex(), logrado.trim(), estado.trim() });
+
+        txMonto.setText("");
+
+        }else  if(cbItem.getSelectedIndex() == 6){                              //VENTAS (ALEJANDRO)
+
+            Calculo_Ventas(agno2,mes2,2);           //entrega el total facturado en tiempo real
+
+            resultado = totalv;
+
+            double monto = Double.parseDouble(txMonto.getText());
+            metam = (monto * 1);
+
+            if (resultado >= metam){
+
+                logrado = "si";
+
+            }else{
+
+                logrado = "no";
+            }
+
+            if (agno2 == year){                        //Si el registro es del año en curso
+
+                if (mes2 < month){                      //si el registro es de un mes anterior al actual
+
+                    estado = "cerrado";                     //entonces debe estar cerrado
+
+                }else if (mes2 == month){               //Si el registro es del mes en curso
+
+                    estado = "abierto";                 //entonces debe estar abierto
+
+                }else if (mes2 > month){                //Si el registro es de un mes superior al actual
+
+                    estado = "abierto";                 //aún no se cursa, así que debe estar abierto.
+
+                }
+
+            }else if (agno2 < year){                    //Si el registro es un año anterior al actual
+
+                estado = "cerrado";                     //Debe estar cerrado
+            }
+
+            Tabla.addRow(new Object[]{ "$ "+formateador.format(monto), "$ "+formateador.format(metam), "$ "+formateador.format(resultado),
+                cbAgno.getSelectedItem(), cbMes.getSelectedIndex(), cbItem.getSelectedIndex(), logrado.trim(), estado.trim() });
+
+        txMonto.setText("");
+
+        }
+    }//GEN-LAST:event_btAgregarActionPerformed
+
+    private void btEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEliminarActionPerformed
+
+        if(fmMain.OkCancel("Está seguro de eliminar registro?") == JOptionPane.OK_OPTION){                              //Se solicita confirmación de la eliminacion
+
+            ExeSql Sql = new ExeSql();
+
+            try{
+                Sql.ExeSql("DELETE FROM bono_comision WHERE codigo ="+ Tabla.getValueAt(Grilla.getSelectedRow(), 5) +" \n"+     //Se elimina registro de Tabla "bono_comision"
+                           "AND agno="+Tabla.getValueAt(Grilla.getSelectedRow(), 3)+ " \n" +
+                           "AND mes="+Tabla.getValueAt(Grilla.getSelectedRow(), 4));
+
+                Tabla.removeRow(Grilla.getSelectedRow());                           //Se borra el registro de la Grilla
+
+            }catch (SQLException ex) {
+
+                Logger.getLogger(jdBonosyComisiones.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+
+    }//GEN-LAST:event_btEliminarActionPerformed
+
+    private void btCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCargarActionPerformed
+
+        String logrado = "no";
+        String estado = "";
+
+        if (cbItem.getSelectedIndex() == 0){
+
+            fmMain.Mensaje("Debe elegir un Item");
+            return;
+        }
+
+        if (cbAgno.getSelectedIndex() == 0){
+
+            fmMain.Mensaje("Debe elegir un Año");
+            return;
+        }
+
+        if(Integer.parseInt(cbAgno.getSelectedItem().toString()) > year){       //Si el año elegido es mayor al año en curso
+
+            fmMain.Mensaje("Año fuera de rango!!");                              //El año está fuera de rango porque aún no hay registros.
+            return;
+        }
+
+        btEliminar.setEnabled(true);
+        fmMain.LimpiaGrilla((DefaultTableModel) Grilla.getModel());              //Se limpia la Tabla
+
+        ExeSql Sql2 = new ExeSql();
+        ResultSet Rs2;
+
+        //********************************************************************************************************
+        if(cbItem.getSelectedIndex() == 1){                                 //COMISION POR VENTAS, BONOS FACTURACION Y PRESUPUESTO GENERAL
+
+            Calculo_Ventas(year,month,1);
+
+            formato_columnas(1);
+
+            Tabla = (DefaultTableModel) Grilla.getModel();
+
+            try {
+
+                Rs2 = Sql2.Select("SELECT * FROM bono_comision \n"+
+                                  "WHERE codigo = "+cbItem.getSelectedIndex()+"\n" +
+                                  "AND agno = "+cbAgno.getSelectedItem() +"\n" +
+                                  "ORDER BY mes ASC");
+
+                if (Sql2.GetRowCount() > 0){
+
+                    double resultado = 0;
+
+                    while (Rs2.next()){
+
+                        if (Rs2.getInt("agno") == year){
+
+                            if (Rs2.getInt("mes") == month){                        //Si el registro es el mes en curso se actualiza el Monto
+
+                                Calculo_Ventas(year,month,1);
+                                resultado = totalv;                                 //en la Grilla
+                                estado = "abierto";
+                                double metam = Rs2.getDouble("valor_metamin");
+
+                                if (resultado >= metam){                    //Si el Monto Facturado es Mayor o igual a la Meta Mínima
+
+                                    logrado = "si";                             //Se cumplió la meta
+
+                                }else{
+
+                                    logrado = "no";
+                                }
+
+                            }else if (Rs2.getInt("mes") < month){
+
+                                resultado =  Rs2.getDouble("valor_resultado");
+                                logrado = Rs2.getString("logrado").trim();
+                                estado = "cerrado";
+
+                            }else if (Rs2.getInt("mes") > month){
+
+                                resultado =  0;
+                                logrado = "no";
+                                estado = "abierto";
+
+                            }
+
+                        }else{                                                  //Si es un Anño anterior de rescata el Valor Final de este desde la Tabla "bono_comision"
+
+                            resultado =  Rs2.getDouble("valor_resultado");
+                            logrado = Rs2.getString("logrado").trim();
+                            estado = "cerrado";
+                        }
+
+                        Tabla.addRow(new Object[]{"$ "+formateador.format(Rs2.getDouble("valor_meta")),"$ "+formateador.format(Rs2.getDouble("valor_metamin")),
+                            "$ "+formateador.format(resultado),Rs2.getInt("agno"),Rs2.getInt("mes"),Rs2.getInt("codigo"),
+                            logrado, estado});
+
+                }
+
+                if (Integer.parseInt(cbAgno.getSelectedItem().toString()) == year){  //Se acutalizan los datos del mes en curso solo si es el año en curso
+
+                    btActualizar.setEnabled(true);
+                }else{
+
+                    btActualizar.setEnabled(false);
+
+                }
+
+            }else if (Sql2.GetRowCount() == 0 && carga == 0){
+
+                if(fmMain.OkCancel("        No existe registro. \n ¿Desea crear uno Nuevo?") == JOptionPane.OK_OPTION){  //Si el registro no existe, se da la opcion a crearlo
+
+                    btNuevo.doClick();
+                }
+
+            }
+
+        }catch (SQLException ex) {
+
+            Logger.getLogger(jdBonosyComisiones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        }else if(cbItem.getSelectedIndex() == 2 || cbItem.getSelectedIndex() == 7 || cbItem.getSelectedIndex() == 8 || cbItem.getSelectedIndex() == 9) {          //BONO CUMPLIMIENTO PRESUPUESTO   (LLANOS)
+
+            int codigo = cbItem.getSelectedIndex();
+            int cod_conv = 0;
+
+            if (codigo == 2){
+
+                cod_conv = 4;
+
+            }else if (codigo == 7){
+
+                cod_conv = 5;
+
+            }else if (codigo == 8){
+
+                cod_conv = 8;
+
+            }else if (codigo == 9){
+
+                cod_conv = 10;
+
+            }
+
+            double resultado = 0;
+
+            double diferencia = 0;
+
+            formato_columnas(3);
+
+            Tabla = (DefaultTableModel) Grilla.getModel();
+
+            try {
+
+                Rs2 = Sql2.Select("SELECT * FROM bono_comision \n"+
+                                  "WHERE codigo = "+cbItem.getSelectedIndex()+"\n" +
+                                  "AND agno = "+cbAgno.getSelectedItem() +"\n" +
+                                  "ORDER BY mes ASC");
+
+                if (Sql2.GetRowCount() > 0){
+
+                    while (Rs2.next()){
+
+                        if (Rs2.getInt("agno") == year){
+
+                            if (Rs2.getInt("mes") == month){
+
+                                ExeSql Sql = new ExeSql();
+                                ResultSet Rs = null; 
+
+//                                //**************************************************************************************************//
+//
+//                                Rs = Sql.Select("SELECT conv.convenio, sum(ocd.totlinea) as total \n"+
+//                                                "FROM occh oc \n" +
+//                                                "LEFT JOIN occhdet ocd ON oc.rut = ocd.rut AND oc.codigo_oc = ocd.codigo_oc AND oc.orden = ocd.orden\n" +
+//                                                "LEFT JOIN producto p ON ocd.sku=p.sku \n" +
+//                                                "LEFT JOIN par_convenio conv ON conv.codigo=p.convenio \n" +
+//                                                "WHERE EXTRACT (YEAR FROM oc.femision)="+year+" \n" +
+//                                                "AND EXTRACT (MONTH FROM oc.femision)="+month+"\n" +
+//                                                "AND p.convenio IN ("+cod_conv+") \n" +
+//                                                "GROUP BY conv.codigo");
+
+                                
+                                  Rs = Sql.Select("select convenio, sum(totventa) as total from (select c.femision, p.convenio as codcon, conv.convenio as convenio, sum(d.cantidad), p.nombre, p.valultcompra,  p.costopromedio,round(d.valorunitario), round(CAST((sum(round(d.cantidad))*d.valorunitario) as numeric)) as totventa\n" +
+                            "from occh c\n" +
+                            "left join occhdet d on c.rut=d.rut and c.orden=d.orden and c.codigo_oc=d.codigo_oc \n" +
+                            "left join producto p on d.sku=p.sku \n" +
+                            "left join par_convenio conv on conv.codigo=p.convenio \n" +
+                            "right join occh_portal op on c.codigo_oc = op.codigo_oc and c.orden = lower(op.orden) \n" +
+                            "where extract(year from cast(c.femision as date))="+year+" \n" +
+                            "and extract(month from cast(c.femision as date))="+month+" \n" +
+                            "AND p.convenio IN ('"+cod_conv+"') \n" +
+                            "group by c.femision, p.convenio, conv.convenio, nombre, p.valultcompra,  p.costopromedio,d.valorunitario) as sel group by convenio");
+                                
+                                if (Sql.GetRowCount() > 0){
+
+                                    Rs.next();
+                                    resultado = Rs.getDouble("total");
+                                    diferencia = resultado - Rs2.getDouble("valor_meta");
+
+                                }else{
+                                    resultado = 0;
+                                    diferencia = resultado - Rs2.getDouble("valor_meta");
+
+                                }
+
+                                //****************************************************************************************************************//
+
+                                if (diferencia >= 0){                    //Si el Monto Facturado es Mayor o igual a la Meta Mínima
+
+                                    logrado = "si";                             //Se cumplió la meta
+
+                                }else{
+
+                                    logrado = "no";
+                                }
+
+                                estado = "abierto";
+
+                            }else if (Rs2.getInt("mes") < month){
+
+                                resultado =  Rs2.getDouble("valor_metamin");
+                                diferencia = Rs2.getDouble("valor_resultado");
+                                logrado = Rs2.getString("logrado");
+                                estado = "cerrado";
+
+                            }else if (Rs2.getInt("mes") > month){
+
+                                resultado =  0;
+                                diferencia = 0;
+                                logrado = "no";
+                                estado = "abierto";
+
+                            }
+
+                        }else{                                                  //Si es un año anterior
+                        
+                          resultado =  Rs2.getDouble("valor_metamin");
+                          diferencia = Rs2.getDouble("valor_resultado");
+                          logrado = Rs2.getString("logrado");
+                          estado = "cerrado";
+                        }
+                        
+                        Tabla.addRow(new Object[]{"$ "+formateador.format(Rs2.getDouble("valor_meta")),"$ "+formateador.format(resultado),
+                            "$ "+formateador.format(diferencia),Rs2.getInt("agno"),Rs2.getInt("mes"),Rs2.getInt("codigo"),
+                            logrado, estado});
+
+                    if (Integer.parseInt(cbAgno.getSelectedItem().toString()) == year){
+
+                        btActualizar.setEnabled(true);
+                    }else{
+
+                        btActualizar.setEnabled(false);
+
+                    }
+                }
+
+            }else if (Sql2.GetRowCount() == 0 && carga == 0){
+
+                if(fmMain.OkCancel("        No existe registro. \n ¿Desea crear uno Nuevo?") == JOptionPane.OK_OPTION){
+
+                    btNuevo.doClick();
+                }
+
+            }
+            //   Grilla.removeColumn(Grilla.getColumnModel().getColumn(5));    //oculta columna
+        } catch (SQLException ex) {
+            Logger.getLogger(jdBonosyComisiones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        }else if(cbItem.getSelectedIndex() == 10 || cbItem.getSelectedIndex() == 11 || cbItem.getSelectedIndex() == 12 || cbItem.getSelectedIndex() == 13) {          //BONO CUMPLIMIENTO PRESUPUESTO   (CAMILA)
+
+            int codigo = cbItem.getSelectedIndex();
+            int cod_conv = 0;
+
+            if (codigo == 10){
+
+                cod_conv = 3;
+
+            }else if (codigo == 11){
+
+                cod_conv = 6;
+
+            }else if (codigo == 12){
+
+                cod_conv = 7;
+
+            }else if (codigo == 13){
+
+                cod_conv = 9;
+
+            }
+
+            double resultado = 0;
+
+            double diferencia = 0;
+
+            formato_columnas(3);
+
+            Tabla = (DefaultTableModel) Grilla.getModel();
+
+            try {
+
+                Rs2 = Sql2.Select("SELECT * FROM bono_comision \n"+
+                                  "WHERE codigo = "+cbItem.getSelectedIndex()+"\n" +
+                                  "AND agno = "+cbAgno.getSelectedItem() +"\n" +
+                                  "ORDER BY mes ASC");
+
+                if (Sql2.GetRowCount() > 0){
+
+                    while (Rs2.next()){
+
+                        if (Rs2.getInt("agno") == year){
+
+                            if (Rs2.getInt("mes") == month){
+
+                                ExeSql Sql = new ExeSql();
+                                ResultSet Rs = null;
+
+                                //**************************************************************************************************//
+//
+//                                Rs = Sql.Select("SELECT conv.convenio, sum(ocd.totlinea) as total \n"+
+//                                                "FROM occh oc \n" +
+//                                                "LEFT JOIN occhdet ocd ON oc.rut = ocd.rut AND oc.codigo_oc = ocd.codigo_oc AND oc.orden = ocd.orden\n" +
+//                                                "LEFT JOIN producto p ON ocd.sku=p.sku \n" +
+//                                                "LEFT JOIN par_convenio conv ON conv.codigo=p.convenio \n" +
+//                                                "WHERE EXTRACT (YEAR FROM oc.femision)="+year+" \n" +
+//                                                "AND EXTRACT (MONTH FROM oc.femision)="+month+"\n" +
+//                                                "AND p.convenio IN ("+cod_conv+") \n" +
+//                                                "GROUP BY conv.codigo");
+                                
+                                
+                                Rs = Sql.Select("select convenio, sum(totventa) as total from (select c.femision, p.convenio as codcon, conv.convenio as convenio, sum(d.cantidad), p.nombre, p.valultcompra,  p.costopromedio,round(d.valorunitario), round(CAST((sum(round(d.cantidad))*d.valorunitario) as numeric)) as totventa\n" +
+                            "from occh c\n" +
+                            "left join occhdet d on c.rut=d.rut and c.orden=d.orden and c.codigo_oc=d.codigo_oc \n" +
+                            "left join producto p on d.sku=p.sku \n" +
+                            "left join par_convenio conv on conv.codigo=p.convenio \n" +
+                            "right join occh_portal op on c.codigo_oc = op.codigo_oc and c.orden = lower(op.orden) \n" +
+                            "where op.mes ="+month+" and op.agno = "+year+" and extract(year from cast(c.femision as date))="+year+" \n" +            
+                            "and extract(month from cast(c.femision as date))="+month+" \n" +
+                            "AND p.convenio IN ('"+cod_conv+"') \n" +
+                            "group by c.femision, p.convenio, conv.convenio, nombre, p.valultcompra,  p.costopromedio,d.valorunitario) as sel group by convenio");
+            
+                                
+                                if (Sql.GetRowCount() > 0){
+
+                                    Rs.next();
+                                    resultado = Rs.getDouble("total");
+                                    diferencia = resultado - Rs2.getDouble("valor_meta");
+
+                                }else{
+                                    resultado = 0;
+                                    diferencia = resultado - Rs2.getDouble("valor_meta");
+
+                                }
+
+                                //****************************************************************************************************************//
+
+                                if (diferencia >= 0){                    //Si el Monto Facturado es Mayor o igual a la Meta Mínima
+
+                                    logrado = "si";                             //Se cumplió la meta
+
+                                }else{
+
+                                    logrado = "no";
+                                }
+
+                                estado = "abierto";
+
+                            }else if (Rs2.getInt("mes") < month){
+
+                                resultado =  Rs2.getDouble("valor_metamin");
+                                diferencia = Rs2.getDouble("valor_resultado");
+                                logrado = Rs2.getString("logrado");
+                                estado = "cerrado";
+
+                            }else if (Rs2.getInt("mes") > month){
+
+                                resultado =  0;
+                                diferencia = 0;
+                                logrado = "no";
+                                estado = "abierto";
+
+                            }
+
+                        }else{                                                  //Si es un año anterior
+                        
+                          resultado =  Rs2.getDouble("valor_metamin");
+                          diferencia = Rs2.getDouble("valor_resultado");
+                          logrado = Rs2.getString("logrado");
+                          estado = "cerrado";
+                        }
+                        
+                        Tabla.addRow(new Object[]{"$ "+formateador.format(Rs2.getDouble("valor_meta")),"$ "+formateador.format(resultado),
+                            "$ "+formateador.format(diferencia),Rs2.getInt("agno"),Rs2.getInt("mes"),Rs2.getInt("codigo"),
+                            logrado, estado});
+
+                    if (Integer.parseInt(cbAgno.getSelectedItem().toString()) == year){
+
+                        btActualizar.setEnabled(true);
+                    }else{
+
+                        btActualizar.setEnabled(false);
+
+                    }
+                }
+
+            }else if (Sql2.GetRowCount() == 0 && carga == 0){
+
+                if(fmMain.OkCancel("        No existe registro. \n ¿Desea crear uno Nuevo?") == JOptionPane.OK_OPTION){
+
+                    btNuevo.doClick();
+                }
+
+            }
+            //   Grilla.removeColumn(Grilla.getColumnModel().getColumn(5));    //oculta columna
+        } catch (SQLException ex) {
+            Logger.getLogger(jdBonosyComisiones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        }else if(cbItem.getSelectedIndex() == 3 || cbItem.getSelectedIndex() == 4 || cbItem.getSelectedIndex() == 5) {    //COMISION COBRANZA
+
+            double diferencia = 0;
+
+            formato_columnas(3);
+
+            Tabla = (DefaultTableModel) Grilla.getModel();
+
+            try {
+
+                Rs2 = Sql2.Select("SELECT * FROM bono_comision \n"+
+                                  "WHERE codigo = "+cbItem.getSelectedIndex()+"\n" +
+                                  "AND agno = "+cbAgno.getSelectedItem() +"\n" +
+                                  "ORDER BY mes ASC");
+
+                if (Sql2.GetRowCount() > 0){
+
+                    double res_minima = 0;
+
+                    while (Rs2.next()){
+
+                        if (Rs2.getInt("agno") == year){
+
+                            if (Rs2.getInt("mes") == month){
+
+                                Calculo_Cobranza(year,month,cbItem.getSelectedIndex());
+
+                                res_minima = totalcob;
+                                diferencia = res_minima - Rs2.getDouble("valor_meta");
+
+                                if (res_minima >= Rs2.getDouble("valor_meta")){                    //Si el Monto Facturado es Mayor o igual a la Meta Mínima
+
+                                    logrado = "si";                             //Se cumplió la meta
+
+                                }else{
+
+                                    logrado = "no";
+                                }
+
+                                estado = "abierto";
+
+                            }else if (Rs2.getInt("mes") == month-1){
+
+                                Calculo_Cobranza(year,month,cbItem.getSelectedIndex());
+
+                                res_minima = totalcob2;
+                                diferencia = res_minima - Rs2.getDouble("valor_meta");
+
+                                if (res_minima >= Rs2.getDouble("valor_meta")){                    //Si el Monto Facturado es Mayor o igual a la Meta Mínima
+
+                                    logrado = "si";                             //Se cumplió la meta
+
+                                }else{
+
+                                    logrado = "no";
+                                }
+
+                                estado = "cerrado";
+
+                            }else if (Rs2.getInt("mes") < month-1 && Rs2.getInt("mes") < month){
+
+                                res_minima =  Rs2.getDouble("valor_metamin");
+                                diferencia = Rs2.getDouble("valor_resultado");
+                                logrado = Rs2.getString("logrado");
+                                estado = "cerrado";
+
+                            }else if (Rs2.getInt("mes") > month){
+
+                                res_minima =  0;
+                                diferencia = 0;
+                                logrado = "no";
+                                estado = "abierto";
+
+                            }
+
+                        }else{                                                  //Cuando es un año anterior
+                        
+                            res_minima =  Rs2.getDouble("valor_metamin");
+                            diferencia = Rs2.getDouble("valor_resultado");
+                            logrado = Rs2.getString("logrado");
+                            estado = "cerrado";
+                        
+                        }
+                        
+                        
+                        
+                        
+                        Tabla.addRow(new Object[]{"$ "+formateador.format(Rs2.getDouble("valor_meta")),"$ "+formateador.format(res_minima),
+                            "$ "+formateador.format(diferencia),Rs2.getInt("agno"),Rs2.getInt("mes"),Rs2.getInt("codigo"),
+                            logrado, estado});
+
+                    if (Integer.parseInt(cbAgno.getSelectedItem().toString()) == year){
+
+                        btActualizar.setEnabled(true);
+                    }else{
+
+                        btActualizar.setEnabled(false);
+
+                    }
+                }
+
+            }else if (Sql2.GetRowCount() == 0 && carga == 0){
+
+                if(fmMain.OkCancel("        No existe registro. \n ¿Desea crear uno Nuevo?") == JOptionPane.OK_OPTION){
+
+                    btNuevo.doClick();
+                }
+
+            }
+            //   Grilla.removeColumn(Grilla.getColumnModel().getColumn(5));    //oculta columna
+        } catch (SQLException ex) {
+            Logger.getLogger(jdBonosyComisiones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        }else if(cbItem.getSelectedIndex() == 6) {                                                    //COMISION POR VENTAS (ALEJANDRO)
+
+            
+
+            formato_columnas(2);
+
+            Tabla = (DefaultTableModel) Grilla.getModel();
+
+            try {
+
+                Rs2 = Sql2.Select("SELECT * FROM bono_comision \n"+
+                                  "WHERE codigo = "+cbItem.getSelectedIndex()+"\n" +
+                                  "AND agno = "+cbAgno.getSelectedItem() +"\n" +
+                                  "ORDER BY mes ASC");
+
+                if (Sql2.GetRowCount() > 0){
+
+                    double resultado = 0;
+
+                    while (Rs2.next()){
+                        
+                        if (Rs2.getInt("agno") == year){
+                            
+                            if (Rs2.getInt("mes") == month){
+                            
+                                Calculo_Ventas(year,month,2);
+                            
+                                resultado = totalv;
+
+                            }else{
+
+                                resultado =  Rs2.getDouble("valor_resultado");
+                            }
+                       
+                        }else {
+                        
+                           resultado =  Rs2.getDouble("valor_resultado");
+                        
+                        } 
+                        
+                        Tabla.addRow(new Object[]{"$ "+formateador.format(Rs2.getDouble("valor_meta")),"$ "+formateador.format(Rs2.getDouble("valor_metamin")),
+                            "$ "+formateador.format(resultado),Rs2.getInt("agno"),Rs2.getInt("mes"),Rs2.getInt("codigo"),
+                            Rs2.getString("logrado").trim(), Rs2.getString("estado").trim() });
+
+                }
+
+                if (Integer.parseInt(cbAgno.getSelectedItem().toString()) == year){
+
+                    btActualizar.setEnabled(true);
+                }else{
+
+                    btActualizar.setEnabled(false);
+
+                }
+
+            }else if (Sql2.GetRowCount() == 0 && carga == 0){
+
+                if(fmMain.OkCancel("        No existe registro. \n ¿Desea crear uno Nuevo?") == JOptionPane.OK_OPTION){
+
+                    btNuevo.doClick();
+                }
+
+            }
+
+        }catch (SQLException ex) {
+
+            Logger.getLogger(jdBonosyComisiones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        }
+
+    }//GEN-LAST:event_btCargarActionPerformed
+
+    private void btGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGuardarActionPerformed
+
+        btEliminar.setEnabled(false);
+        btNuevo.setEnabled(false);
+        btGuardar.setEnabled(false);
+        btCancelar.setEnabled(false);
+        boolean  guardado = false;
+
+        ExeSql Sql = new ExeSql();
+        ExeSql Sql2 = new ExeSql();
+
+        if (nuevo == 0){
+
+            try{
+
+                int elagno = Integer.parseInt(cbAgno.getSelectedItem().toString());
+                Sql.ExeSql("DELETE FROM bono_comision WHERE agno = "+elagno+" AND codigo = "+cbItem.getSelectedIndex());         //Primero se elimina los registros antiguos
+                Sql.Commit();
+
+                for (int i = 0; i < Tabla.getRowCount();i++){
+
+                    int agno3 = Integer.parseInt(Tabla.getValueAt(i,3).toString());             //AÑO
+                    int mes3 = Integer.parseInt(Tabla.getValueAt(i,4).toString());              //MES
+                    int codigo3 = Integer.parseInt(Tabla.getValueAt(i,5).toString());           //CODIGO
+
+                    String tres1 = Tabla.getValueAt(i,0).toString().replaceAll("\\$","");           
+                    String tdres1 = tres1.trim().replaceAll("\\.","");
+                    double dres1 = Double.parseDouble(tdres1.trim());                               //VALOR META
+
+                    String tres2 = Tabla.getValueAt(i,1).toString().replaceAll("\\$","");           
+                    String tdres2 = tres2.trim().replaceAll("\\.","");
+                    double dres2 = Double.parseDouble(tdres2.trim());                               //VALOR META MINIMA
+
+                    String tres3 = Tabla.getValueAt(i,2).toString().replaceAll("\\$","");       
+                    String tdres3 = tres3.trim().replaceAll("\\.","");
+                    double dres3 = Double.parseDouble(tdres3.trim());                               //VALOR RESULTADO
+
+                    String logrado2 = Tabla.getValueAt(i,6).toString();
+                    String estado2 = Tabla.getValueAt(i,7).toString();
+
+                    Sql2.ExeSql("INSERT INTO bono_comision (agno, mes, codigo, valor_meta, valor_metamin, valor_resultado, logrado, estado) \n"+  //Se ingresan los registros actualizados
+                                "VALUES (" + agno3 + "," + mes3 + "," + codigo3 + "," + dres1 + "," + dres2 + "," + dres3 + ",\n '" +
+                                logrado2 + "','" + estado2 + "')");
+
+                    Sql2.Commit();
+
+                    guardado = true;
+
+                }
+
+            }catch (SQLException ex) {
+
+                Sql2.Rollback();
+                Sql.Rollback();
+
+                Logger.getLogger(jdBonosyComisiones.class.getName()).log(Level.SEVERE, null, ex);
+                guardado = false;
+
+            }
+
+            if (guardado){
+
+                fmMain.Mensaje("Registro Guardado con éxito");
+                txMonto.setText("");
+            }
+
+        }
+    }//GEN-LAST:event_btGuardarActionPerformed
+
+    private void btNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNuevoActionPerformed
+
+        nuevo = 0;
+
+        if (cbItem.getSelectedIndex() == 0){
+
+            fmMain.Mensaje("Debe elegir un Item");
+            return;
+        }
+
+        if (cbAgno.getSelectedIndex() == 0){
+
+            fmMain.Mensaje("Debe elegir un Año");
+            return;
+        }
+
+        if(Integer.parseInt(cbAgno.getSelectedItem().toString()) > year){
+
+            fmMain.Mensaje("Año fuera de rango!!");
+            return;
+        }
+
+        carga = 1;
+        btCargar.doClick();
+
+        btAgregar.setEnabled(true);
+        btEliminar.setEnabled(false);
+        btNuevo.setEnabled(false);
+        btGuardar.setEnabled(false);
+        btCancelar.setEnabled(true);
+        btActualizar.setEnabled(false);
+
+        cbMes.setEnabled(true);
+        cbAgno.setEnabled(false);
+        cbItem.setEnabled(false);
+
+        txMonto.setEnabled(true);
+
+    }//GEN-LAST:event_btNuevoActionPerformed
+
+    private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
+
+        btAgregar.setEnabled(false);
+        btEliminar.setEnabled(false);
+        btNuevo.setEnabled(true);
+        btGuardar.setEnabled(false);
+        btCancelar.setEnabled(false);
+        btActualizar.setEnabled(false);
+        btActualizar.setEnabled(false);
+
+        cbMes.setEnabled(false);
+        cbMes.setSelectedIndex(0);
+        cbAgno.setEnabled(true);
+        cbAgno.setSelectedIndex(0);
+        cbItem.setEnabled(true);
+        cbItem.setSelectedIndex(0);
+
+        txMonto.setEnabled(false);
+
+    }//GEN-LAST:event_btCancelarActionPerformed
+
+    private void btLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimpiarActionPerformed
+
+        fmMain.LimpiaGrilla((DefaultTableModel) Grilla.getModel());
+
+        btAgregar.setEnabled(false);
+        btEliminar.setEnabled(false);
+        btNuevo.setEnabled(true);
+        btGuardar.setEnabled(false);
+        btCancelar.setEnabled(false);
+        btActualizar.setEnabled(false);
+
+        cbMes.setEnabled(false);
+        cbMes.setSelectedIndex(0);
+        cbAgno.setEnabled(true);
+        cbAgno.setSelectedIndex(0);
+        cbItem.setEnabled(true);
+        cbItem.setSelectedIndex(0);
+
+        txMonto.setText("");
+        txMonto.setEnabled(false);
+
+        carga = 0;
+
+    }//GEN-LAST:event_btLimpiarActionPerformed
+
+    private void btActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btActualizarActionPerformed
+
+        btEliminar.setEnabled(false);
+        btNuevo.setEnabled(false);
+        btGuardar.setEnabled(false);
+        btCancelar.setEnabled(false);
+        boolean  actualizado = false;
+
+        String tres3 = "";
+        String tdres3 = "";
+        double dres3 = 0;
+        ExeSql Sql = new ExeSql();
+        ResultSet Rs;
+
+        try{
+
+            Rs = Sql.Select("SELECT * FROM bono_comision \n"+
+                            "WHERE codigo = "+cbItem.getSelectedIndex()+"\n" +
+                            "AND agno = "+cbAgno.getSelectedItem());
+
+            if (Sql.GetRowCount() > 0){
+
+                while (Rs.next()){
+
+                    for (int i = 0; i < Tabla.getRowCount();i++){
+
+                        int agno = Integer.parseInt(Tabla.getValueAt(i,3).toString());
+                        int mes= Integer.parseInt(Tabla.getValueAt(i,4).toString());
+                        int codigo = Integer.parseInt(Tabla.getValueAt(i,5).toString());
+
+                        if (codigo == 3 || codigo == 4 || codigo == 5){                     //COBRANZAS
+                                    
+                            if (mes == month || mes == month-1){
+
+                                String tdif =  Tabla.getValueAt(i,2).toString().replaceAll("\\$","");
+                                String tddif = tdif.trim().replaceAll("\\.","");
+                                double ddif = Double.parseDouble(tddif.trim());
+
+                                tres3 = Tabla.getValueAt(i,1).toString().replaceAll("\\$","");
+                                tdres3 = tres3.trim().replaceAll("\\.","");
+                                dres3 = Double.parseDouble(tdres3.trim());
+
+                                Sql.ExeSql("UPDATE bono_comision SET valor_metamin = " + dres3 + ", valor_resultado = " + ddif + " \n"+
+                                           "WHERE mes = "+mes + "\n"+
+                                           "AND codigo = "+codigo + "\n"+
+                                           "AND agno = "+agno);
+                            }
+
+                        }else if (codigo == 2 || codigo == 7 || codigo == 8  || codigo == 9){               //LUIS LLANOS
+
+                            if (mes == month){
+
+                                String tdif =  Tabla.getValueAt(i,2).toString().replaceAll("\\$","");
+                                String tddif = tdif.trim().replaceAll("\\.","");
+                                double ddif = Double.parseDouble(tddif.trim());
+
+                                tres3 = Tabla.getValueAt(i,1).toString().replaceAll("\\$","");
+                                tdres3 = tres3.trim().replaceAll("\\.","");
+                                dres3 = Double.parseDouble(tdres3.trim());
+
+                                Sql.ExeSql("UPDATE bono_comision SET valor_metamin = " + dres3 + ", valor_resultado = " + ddif + " \n"+
+                                           "WHERE mes = "+mes + "\n"+
+                                           "AND codigo = "+codigo + "\n"+
+                                           "AND agno = "+agno);
+                            }
+
+                        }else if (codigo == 10 || codigo == 11 || codigo == 12  || codigo == 13){         //CAMILA MORALES
+
+                            if (mes == month){
+
+                                String tdif =  Tabla.getValueAt(i,2).toString().replaceAll("\\$","");
+                                String tddif = tdif.trim().replaceAll("\\.","");
+                                double ddif = Double.parseDouble(tddif.trim());
+
+                                tres3 = Tabla.getValueAt(i,1).toString().replaceAll("\\$","");
+                                tdres3 = tres3.trim().replaceAll("\\.","");
+                                dres3 = Double.parseDouble(tdres3.trim());
+
+                                Sql.ExeSql("UPDATE bono_comision SET valor_metamin = " + dres3 + ", valor_resultado = " + ddif + " \n"+
+                                           "WHERE mes = "+mes + "\n"+
+                                           "AND codigo = "+codigo + "\n"+
+                                           "AND agno = "+agno);
+                            }
+
+                        }else{                                  //ALEJANDRO, CHRISTIAN, JOSE LUIS, DAVID
+
+                            if (mes == month){
+
+                                tres3 = Tabla.getValueAt(i,2).toString().replaceAll("\\$","");
+                                tdres3 = tres3.trim().replaceAll("\\.","");
+                                dres3 = Double.parseDouble(tdres3.trim());
+
+                                String logrado = Tabla.getValueAt(i,6).toString();
+                                String estado = Tabla.getValueAt(i,7).toString();
+
+                                Sql.ExeSql("UPDATE bono_comision SET valor_resultado = " + dres3 + ", logrado = '" + logrado + "', estado = '" + estado + "'\n"+
+                                           "WHERE mes = "+mes + "\n"+
+                                           "AND codigo = "+codigo + "\n"+
+                                           "AND agno = "+agno);
+
+                            }
+                        }
+                    }
+                }
+            }
+
+            Sql.Commit();
+            actualizado = true;
+
+        }catch (SQLException ex) {
+
+            Sql.Rollback();
+
+            Logger.getLogger(jdBonosyComisiones.class.getName()).log(Level.SEVERE, null, ex);
+            actualizado = false;
+
+        }
+
+        if (actualizado){
+
+            fmMain.Mensaje("Registro Actualizado con éxito");
+
+        }
+
+    }//GEN-LAST:event_btActualizarActionPerformed
+
+    
+    
+    private void Calculo_Ventas(int agno, int mes, int ind){
+        
+        totalfac = 0;
+        totalfec = 0;
+        totalncc = 0;
+        subtotalncc = 0;
+        totalv = 0;
+        
+        try{
+            //************************************* OBTENCION VALOR ACTUAL DE VENTAS MES EN CURSO ********************************************//
+            
+            ExeSql Sql = new ExeSql();
+            ResultSet Rs = null;
+            
+            
+            if (ind == 1){
+                
+                Rs = Sql.Select("SELECT tipdocto, femision, SUM(totaldocto) AS tdocto, SUM(totalafecto) AS tafecto, SUM(totalexento) AS texento  \n" +  //VENTAS PARA TODOS
+                                "FROM ctactecli \n" +
+                                "WHERE EXTRACT(YEAR FROM femision)= "+agno+" \n" +
+                                "AND EXTRACT(MONTH FROM femision)= "+mes+" \n"+
+                                "AND tipdocto IN ('FAC','FEC','NCC') \n"+
+                                "GROUP BY tipdocto, femision");
+            }else if (ind == 2){
+            
+            
+                Rs = Sql.Select("SELECT c.femision, c.tipdocto, SUM(c.totalafecto) AS tafecto, SUM(c.totalexento) AS texento,\n"+     //VENTAS (ALEJANDRO)
+                                "SUM(c.totaldocto) AS tdocto \n"+
+                                "FROM ctactecli c \n"+
+                                "LEFT JOIN occh oc ON c.rut=oc.rut AND c.codigo_oc=oc.codigo_oc AND c.occh=oc.orden \n"+
+                                "WHERE EXTRACT(YEAR FROM c.femision)="+agno+"\n"+
+                                "AND EXTRACT(MONTH FROM c.femision)="+mes+"\n"+
+                                "AND c.tipdocto IN ('FAC','FEC','NCC') \n"+
+                                "AND oc.vendedor IN ('2') \n"+
+                                "GROUP BY c.tipdocto, c.femision");
+            
+            }
+            
+            
+            if (Sql.GetRowCount() > 0){                                                                            
+                
+                while(Rs.next()){
+            
+                    if (Rs.getString("tipdocto").equals("FAC")){
+            
+                        totalfac = totalfac + Rs.getDouble("tafecto");                      //se suma el total afecto    
+                                                                                                                
+                    }
+            
+                    if (Rs.getString("tipdocto").equals("FEC")){                            //se suma el total documentos
+            
+                        totalfec = totalfec + Rs.getDouble("tdocto");
+                    }
+            
+                    if (Rs.getString("tipdocto").equals("NCC")){
+            
+                        subtotalncc = Rs.getDouble("tafecto") + Rs.getDouble("texento");     //se suma el subtotal afecto y exento
+                        totalncc = totalncc + subtotalncc;
+                        
+                    }
+                    
+                    totalv = (totalfac + totalfec) - totalncc;                              //TOTAL VENTAS   (RESULTADO)      
+                }
+            }
+        }catch (SQLException ex) {
+            
+            Logger.getLogger(jdBonosyComisiones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    }
+    
+    
+    private void Calculo_Cobranza(int agno, int mes, int indice){
+       
+        int Ejecutivo = 0;
+        double pago = 0;
+        double tpago = 0;
+        
+        double pago2 = 0;
+        double tpago2 = 0;
+        
+        long dias = 0;
+        int agno_local = agno;
+        int agno_local_ant = 0;
+        int mes_local = mes;
+        int mes_local_ant = mes - 1;
+        
+        
+        if (mes_local_ant == 0){
+        
+            mes_local_ant = 12;
+            agno_local_ant = agno-1;
+            
+        }else if (mes_local_ant > 0){
+        
+           mes_local_ant = mes - 1;
+           agno_local_ant = agno;
+        
+        }
+        
+        int mesant = cal.get(Calendar.MONTH)+1;         // Se se setea la fecha que indicará
+        int anant = cal.get(Calendar.YEAR);             //el día 25 del mes en curso
+        String mesx = String.valueOf(mesant);           //    
+        String agnox = String.valueOf(anant);           // 
+        String fechax = "25-"+mesx+"-"+agnox;           //
+       
+        Date fec_limite = new Date();
+       
+        try{  
+            
+            ExeSql Sql = new ExeSql();
+            ResultSet Rs;
+            
+            fec_limite = dateFormat.parse(fechax);             //Se asigna la fecha "25" a una variable Date
+        
+            if (indice == 3){
+                    
+                Ejecutivo = 18193732;   //CAMILA SOLEDA (TAMARA SALUD)
+                    
+            }else if (indice == 4){           
+                    
+                Ejecutivo = 19196156;   //YOSELINE  MUNICIPALIDADES
+                   
+            }else if (indice == 5){     
+                    
+                Ejecutivo = 21104992;  //TAMARA NO SALUD
+            }
+            
+        
+            if (month == mes_local){              //ACTUALIZA PAGO DE COBRANZA DEL MES ACTUAL.
+            
+                Rs = Sql.Select("SELECT p.monto AS Pago, p.fechapago, p.fingreso \n" +
+                                "FROM cli_pagos p\n" +
+                                "LEFT JOIN cli_cuentasxcobrar cxc ON p.cuenta=cxc.id \n" +
+                                "WHERE EXTRACT (MONTH FROM p.fechapago)="+ mes_local +"\n" +
+                                "AND EXTRACT (YEAR FROM p.fechapago)=" + agno  + " \n" +
+                                "AND cxc.rut IN (SELECT cliente FROM cli_cartera WHERE ejecutivo="+ Ejecutivo +")\n" +
+                                "AND p.tipopago <> 4");
+       
+                while (Rs.next()){
+                
+                    Date fecingreso = Rs.getDate("fingreso");
+                
+                    long dif = fec_limite.getTime() - fecingreso.getTime();      //Se realiza la resta entre la fecha "25" y la fecha ingreso 
+             
+                    dias = dif / (1000 * 60 * 60 * 24);                    //Se transforma el resultado de la resta a "dias"
+                    
+                    if (dias >= 0){
+                
+                        pago = Rs.getDouble("Pago");
+                        tpago = tpago + pago;
+            
+                    }
+                }
+            
+                totalcob = tpago / 1.19;
+                
+            }
+            
+            if (month-1 == mes_local_ant){     //ACTUALIZA PAGO DE COBRANZA DEL MES ANTERIOR CON FECHA LIMITE 25 DEL MES ACTUAL
+            
+               Rs = Sql.Select("SELECT p.monto AS Pago, p.fechapago, p.fingreso \n" +
+                               "FROM cli_pagos p\n" +
+                               "LEFT JOIN cli_cuentasxcobrar cxc ON p.cuenta=cxc.id \n" +
+                               "WHERE EXTRACT (MONTH FROM p.fechapago)="+ mes_local_ant +"\n" +
+                               "AND EXTRACT (YEAR FROM p.fechapago)=" + agno_local_ant  + " \n" +
+                               "AND cxc.rut IN (SELECT cliente FROM cli_cartera WHERE ejecutivo="+ Ejecutivo +")\n" +
+                               "AND p.tipopago <> 4");
+
+            
+                   
+               while (Rs.next()){
+                
+                    Date fecingreso = Rs.getDate("fingreso");                   //Fecha del pago de la cobranza
+                
+                    long dif = fec_limite.getTime() - fecingreso.getTime();     //Se realiza la resta entre la fecha "25" y la fecha ingreso 
+             
+                    dias = dif / (1000 * 60 * 60 * 24);                         //Se transforma el resultado de la resta a "dias"
+                
+                    if (dias >= 0){
+                
+                        pago2 = Rs.getDouble("Pago");
+                        tpago2 = tpago2 + pago2;
+            
+                    }
+               }
+            
+               totalcob2 = tpago2 / 1.19;
+            }
+            
+            
+        }catch (SQLException | ParseException e) {
+            Logger.getLogger(jdBonosyComisiones.class.getName()).log(Level.SEVERE, null, e);
+        }
+    
+    }
+    
+    private void formato_columnas(int tipo){
+       
+        TableModel modelo = null; 
+        
+        if (tipo == 1){ 
+           
+            Object[][] datos = new Object [][] {};
+            String[] cabezera = new String [] {"META","META MINIMA AL 90%","RESULTADO","AÑO","MES","","LOGRADO","ESTADO"};
+            modelo = new DefaultTableModel (datos, cabezera);
+       
+        }else if (tipo == 2){
+       
+           Object[][] datos = new Object [][] {};
+           String[] cabezera = new String [] {"META","META MINIMA","RESULTADO","AÑO","MES","","LOGRADO","ESTADO"};
+           modelo = new DefaultTableModel (datos, cabezera);
+       
+        }else if (tipo == 3){
+       
+           Object[][] datos = new Object [][] {};
+           String[] cabezera = new String [] {"META MINIMA","RESULTADO","DIFERENCIA","AÑO","MES","","LOGRADO","ESTADO"};
+           modelo = new DefaultTableModel (datos, cabezera);
+       
+        }  
+       
+        Grilla.setModel(modelo);
+           
+        Grilla.getColumnModel().getColumn(3).setMaxWidth(44);                   //se asigna ancho a cada columna   
+        Grilla.getColumnModel().getColumn(4).setMaxWidth(40);
+        Grilla.removeColumn(Grilla.getColumnModel().getColumn(5));              //oculta columna
+        Grilla.getColumnModel().getColumn(5).setMaxWidth(75);  
+        Grilla.getColumnModel().getColumn(6).setMaxWidth(75);
+       
+       
+        DefaultTableCellRenderer renderer2 = (DefaultTableCellRenderer)Grilla.getTableHeader().getDefaultRenderer();    //centra encabezados de columnas
+        renderer2.setHorizontalAlignment(JLabel.CENTER); 
+        
+        DefaultTableCellRenderer Alinear2 = new DefaultTableCellRenderer();                         //configura centrado datos de columnas  
+        Alinear2.setHorizontalAlignment(SwingConstants.CENTER);
+    
+        
+        for (int i = 0; i < 7;i++){
+        
+            Grilla.getColumnModel().getColumn(i).setCellRenderer(Alinear2);       //centra datos de columnas
+        
+        }
+        
+    }
+    
+//    
+//    private void actualiza(){
+//        
+//        ExeSql Sql = new ExeSql();
+//        ExeSql Sql2 = new ExeSql();
+//        ResultSet Rs;
+//        ResultSet Rs2;
+//        
+//        String logrado = "no";
+//        String estado = "";
+//        int nmonth = 0;
+//        double valor1 = 0;
+//        double valor2 = 0;
+//        double resultado = 0;
+//        
+//        for (int item = 1;item <=9;item++){
+//        
+//            if(item == 1){                                 //COMISION POR VENTAS, BONOS FACTURACION Y PRESUPUESTO GENERAL
+//               
+//                try {
+//            
+//                    Rs = Sql.Select("SELECT * FROM bono_comision \n"+
+//                                    "WHERE codigo = "+item+"\n" +
+//                                    "AND agno = "+year+"\n" +
+//                                    "AND mes IN ("+(month-1)+","+month+") \n" +
+//                                    "ORDER BY mes ASC");
+//     
+//                    
+//                    if (Sql.GetRowCount() > 0){
+//                
+//                        while (Rs.next()){
+//                       
+//                            if (Rs.getInt("mes") == month-1){                        
+//                                    
+//                                    nmonth = month-1;
+//                                    
+//                                    Calculo_Ventas(year,month-1,1);     
+//                                    resultado = totalv;                                
+//                                    estado = "cerrado";   
+//                                    valor2 = Rs.getDouble("valor_metamin");
+//                                     
+//                                    if (resultado >= valor2){                    //Si el Monto Facturado es Mayor o igual a la Meta Mínima
+//          
+//                                        logrado = "si";                             //Se cumplió la meta
+//       
+//                                    }else{
+//       
+//                                        logrado = "no";
+//                                    }
+//                            
+//                            
+//                            
+//                            }else if(Rs.getInt("mes") == month){
+//                                  
+//                                  nmonth = month; 
+//                                  
+//                                  Calculo_Ventas(year,month,1);     
+//                                  resultado = totalv;                                
+//                                  estado = "abierto";   
+//                                  double metam = Rs.getDouble("valor_metamin");
+//                                     
+//                                  if (resultado >= metam){                    //Si el Monto Facturado es Mayor o igual a la Meta Mínima
+//          
+//                                     logrado = "si";                             //Se cumplió la meta
+//       
+//                                  }else{
+//       
+//                                     logrado = "no";
+//                                  }
+//                            
+//                            }                        
+//                        
+//                        
+//                            Sql2.ExeSql("UPDATE bono_comision SET valor_resultado = " + Math.round(resultado) + ", \n"+
+//                                        "logrado ='"+logrado+"', \n"+
+//                                        "estado ='"+estado+"' \n"+
+//                                        "WHERE mes = "+nmonth + "\n"+
+//                                        "AND codigo = "+item + "\n"+
+//                                        "AND agno = "+year);    
+//                    
+//                        }
+//                    
+//                    }
+//                
+//                }catch (SQLException ex) {
+//            
+//                    Logger.getLogger(jdBonosyComisiones.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//        
+//            }else if(item == 2 || item == 7 || item == 8 || item == 9) {          //BONO CUMPLIMIENTO PRESUPUESTO   (LLANOS)
+//            
+//                int codigo = item;
+//                int cod_conv = 0;
+//            
+//                if (codigo == 2){
+//             
+//                    cod_conv = 4;
+//            
+//                }else if (codigo == 7){
+//             
+//                    cod_conv = 5;
+//             
+//                }else if (codigo == 8){
+//             
+//                    cod_conv = 8;
+//             
+//                }else if (codigo == 9){
+//             
+//                    cod_conv = 10;
+//                
+//                }
+//            
+//                try {
+//                
+//                    Rs = Sql.Select("SELECT * FROM bono_comision \n"+
+//                                    "WHERE codigo = "+item+"\n" +
+//                                    "AND agno = "+year +"\n" +
+//                                    "AND mes IN ("+(month-1)+","+month+") \n" +
+//                                    "ORDER BY mes ASC");
+//                    
+//                
+//                    if (Sql.GetRowCount() > 0){
+//                    
+//                        while (Rs.next()){
+//                            
+//                            if (Rs.getInt("mes") == month-1){
+//                                
+//                                estado = "cerrado";
+//                                nmonth = month-1;
+//                                
+//                                
+//                            }else if (Rs.getInt("mes") == month){
+//                                
+//                                estado = "abierto";
+//                                nmonth = month;        
+//                            }    
+//                              
+//                                
+//                            //**************************************************************************************************//
+//                                
+//                            Rs2 = Sql2.Select("SELECT conv.convenio, sum(ocd.totlinea) as total \n"+
+//                                              "FROM occh oc \n" +
+//                                              "LEFT JOIN occhdet ocd ON oc.rut = ocd.rut AND oc.codigo_oc = ocd.codigo_oc AND oc.orden = ocd.orden\n" +
+//                                              "LEFT JOIN producto p ON ocd.sku=p.sku \n" +
+//                                              "LEFT JOIN par_convenio conv ON conv.codigo=p.convenio \n" +
+//                                              "WHERE EXTRACT (YEAR FROM oc.femision)="+year+" \n" +
+//                                              "AND EXTRACT (MONTH FROM oc.femision) IN ("+nmonth+") \n" +
+//                                              "AND p.convenio IN ("+cod_conv+") \n" +
+//                                              "GROUP BY conv.codigo");
+//                            
+//                            Rs2.next();
+//                            
+//                            
+//                            resultado = Rs2.getDouble("total");
+//                            valor2 = resultado - Rs.getDouble("valor_meta");
+//                                
+//                            //****************************************************************************************************************//    
+//                                
+//                                
+//                            if (valor2 >= 0){                    //Si el Monto Facturado es Mayor o igual a la Meta Mínima
+//          
+//                                logrado = "si";                             //Se cumplió la meta
+//       
+//                            }else{
+//       
+//                                logrado = "no";
+//                            }
+//                            
+//                             Sql2.ExeSql("UPDATE bono_comision SET valor_metamin = " + Math.round(resultado) + ", \n"+
+//                                        "valor_resultado ="+Math.round(valor2)+", \n"+
+//                                        "logrado ='"+logrado+"', \n"+
+//                                        "estado ='"+estado+"' \n"+
+//                                        "WHERE mes = "+nmonth + "\n"+
+//                                        "AND codigo = "+item + "\n"+
+//                                        "AND agno = "+year);    
+//                       
+//                        }   
+//                    
+//                   }
+//                
+//                } catch (SQLException ex) {
+//                    Logger.getLogger(jdBonosyComisiones.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            
+//            }else if(item == 3 || item == 4 || item == 5) {    //COMISION COBRANZA
+//            
+//                try {
+//                
+//                         
+//                    Rs = Sql.Select("SELECT * FROM bono_comision \n"+
+//                                    "WHERE codigo = "+item+"\n" +
+//                                    "AND agno = "+year+"\n" +
+//                                    "AND mes IN ("+month+") \n" +
+//                                    "ORDER BY mes ASC");
+//                    
+//                
+//                    if (Sql.GetRowCount() > 0){
+//                    
+//                        Rs.next();
+//                        
+//                        estado = "abierto";    
+//                                
+//                        Calculo_Cobranza(year,month,item);
+//                                
+//                        resultado = totalcob;
+//                        valor2 = resultado - Rs.getDouble("valor_meta");
+//                                
+//                        if (resultado >= Rs.getDouble("valor_meta")){                    //Si el Monto Facturado es Mayor o igual a la Meta Mínima
+//          
+//                            logrado = "si";                             //Se cumplió la meta
+//       
+//                        }else{
+//                        
+//                            logrado = "no";
+//                        
+//                        }
+//                        
+//                        Sql2.ExeSql("UPDATE bono_comision SET valor_metamin = " + Math.round(resultado) + ", \n"+
+//                                    "valor_resultado ="+Math.round(valor2)+", \n"+
+//                                    "logrado ='"+logrado+"', \n"+
+//                                    "estado ='"+estado+"' \n"+
+//                                    "WHERE mes = "+nmonth + "\n"+
+//                                    "AND codigo = "+item + "\n"+
+//                                    "AND agno = "+year);    
+//                    
+//                    }
+//                    
+//                }catch (SQLException ex) {
+//                    
+//                    Logger.getLogger(jdBonosyComisiones.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//                     
+//            }
+//            
+//            
+//            else if(item == 6) {                                                    //COMISION POR VENTAS (ALEJANDRO)
+//            
+//                try {
+//            
+//                    Rs = Sql.Select("SELECT * FROM bono_comision \n"+
+//                                    "WHERE codigo = "+item+"\n" +
+//                                    "AND agno = "+year +"\n" +
+//                                    "AND mes IN ("+(month-1)+","+month+") \n" +
+//                                    "ORDER BY mes ASC");
+//            
+//                    if (Sql.GetRowCount() > 0){
+//                
+//                        while (Rs.next()){
+//                        
+//                            if (Rs.getInt("mes") == month-1){
+//                       
+//                                estado = "cerrado";
+//                                nmonth = month-1;
+//                        
+//                            }else if (Rs.getInt("mes") == month){
+//                           
+//                                estado = "abierto";
+//                                nmonth = month;
+//                           
+//                            }
+//                        
+//                            Calculo_Ventas(year,nmonth,2);  
+//                            resultado = totalv;
+//                            logrado = "si"; 
+//                        
+//                            Sql2.ExeSql("UPDATE bono_comision SET valor_resultado = " + Math.round(resultado) + ", \n"+
+//                                        "logrado ='"+logrado+"', \n"+
+//                                        "estado ='"+estado+"' \n"+
+//                                        "WHERE mes = "+nmonth + "\n"+
+//                                        "AND codigo = "+item + "\n"+
+//                                        "AND agno = "+year);    
+//                      
+//                        }
+//                    
+//                    }
+//                  
+//             }catch (SQLException ex) {
+//                    
+//                    Logger.getLogger(jdBonosyComisiones.class.getName()).log(Level.SEVERE, null, ex);
+//             }
+//            
+//         
+//        }      
+//      }  
+//        
+//        
+//       
+//             
+//    
+//    }
+
+    
+    
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JTable Grilla;
+    private javax.swing.JButton btActualizar;
+    private javax.swing.JButton btAgregar;
+    private javax.swing.JButton btCancelar;
+    public javax.swing.JButton btCargar;
+    private javax.swing.JButton btEliminar;
+    private javax.swing.JButton btGuardar;
+    private javax.swing.JButton btLimpiar;
+    private javax.swing.JButton btNuevo;
+    private javax.swing.JComboBox<String> cbAgno;
+    public javax.swing.JComboBox cbItem;
+    private javax.swing.JComboBox<String> cbMes;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField txMonto;
+    // End of variables declaration//GEN-END:variables
+}

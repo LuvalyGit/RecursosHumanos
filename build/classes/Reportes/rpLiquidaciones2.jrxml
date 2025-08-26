@@ -1,0 +1,1178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ee8ae49b-2152-48f2-baa7-d82533755ad5">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="74"/>
+	<property name="ireport.y" value="48"/>
+	<parameter name="MES" class="java.lang.String"/>
+	<parameter name="AGNO" class="java.lang.String"/>
+	<parameter name="RUT" class="java.lang.String"/>
+	<field name="COLUMN_0" class="java.lang.String"/>
+	<field name="COLUMN_1" class="java.lang.String"/>
+	<field name="COLUMN_65" class="java.lang.String"/>
+	<field name="COLUMN_64" class="java.lang.String"/>
+	<field name="COLUMN_61" class="java.lang.String"/>
+	<field name="COLUMN_10" class="java.lang.String"/>
+	<field name="COLUMN_11" class="java.lang.String"/>
+	<field name="COLUMN_2" class="java.lang.String"/>
+	<field name="COLUMN_3" class="java.lang.String"/>
+	<field name="COLUMN_4" class="java.lang.String"/>
+	<field name="COLUMN_5" class="java.lang.String"/>
+	<field name="COLUMN_6" class="java.lang.String"/>
+	<field name="COLUMN_66" class="java.lang.String"/>
+	<field name="COLUMN_67" class="java.lang.String"/>
+	<field name="COLUMN_7" class="java.lang.String"/>
+	<field name="COLUMN_8" class="java.lang.String"/>
+	<field name="COLUMN_9" class="java.lang.String"/>
+	<field name="COLUMN_62" class="java.lang.String"/>
+	<field name="COLUMN_63" class="java.lang.String"/>
+	<field name="COLUMN_12" class="java.lang.String"/>
+	<field name="COLUMN_13" class="java.lang.String"/>
+	<field name="COLUMN_14" class="java.lang.String"/>
+	<field name="COLUMN_15" class="java.lang.String"/>
+	<field name="COLUMN_16" class="java.lang.String"/>
+	<field name="COLUMN_17" class="java.lang.String"/>
+	<field name="COLUMN_18" class="java.lang.String"/>
+	<field name="COLUMN_19" class="java.lang.String"/>
+	<field name="COLUMN_20" class="java.lang.String"/>
+	<field name="COLUMN_21" class="java.lang.String"/>
+	<field name="COLUMN_22" class="java.lang.String"/>
+	<field name="COLUMN_23" class="java.lang.String"/>
+	<field name="COLUMN_25" class="java.lang.String"/>
+	<field name="COLUMN_26" class="java.lang.String"/>
+	<field name="COLUMN_27" class="java.lang.String"/>
+	<field name="COLUMN_28" class="java.lang.String"/>
+	<field name="COLUMN_29" class="java.lang.String"/>
+	<field name="COLUMN_30" class="java.lang.String"/>
+	<field name="COLUMN_31" class="java.lang.String"/>
+	<field name="COLUMN_32" class="java.lang.String"/>
+	<field name="COLUMN_34" class="java.lang.String"/>
+	<field name="COLUMN_35" class="java.lang.String"/>
+	<field name="COLUMN_36" class="java.lang.String"/>
+	<field name="COLUMN_37" class="java.lang.String"/>
+	<field name="COLUMN_38" class="java.lang.String"/>
+	<field name="COLUMN_39" class="java.lang.String"/>
+	<field name="COLUMN_40" class="java.lang.String"/>
+	<field name="COLUMN_41" class="java.lang.String"/>
+	<field name="COLUMN_42" class="java.lang.String"/>
+	<field name="COLUMN_43" class="java.lang.String"/>
+	<field name="COLUMN_44" class="java.lang.String"/>
+	<field name="COLUMN_45" class="java.lang.String"/>
+	<field name="COLUMN_46" class="java.lang.String"/>
+	<field name="COLUMN_47" class="java.lang.String"/>
+	<field name="COLUMN_48" class="java.lang.String"/>
+	<field name="COLUMN_49" class="java.lang.String"/>
+	<field name="COLUMN_50" class="java.lang.String"/>
+	<field name="COLUMN_51" class="java.lang.String"/>
+	<field name="COLUMN_52" class="java.lang.String"/>
+	<field name="COLUMN_53" class="java.lang.String"/>
+	<field name="COLUMN_54" class="java.lang.String"/>
+	<field name="COLUMN_68" class="java.lang.String"/>
+	<field name="COLUMN_69" class="java.lang.String"/>
+	<field name="COLUMN_55" class="java.lang.String"/>
+	<field name="COLUMN_58" class="java.lang.String"/>
+	<field name="COLUMN_56" class="java.lang.String"/>
+	<field name="COLUMN_59" class="java.lang.String"/>
+	<field name="COLUMN_57" class="java.lang.String"/>
+	<field name="COLUMN_60" class="java.lang.String"/>
+	<field name="COLUMN_70" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="116" splitType="Stretch">
+			<frame>
+				<reportElement x="3" y="76" width="567" height="39" uuid="03efe248-0784-4184-86cf-27a33f9082b5"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<staticText>
+					<reportElement x="9" y="6" width="50" height="12" uuid="e56a50de-b5c3-429e-8e72-e3e8b09a1e3c"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[RUT              : ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="62" y="6" width="49" height="12" uuid="e0ca0337-9659-426e-ab07-a51f70a450ff"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<text><![CDATA[76.231.391-K]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="9" y="19" width="50" height="12" uuid="7140f9b2-cd1a-4ef1-aaa8-45eba171b743"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Empleador   :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="62" y="19" width="202" height="12" uuid="ef7f085f-93b8-4e62-89c3-8def95da578e"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<text><![CDATA[EMPRESA COMERCIALIZADORA LUIS VALDES LYON SPA]]></text>
+				</staticText>
+			</frame>
+			<staticText>
+				<reportElement x="151" y="18" width="267" height="20" uuid="2a666a5b-8547-4892-bc53-8a05691f1df2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LIQUIDACION DE REMUNERACION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="218" y="52" width="38" height="12" uuid="fbdd2adf-34fd-48ab-bb40-b150f03e637e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Período  :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="253" y="52" width="48" height="12" uuid="cb0e32e1-e05f-483e-afa9-1530b793ad37"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{MES}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="308" y="52" width="28" height="12" uuid="04da1e06-f63a-4347-9879-6b6da74e145f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{AGNO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="300" y="52" width="9" height="12" forecolor="#000000" backcolor="#FFFFFF" uuid="056cc272-c332-4386-aed4-496b1d156859"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<image hAlign="Center">
+				<reportElement x="14" y="3" width="102" height="62" uuid="0436904f-1e1e-49ea-9a78-1d4d7ee2e734"/>
+				<imageExpression><![CDATA[java.lang.System.getProperty("user.dir")+"/Logo.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="560" splitType="Stretch">
+			<frame>
+				<reportElement mode="Transparent" x="3" y="3" width="567" height="52" isRemoveLineWhenBlank="true" uuid="34b350ac-eb5c-4456-be5c-e74c2f6794e4"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<staticText>
+					<reportElement x="7" y="6" width="52" height="11" uuid="720a3277-6a7e-4ccc-a17d-a7a24261e6f2"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[RUT               :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="7" y="19" width="52" height="11" uuid="c57128c4-ecb8-4be1-ac6a-5162da2b0c87"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Trabajador   :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="353" y="17" width="37" height="11" uuid="1b2fc232-37dd-403f-9003-daeb88260f8c"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Cargo      :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="7" y="33" width="52" height="11" uuid="9823a0b9-f14e-4b73-8a4b-0255cfc728af"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Unidad          :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="353" y="33" width="37" height="11" uuid="19155649-cfe9-4357-80f5-0a8423d6429e"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Sucursal  :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="396" y="33" width="115" height="11" uuid="305e5d7e-ad9f-4725-87e8-e0caf7e0bfee"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="false"/>
+					</textElement>
+					<text><![CDATA[CASA MATRIZ]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="63" y="6" width="100" height="11" uuid="93216619-8ac6-43f4-a9e9-febaad91163f"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_0}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="63" y="19" width="189" height="11" uuid="f5707343-2d03-437d-a56f-4de136b18730"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_1}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="63" y="33" width="189" height="11" uuid="e0b27aa6-6146-4045-81f5-75abdfad02c6"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_2}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="397" y="17" width="166" height="11" uuid="63da9976-37fa-4bf8-a26f-25d202833989"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_3}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement x="3" y="64" width="567" height="55" uuid="287004ae-a17a-45d3-95b3-768c80f56b3d"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<staticText>
+					<reportElement x="6" y="19" width="80" height="11" uuid="5633f468-63c9-444b-874a-b3f67c3e2d64"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Días Trabajados          :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="6" y="3" width="80" height="11" uuid="33e98aa6-a5e7-4698-80df-6013f357eb89"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Tipo de Contrato        :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="6" y="35" width="80" height="11" uuid="0edf6e63-3bc8-4c2a-8cc1-a4c0b4a900d9"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[N° Cargas Familiares :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="310" y="3" width="115" height="11" uuid="be5111f0-c2e9-4df6-b0c9-8e6936fd56bb"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Días de Vacaciones                :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="310" y="19" width="115" height="11" uuid="11b4b99d-3c4a-4069-a8c7-d95057a170c3"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Días de Licencia Médica        :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="310" y="35" width="115" height="11" uuid="664e2f89-67ad-40af-9ac9-83e0c2abcbff"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Días de Inasistencia               :]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="92" y="3" width="111" height="11" uuid="83b1db60-69af-416a-8a37-7411e3f34f8f"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_4}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="90" y="35" width="15" height="11" uuid="4bac9321-df1e-499d-a804-15b370883c24"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_5}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="90" y="19" width="15" height="11" uuid="457ff588-bcf0-4f82-bfb0-f94fce307c9a"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_6}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="426" y="3" width="15" height="13" uuid="751dbfc0-8b21-491d-aab5-1ff523723f02"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_7}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="426" y="19" width="15" height="13" uuid="17542fc3-1c69-48a8-8b87-1ad5b8cb569e"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_8}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="426" y="35" width="15" height="11" uuid="5078c7d0-181b-482e-bdd5-1c64f664c520"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_9}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement x="3" y="122" width="214" height="255" uuid="8dc66895-97d8-4055-9251-63c3cd902b26"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<staticText>
+					<reportElement x="9" y="31" width="128" height="10" isRemoveLineWhenBlank="true" uuid="601296f1-b68e-4aa8-a58d-ba35854de21d"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[SUELDO BASE]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="9" y="41" width="128" height="10" isRemoveLineWhenBlank="true" uuid="cff75c45-50b9-4f31-9915-806cd908eef9">
+						<printWhenExpression><![CDATA[!$F{COLUMN_11}.isEmpty()]]></printWhenExpression>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[GRATIFICACION]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="9" y="51" width="128" height="10" isRemoveLineWhenBlank="true" uuid="5f72e7e5-7fb0-4d08-ad9f-3f8b9f15d488">
+						<printWhenExpression><![CDATA[!$F{COLUMN_12}.isEmpty()]]></printWhenExpression>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[COLACION]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="9" y="61" width="128" height="10" isRemoveLineWhenBlank="true" uuid="565c25eb-dc57-45fc-97ce-050de0024e2b">
+						<printWhenExpression><![CDATA[!$F{COLUMN_13}.isEmpty()]]></printWhenExpression>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[MOVILIZACION]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="9" y="71" width="151" height="10" isRemoveLineWhenBlank="true" uuid="4a61d1d4-704a-4635-a2b7-8a149799fec3">
+						<printWhenExpression><![CDATA[!$F{COLUMN_14}.isEmpty()]]></printWhenExpression>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[GRATIFIC. VOLUNTARIA EXTRAORDINARIA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="9" y="81" width="151" height="10" isRemoveLineWhenBlank="true" uuid="a4f7aec2-606c-442b-8ff6-6e6ccdcd3570">
+						<printWhenExpression><![CDATA[!$F{COLUMN_15}.isEmpty()]]></printWhenExpression>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ASIGNACION FAMILIAR]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="9" y="91" width="151" height="10" isRemoveLineWhenBlank="true" uuid="aa7b7edb-1d3f-4bc3-9a82-6291c527ce8c">
+						<printWhenExpression><![CDATA[!$F{COLUMN_16}.isEmpty()]]></printWhenExpression>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[VIATICOS]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="9" y="101" width="151" height="10" isRemoveLineWhenBlank="true" uuid="426af603-f7f0-482f-ab88-f32658c9c355">
+						<printWhenExpression><![CDATA[!$F{COLUMN_17}.isEmpty()]]></printWhenExpression>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[SEMANA CORRIDA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="9" y="111" width="151" height="10" isRemoveLineWhenBlank="true" uuid="5bac0ba6-a0ee-4caa-83b3-f9c655aaad9d">
+						<printWhenExpression><![CDATA[!$F{COLUMN_18}.isEmpty()]]></printWhenExpression>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[BONO CUMPLIMIENTO AÑO LABORAL]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="9" y="121" width="151" height="10" isRemoveLineWhenBlank="true" uuid="31c454ad-8a3a-4cfa-a2ad-29dbd9f421e0">
+						<printWhenExpression><![CDATA[!$F{COLUMN_19}.isEmpty()]]></printWhenExpression>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[BONO DE PRODUCCION]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="9" y="131" width="151" height="10" isRemoveLineWhenBlank="true" uuid="f01624a4-ca25-48aa-a9bc-fbabbc035759">
+						<printWhenExpression><![CDATA[!$F{COLUMN_20}.isEmpty()]]></printWhenExpression>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[COMISION GESTION DE COBRANZA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="9" y="141" width="151" height="10" isRemoveLineWhenBlank="true" uuid="46af7dfd-3e24-45f6-b4b9-1440e222341e">
+						<printWhenExpression><![CDATA[!$F{COLUMN_21}.isEmpty()]]></printWhenExpression>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[COMISION POR VENTAS]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="9" y="151" width="151" height="10" isRemoveLineWhenBlank="true" uuid="01829725-4860-4ade-b2bf-3782da68c0a7">
+						<printWhenExpression><![CDATA[!$F{COLUMN_22}.isEmpty()]]></printWhenExpression>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[CARGA FAM. RETROACTIVAS]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="9" y="161" width="151" height="10" isRemoveLineWhenBlank="true" uuid="b2687637-0381-4163-8d27-330d4c01ed07">
+						<printWhenExpression><![CDATA[!$F{COLUMN_23}.isEmpty()]]></printWhenExpression>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[DIFERENCIA SUELDO MES ANTERIOR]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="9" y="171" width="151" height="10" isRemoveLineWhenBlank="true" uuid="f337a0f7-9c02-4012-9650-274629c1faa0">
+						<printWhenExpression><![CDATA[!$F{COLUMN_25}.isEmpty()]]></printWhenExpression>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[AGUINALDO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="9" y="181" width="151" height="10" isRemoveLineWhenBlank="true" uuid="e4c894a5-140b-47ed-969f-fdcf35bd928e">
+						<printWhenExpression><![CDATA[!$F{COLUMN_26}.isEmpty()]]></printWhenExpression>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[DIFERENCIA PAGO HORAS EXTRAS]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="9" y="191" width="151" height="10" isRemoveLineWhenBlank="true" uuid="36c96481-b456-4798-9422-214ac8ad6ee7">
+						<printWhenExpression><![CDATA[!$F{COLUMN_27}.isEmpty()]]></printWhenExpression>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[BONO CUMPLIMIENTO MARGEN]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="9" y="201" width="151" height="10" isRemoveLineWhenBlank="true" uuid="dd50ac61-3ec6-4f0c-b53b-887c70ac0556">
+						<printWhenExpression><![CDATA[!$F{COLUMN_28}.isEmpty()]]></printWhenExpression>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[BONO CUMPLIMIENTO PRESUPUESTO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="9" y="211" width="151" height="10" isRemoveLineWhenBlank="true" uuid="5af9d34b-ae6c-4a75-a8f8-379f4fbb92b6">
+						<printWhenExpression><![CDATA[!$F{COLUMN_29}.isEmpty()]]></printWhenExpression>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[BONO CUMPLIMIENTO FACTURACION]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="9" y="221" width="151" height="10" isRemoveLineWhenBlank="true" uuid="8d87cd37-408d-430d-aba3-d48f96192641">
+						<printWhenExpression><![CDATA[!$F{COLUMN_30}.isEmpty()]]></printWhenExpression>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[BONO UNICO EXTRAORDINARIO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="9" y="241" width="151" height="10" isRemoveLineWhenBlank="true" uuid="c728731c-943f-4dfc-823d-08bd96783423">
+						<printWhenExpression><![CDATA[!$F{COLUMN_32}.isEmpty()]]></printWhenExpression>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[REMUNERACION POR FERIADO LEGAL]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="8" y="231" width="160" height="10" isRemoveLineWhenBlank="true" uuid="c1692d6f-4275-44cc-91cb-52f6f4317a6c"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_70} == null ? null : "" + $F{COLUMN_70}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement x="217" y="144" width="61" height="233" uuid="da9e1726-c56e-40cf-976d-bde508ddf24f"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textField isBlankWhenNull="true">
+					<reportElement x="6" y="10" width="50" height="10" isRemoveLineWhenBlank="true" uuid="d033ff14-0ada-4ec3-80fb-7dc5caf85929"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_10}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="6" y="20" width="50" height="10" isRemoveLineWhenBlank="true" uuid="b9d964eb-39d3-4f73-9d5d-534021c3520d"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_11} == null ? null : "" + $F{COLUMN_11}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="6" y="30" width="50" height="10" isRemoveLineWhenBlank="true" uuid="1c033428-e114-49aa-9bad-ef5b13e38c59"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_12} == null ? null : "" + $F{COLUMN_12}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="6" y="40" width="50" height="10" isRemoveLineWhenBlank="true" uuid="fde9ca26-9588-4aca-9d5b-927bab9bc900"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_13} == null ? null : "" + $F{COLUMN_13}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="6" y="50" width="50" height="10" isRemoveLineWhenBlank="true" uuid="065bc3bf-6413-41c4-ad9b-13d7bed3d7c6"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_14} == null ? null : "" + $F{COLUMN_14}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="6" y="60" width="50" height="10" isRemoveLineWhenBlank="true" uuid="ad0f362a-413e-46b1-92d2-a49361a5d579"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_15} == null ? null : "" + $F{COLUMN_15}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="6" y="70" width="50" height="10" isRemoveLineWhenBlank="true" uuid="3fcd404c-34a8-4555-9f80-f5fedda778a9"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_16} == null ? null : "" + $F{COLUMN_16}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="6" y="80" width="50" height="10" isRemoveLineWhenBlank="true" uuid="16a181a2-d026-4d4d-9885-e375a579c839"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_17} == null ? null : "" + $F{COLUMN_17}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="6" y="90" width="50" height="10" isRemoveLineWhenBlank="true" uuid="599426c8-9a83-4919-866d-22a84fc59d84"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_18} == null ? null : "" + $F{COLUMN_18}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="6" y="100" width="50" height="10" isRemoveLineWhenBlank="true" uuid="9d41001a-68ed-40df-8dd6-64f75bdee198"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_19} == null ? null : "" + $F{COLUMN_19}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="6" y="110" width="50" height="10" isRemoveLineWhenBlank="true" uuid="dc8229e0-9f8b-402c-a661-f52cee5e8260"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_20} == null ? null : "" + $F{COLUMN_20}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="6" y="120" width="50" height="10" isRemoveLineWhenBlank="true" uuid="d724fdc5-240e-4a8d-96fb-db58748f1608"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_21} == null ? null : "" + $F{COLUMN_21}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="6" y="130" width="50" height="10" isRemoveLineWhenBlank="true" uuid="6f88305e-5f36-4f1f-a31e-59c75e7bb960"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_22} == null ? null : "" + $F{COLUMN_22}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="6" y="140" width="50" height="10" isRemoveLineWhenBlank="true" uuid="9c8d9dc2-49a3-4dad-9aa3-e4b6d0b0a01b"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_23} == null ? null : "" + $F{COLUMN_23}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="6" y="150" width="50" height="10" isRemoveLineWhenBlank="true" uuid="bba5d691-e0b9-4e4b-b410-9417ef1ed583"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_25} == null ? null : "" + $F{COLUMN_25}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="6" y="160" width="50" height="10" isRemoveLineWhenBlank="true" uuid="f07918c5-d031-4f39-8a18-89c737b77a4d"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_26} == null ? null : "" + $F{COLUMN_26}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="6" y="170" width="50" height="10" isRemoveLineWhenBlank="true" uuid="b0364436-059b-4f18-94bf-f41d1596a30b"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_27} == null ? null : "" + $F{COLUMN_27}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="6" y="180" width="50" height="10" isRemoveLineWhenBlank="true" uuid="2b60e7b1-a20e-4b9c-b9a6-f2dde8cae089"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_28} == null ? null : "" + $F{COLUMN_28}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="6" y="190" width="50" height="10" isRemoveLineWhenBlank="true" uuid="33589fa7-76b6-4b0e-b542-e0a9f0e3039b"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_29} == null ? null : "" + $F{COLUMN_29}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="6" y="200" width="50" height="10" isRemoveLineWhenBlank="true" uuid="4d9ff83f-bde2-42a0-ac21-d5f58cb53396"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_30} == null ? null : "" + $F{COLUMN_30}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="6" y="210" width="50" height="10" isRemoveLineWhenBlank="true" uuid="af3a18a2-c92a-46ee-86ee-a11e23ec1821"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_31} == null ? null : "" + $F{COLUMN_31}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="6" y="220" width="50" height="10" isRemoveLineWhenBlank="true" uuid="418df101-6f6d-466a-8321-27d7dcccb4c8"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_32} == null ? null : "" + $F{COLUMN_32}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement x="217" y="122" width="61" height="22" uuid="4ebf2990-6593-45fa-a093-3c7bba79926a"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="3" y="122" width="214" height="22" uuid="f0a38470-ea1f-47fb-94fe-0a5e7505c29c"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+			</frame>
+			<staticText>
+				<reportElement x="59" y="127" width="100" height="13" uuid="a363a3d3-c7cd-4766-9c79-df180fd58f49"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[HABERES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="127" width="53" height="13" uuid="91dead10-8630-45e2-b54a-3aaf00fc9816"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MONTO]]></text>
+			</staticText>
+			<frame>
+				<reportElement x="295" y="122" width="214" height="255" uuid="bcb9276e-16fa-4e57-b63c-22e4f24bfd88"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textField isBlankWhenNull="true">
+					<reportElement x="11" y="31" width="165" height="10" isRemoveLineWhenBlank="true" uuid="9d8440a4-dac5-4fb4-bd3a-5a047c29d204"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_34} == null ? null : "" + $F{COLUMN_34}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="11" y="41" width="165" height="10" isRemoveLineWhenBlank="true" uuid="50adcd87-69ca-48f7-9767-fc548b0ee57e"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_36} == null ? null : "" + $F{COLUMN_36}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="11" y="51" width="202" height="10" isRemoveLineWhenBlank="true" uuid="997dd081-448d-4965-abac-0b5960316def"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_38} == null ? null : "" + $F{COLUMN_38}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="11" y="61" width="165" height="10" isRemoveLineWhenBlank="true" uuid="b55a07d0-a5d7-4162-94f5-76b5f68fc798"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_40} == null ? null : "" + $F{COLUMN_40}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="11" y="71" width="147" height="10" isRemoveLineWhenBlank="true" uuid="4498fdda-b8e5-4d72-8958-4e21f7e2068c">
+						<printWhenExpression><![CDATA[!$F{COLUMN_42}.isEmpty()]]></printWhenExpression>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[AHORRO PREVISIONAL VOLUNTARIO (A)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="11" y="81" width="147" height="10" isRemoveLineWhenBlank="true" uuid="b99f7bc8-1d2c-41d3-aee8-51bb67f2ac0d">
+						<printWhenExpression><![CDATA[!$F{COLUMN_43}.isEmpty()]]></printWhenExpression>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[AHORRO PREVISIONAL VOLUNTARIO (B)]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="11" y="91" width="165" height="10" isRemoveLineWhenBlank="true" uuid="43ba728f-3a8f-49d8-9134-f3add6e07b44"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_44} == null ? null : "" + $F{COLUMN_44}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="11" y="101" width="135" height="10" isRemoveLineWhenBlank="true" uuid="445dc733-3316-487c-b16e-83b876b2b429">
+						<printWhenExpression><![CDATA[!$F{COLUMN_46}.isEmpty()]]></printWhenExpression>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[IMPUESTO UNICO]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="11" y="111" width="165" height="10" isRemoveLineWhenBlank="true" uuid="65e1df7e-aefb-4b22-8957-24559f6e6926"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_47} == null ? null : "" + $F{COLUMN_47}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="11" y="121" width="135" height="10" isRemoveLineWhenBlank="true" uuid="d0565695-516a-425c-a2ac-7280e43619c0">
+						<printWhenExpression><![CDATA[!$F{COLUMN_49}.isEmpty()]]></printWhenExpression>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[SEGURO CHILENA CONSOLIDADA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="11" y="131" width="135" height="10" isRemoveLineWhenBlank="true" uuid="7db83e55-f1af-4545-b27d-d0dd12d4ad67">
+						<printWhenExpression><![CDATA[!$F{COLUMN_50}.isEmpty()]]></printWhenExpression>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ANTICIPO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="11" y="141" width="135" height="10" isRemoveLineWhenBlank="true" uuid="5f9d9535-a32a-4b20-bfaf-0efd8159700a">
+						<printWhenExpression><![CDATA[!$F{COLUMN_51}.isEmpty()]]></printWhenExpression>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[HORAS DE ATRASO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="11" y="151" width="135" height="10" isRemoveLineWhenBlank="true" uuid="d175882d-da8a-43ef-a289-acbe485b4f40">
+						<printWhenExpression><![CDATA[!$F{COLUMN_52}.isEmpty()]]></printWhenExpression>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[DIAS NO CONTRATADOS]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="11" y="161" width="200" height="10" isRemoveLineWhenBlank="true" uuid="37994a62-e510-45b4-9171-4f0993c0992a"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_53} == null ? null : "" + $F{COLUMN_53}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="11" y="171" width="165" height="10" isRemoveLineWhenBlank="true" uuid="4680285a-c3d7-46c7-a777-fbc62bb3315d"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_68} == null ? null : "" + $F{COLUMN_68}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<staticText>
+				<reportElement x="513" y="127" width="53" height="13" uuid="598a0365-d3af-4f2e-8a32-dd1d4b7ba798"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MONTO]]></text>
+			</staticText>
+			<frame>
+				<reportElement x="509" y="122" width="61" height="22" uuid="c019f789-eaab-4f8e-abfe-4f316a3db0b7"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="295" y="122" width="214" height="22" uuid="73f79881-eff0-46c5-b9fa-21dd8209ddb5"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="509" y="144" width="61" height="233" uuid="e8308d38-13cc-4f6e-818e-52b33dc38469"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textField isBlankWhenNull="true">
+					<reportElement x="5" y="9" width="50" height="10" isRemoveLineWhenBlank="true" uuid="68bdecdd-2360-4584-9388-b9c4ead0e77e"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_35} == null ? null : "" + $F{COLUMN_35}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="5" y="19" width="50" height="10" isRemoveLineWhenBlank="true" uuid="0274ff51-22cf-4b43-b0f6-ffde1643d5a1"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_37} == null ? null : "" + $F{COLUMN_37}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="5" y="29" width="50" height="10" isRemoveLineWhenBlank="true" uuid="f9890776-f173-4dc8-8bdf-5afd13e097ec"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_39} == null ? null : "" + $F{COLUMN_39}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="5" y="39" width="50" height="10" isRemoveLineWhenBlank="true" uuid="94163563-0f81-4292-bc05-942306594806"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_41} == null ? null : "" + $F{COLUMN_41}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="5" y="49" width="50" height="10" isRemoveLineWhenBlank="true" uuid="d5ab8b84-aceb-4af0-a034-b2c65c2720cc"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_42} == null ? null : "" + $F{COLUMN_42}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="5" y="59" width="50" height="10" isRemoveLineWhenBlank="true" uuid="324c6199-3c75-4dc9-9f6e-2e7d83a541f9"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_43} == null ? null : "" + $F{COLUMN_43}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="5" y="69" width="50" height="10" isRemoveLineWhenBlank="true" uuid="b8e32934-01ca-4cee-b943-dc1047dab350"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_45} == null ? null : "" + $F{COLUMN_45}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="5" y="79" width="50" height="10" isRemoveLineWhenBlank="true" uuid="3ae9ab22-6497-432c-89b6-b63838550b60"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_46} == null ? null : "" + $F{COLUMN_46}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="5" y="89" width="50" height="10" isRemoveLineWhenBlank="true" uuid="074e5d2e-745d-42a1-90cb-441363a94414"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_48} == null ? null : "" + $F{COLUMN_48}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="5" y="99" width="50" height="10" isRemoveLineWhenBlank="true" uuid="b1a427b6-a130-414f-bed8-cfd3a984d78a"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_49} == null ? null : "" + $F{COLUMN_49}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="5" y="109" width="50" height="10" isRemoveLineWhenBlank="true" uuid="0e325a14-220f-461e-90d8-b1e8a51b2ab1"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_50} == null ? null : "" + $F{COLUMN_50}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="5" y="119" width="50" height="10" isRemoveLineWhenBlank="true" uuid="d62d4b47-aa39-4ff4-a0b8-9497e696e4d5"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_51} == null ? null : "" + $F{COLUMN_51}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="5" y="129" width="50" height="10" isRemoveLineWhenBlank="true" uuid="59daee2b-02db-4b32-9fb8-e56c2babbf28"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_52} == null ? null : "" + $F{COLUMN_52}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="5" y="139" width="50" height="10" isRemoveLineWhenBlank="true" uuid="0e023574-6e1c-4677-9b8f-55c2b45e7dfc"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_54} == null ? null : "" + $F{COLUMN_54}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="5" y="149" width="50" height="10" isRemoveLineWhenBlank="true" uuid="661bea70-7133-4cfb-8084-8365fc259816"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COLUMN_69} == null ? null : "" + $F{COLUMN_69}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<staticText>
+				<reportElement x="351" y="127" width="100" height="13" uuid="b7010c54-06fb-480b-ab32-2aa01a5aea9c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DESCUENTOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="407" y="404" width="100" height="11" uuid="a0ac0925-3d3c-450b-9d23-5648db9a488b"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[TOTAL TRIBUTABLE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="407" y="417" width="100" height="11" uuid="7d4bccee-fb25-45d5-a021-98de65114a93"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL DESCUENTOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="438" y="380" width="69" height="11" uuid="6a0b17b2-c476-43af-935e-52eafd05e821"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL HABERES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="399" y="429" width="108" height="11" uuid="d6a3018b-368d-4c5d-858b-e7ba99f4312f"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL LIQUIDO A PAGAR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="407" y="392" width="100" height="11" uuid="72233448-e71c-4e20-a11d-6928a3006851"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL IMPONIBLE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="24" y="452" width="347" height="12" uuid="68459072-174d-48ab-a248-2d1961bccdd8"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Certifico que he recibido del Empleador EMPRESA COMERCIALIZADORA LUIS VALDES LYON SPA, ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="24" y="464" width="297" height="12" uuid="ce0b00d4-890f-42fb-b8c0-cc0b7987d36b"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[a mi entera satisfacción el saldo indicado en la presente liquidación.]]></text>
+			</staticText>
+			<textField pattern="dd MMMMM yyyy">
+				<reportElement x="487" y="542" width="80" height="10" uuid="5b0923ca-7772-4b83-8ee6-e334d24b6ec1"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="453" y="542" width="30" height="11" uuid="a17c8879-9b2e-43b0-a8c8-0e917910fdaa"/>
+				<textElement textAlignment="Right">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Temuco,]]></text>
+			</staticText>
+			<line>
+				<reportElement x="24" y="529" width="182" height="1" uuid="6f6f3d05-ab1d-4285-9373-53f7354d113c"/>
+			</line>
+			<textField>
+				<reportElement x="514" y="428" width="51" height="11" uuid="7e7d8c59-6883-4d6a-a3e0-925ea0cb58d0"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COLUMN_65}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="514" y="416" width="51" height="11" uuid="8938bd61-da43-4db1-a47d-f59b7c56d568"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COLUMN_64}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="514" y="380" width="51" height="11" uuid="9eb4c945-0f35-470d-acd3-b62c4228556f"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COLUMN_61}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="16" y="531" width="197" height="11" uuid="c6b58433-1660-4cf8-a102-6a0b41b04ab2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COLUMN_67}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="64" y="543" width="100" height="11" uuid="9540db61-3176-4515-868e-a1a7294877e3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COLUMN_0}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="514" y="392" width="51" height="11" uuid="d0aa3916-c635-4f6b-8429-2ab83830c552"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COLUMN_62}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="514" y="404" width="51" height="11" uuid="bf437aff-e8a3-4cf4-a42c-85ba721c2c3c"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COLUMN_63}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="13" y="387" width="199" height="11" isRemoveLineWhenBlank="true" uuid="b1ad26f3-55ff-4bd4-b1ac-9231f44d0ffd"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COLUMN_55} == null ? null : "" + $F{COLUMN_55}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="223" y="387" width="50" height="11" isRemoveLineWhenBlank="true" uuid="b0257f90-bfc9-48ff-b096-60b04237f1b2"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COLUMN_58} == null ? null : "" + $F{COLUMN_58}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="13" y="399" width="199" height="11" isRemoveLineWhenBlank="true" uuid="781c32dd-7fc9-4d02-bf72-31f41d21a579"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COLUMN_56} == null ? null : "" + $F{COLUMN_56}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="223" y="399" width="50" height="11" isRemoveLineWhenBlank="true" uuid="661e76bc-ebe0-4ebd-a2b3-8542637e080d"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COLUMN_59} == null ? null : "" + $F{COLUMN_59}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="13" y="411" width="199" height="11" isRemoveLineWhenBlank="true" uuid="58f22118-d6b1-4820-bbd4-79e023a90736"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COLUMN_57} == null ? null : "" + $F{COLUMN_57}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="223" y="411" width="50" height="11" isRemoveLineWhenBlank="true" uuid="67609ee1-a720-452d-bbf4-8801031a3ec8"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COLUMN_60} == null ? null : "" + $F{COLUMN_60}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

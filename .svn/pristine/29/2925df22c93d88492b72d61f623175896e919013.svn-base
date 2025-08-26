@@ -1,0 +1,228 @@
+package Dialogos;
+
+import java.io.IOException;
+import java.util.logging.Level;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import java.util.logging.Logger;
+
+
+/**
+ *
+ * @author informatica (Roberto Lopez)
+ */
+public class jdBuscaAsignFamiliar extends javax.swing.JDialog {
+    
+    private static final Logger LOGGER = null;
+    public static String atramo = "D";
+    public static String monto1, monto2,monto3= "";
+    public static String smonto1, smonto2,smonto3= "";
+    public static double dmonto1, dmonto2,dmonto3= 0;
+    public static String rango1, rango21,rango22,rango31,rango32,rango4= "";
+    public static String srango1, srango21,srango22,srango31,srango32,srango4= "";
+    public static double drango1, drango21,drango22,drango31,drango32,drango4= 0;
+   
+  
+    public static int cont = 1;
+   
+    public jdBuscaAsignFamiliar() throws IOException{
+    
+
+    Document doc3 = org.jsoup.Jsoup.connect("https://www.previred.com/web/previred/indicadores-previsionales").get();
+   
+        Elements filas3 = doc3.select("tr");
+         
+        for(Element fila3 :filas3)
+        {
+            Elements columnas3 = fila3.select("td");
+            
+            for (Element columna3:columnas3)
+            {
+                switch (cont){
+                
+                    case 94:
+                           monto1 = columna3.text();    
+                    case 95:
+                           rango1 = columna3.text();    
+                    case 97:
+                           monto2 = columna3.text();    
+                    case 98:
+                           rango21 = columna3.text(); 
+                           rango22 = columna3.text(); 
+                    case 100:
+                           monto3 = columna3.text();   
+                    case 101:
+                           rango31 = columna3.text(); 
+                           rango32 = columna3.text();     
+                    case 104:
+                           rango4 = columna3.text();   
+                         
+                
+                
+                }
+             
+               cont++;
+                
+            }
+        }
+        
+        
+        
+        
+     
+        smonto1 = monto1.substring(2);
+        smonto2 = monto2.substring(2);
+        smonto3 = monto3.substring(2);
+        
+        srango1 = rango1.substring(14);
+
+        srango21 = rango21.substring(10,17);
+        srango22 = rango22.substring(23);
+        srango31 = rango31.substring(10,17);
+        srango32 = rango32.substring(23);
+        
+        srango4 = rango4.substring(10);
+     
+        
+        
+        
+        dmonto1 = Double.parseDouble(smonto1.replaceAll("\\.",""));
+        dmonto2 = Double.parseDouble(smonto2.replaceAll("\\.",""));
+        dmonto3 = Double.parseDouble(smonto3.replaceAll("\\.",""));
+        
+        drango1 = Double.parseDouble(srango1.replaceAll("\\.",""));
+        drango21 = Double.parseDouble(srango21.replaceAll("\\.",""));
+        drango22 = Double.parseDouble(srango22.replaceAll("\\.",""));
+        drango31 = Double.parseDouble(srango31.replaceAll("\\.",""));
+        drango32 = Double.parseDouble(srango32.replaceAll("\\.",""));
+        drango4 = Double.parseDouble(srango4.replaceAll("\\.",""));
+        
+        
+        
+           
+        System.out.println("monto1 : "+dmonto1+"\n");
+        System.out.println("monto2 : "+dmonto2+"\n");
+        System.out.println("monto3 : "+dmonto3+"\n");
+        
+        System.out.println("rango1 : "+drango1+"\n");
+       
+        System.out.println("rango21 : "+drango21+"\n");
+        System.out.println("rango22 : "+drango22+"\n");
+       
+        System.out.println("rango31 : "+drango31+"\n");
+        System.out.println("rango32 : "+drango32+"\n");
+        System.out.println("rango4 : "+drango4+"\n");
+       
+//        
+//        
+//        System.out.println(dmonto1+"\n");
+//        System.out.println(dmonto2+"\n");
+//        System.out.println(dmonto3+"\n");
+//        
+//        System.out.println(drango1+"\n");
+//       
+//        System.out.println(drango21+"\n");
+//        System.out.println(drango22+"\n");
+//       
+//        System.out.println(drango31+"\n");
+//        System.out.println(drango32+"\n");
+//        System.out.println(drango4+"\n");
+        
+    }
+   
+   
+    public Double GetMonto1(){
+       return dmonto1;
+        
+    }
+    public Double GetMonto2(){
+       return dmonto2;
+        
+    }
+    
+    public Double GetMonto3(){
+       return dmonto3;
+        
+    }
+    
+    public Double GetRango1(){
+       return drango1;
+        
+    }
+    
+    public Double GetRango21(){
+       return drango21;
+        
+    }
+    
+    public Double GetRango22(){
+       return drango22;
+        
+    }
+    
+    public Double GetRango31(){
+       return drango31;
+        
+    }
+    
+    public Double GetRango32(){
+       return drango32;
+        
+    }
+    
+    public Double GetRango4(){
+       return drango4;
+        
+    }
+    
+    public String GetTramo(){
+       return atramo;
+        
+    }
+    
+    
+    
+    public Double compara(double monto){
+         
+        double asignacion = 0;
+              
+        if (monto <= drango1){
+           
+           asignacion = dmonto1;
+           atramo = "A";
+       
+        }else if(monto > drango21 && monto <= drango22){
+             
+           asignacion = dmonto2;
+           atramo = "B";
+             
+        }else if(monto > drango31 && monto <= drango32){
+            
+           asignacion = dmonto3;
+           atramo = "C";
+             
+        }else if(monto > drango4){
+        
+           asignacion = 0;
+           atramo = "D";
+        
+        }
+        
+       return asignacion;
+        
+    } 
+    
+    
+    
+    
+   public static void main(String[] args)  {
+       
+       try {                                                                                                  //Para ejecutarlo
+           @SuppressWarnings("LocalVariableHidesMemberVariable")
+           jdBuscaAsignFamiliar afp = new jdBuscaAsignFamiliar();                                                   // como aplicación independienmte
+       } catch (IOException ex) {                                                                               // desde el main()
+           Logger.getLogger(jdBuscaAsignFamiliar.class.getName()).log(Level.SEVERE, null, ex);                    // 
+       }
+    }
+} 

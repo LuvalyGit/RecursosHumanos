@@ -1,0 +1,2281 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Dialogos;
+
+import Conexion.ExeSql;
+import Formularios.fmMain;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.apache.commons.math3.util.Precision;
+
+/**
+ *
+ * @author Roberto Lopez
+ */
+public class jdValores extends javax.swing.JDialog {
+
+    /**
+     * @param parent
+     * @param modal
+     */
+    
+    Date hoy = new Date();
+    String uf,suf,sdolar, dolar;
+   
+    double valor = 0;
+    String nombre = "";
+    String codigo = "";
+    String codigo2 = "";
+    String rango11,rango20,rango21,rango30,rango31,rango40,rango41,rango50,rango51,rango60,rango61,rango70,rango71,rango80 = "";
+    String factor2,factor3,factor4,factor5,factor6,factor7,factor8 = "";
+    String rebaja2,rebaja3,rebaja4,rebaja5,rebaja6,rebaja7,rebaja8 = "";
+    
+    int existe = 0;
+    int existe1,existe2,existe3,existe4,existe5 = 0;
+    
+    int existe11,existe12,existe13,existe14,existe15,existe16,existe17,existe18,existe19 = 0;
+    int existe20,existe21,existe22,existe23,existe24,existe25,existe26,existe27,existe28,existe29,existe30,existe31 = 0;
+    int existe32,existe33,existe34,existe35,existe36,existe37,existe38,existe39  = 0;
+    
+    int pos = 0;
+    
+    
+    
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    
+    
+    public jdValores(java.awt.Frame parent, boolean modal) throws IOException {
+        
+        super(parent, modal);
+        initComponents();
+        
+        ExeSql Sql = new ExeSql();
+        ResultSet Rs = null;
+         
+        try {
+            Rs = Sql.Select("SELECT * FROM indicadores WHERE codigo NOT IN ('DOL-1','UF-1')");
+            
+            if(Sql.GetRowCount()>0){
+                
+                pos = 1;
+                
+                while (Rs.next()){
+                    
+                    codigo = Rs.getString("codigo");
+                    nombre = Rs.getString("nombre");
+                    valor = Precision.round((Rs.getDouble("valor")*100),4);
+                    
+                    if (codigo.equals("AFC-1") && existe1 == 0){
+                    
+                        txAfc1.setText(""+valor);
+                        existe1 = 1;
+                    
+                    }else if (!codigo.equals("AFC-1") && existe1 == 0){
+                    
+                        txAfc1.setText("0");
+                       
+                    }
+                    
+                    System.out.println("valor : "+txAfc1.getText());
+                    
+                    
+                    if (codigo.equals("AFC-2") && existe2 == 0){
+                    
+                        txAfc2.setText(""+valor);
+                        existe2 = 1;
+                    
+                    }else if (!codigo.equals("AFC-2") && existe2 == 0){
+                    
+                        txAfc2.setText("0");
+                      
+                    }
+                    
+                    if (codigo.equals("AFC-3") && existe3 == 0){
+                    
+                        txAfc3.setText(""+valor);
+                        existe3 = 1;
+                    
+                    }else if (!codigo.equals("AFC-3") && existe3 == 0){
+                    
+                         txAfc3.setText("0");
+                    
+                    }
+                 
+                         
+                    if (codigo.equals("MUTUAL-1") && existe4 == 0){
+                    
+                        txMutual.setText(""+valor);
+                        existe4 = 1;
+                    
+                    }else if (!codigo.equals("MUTUAL-1") && existe4 == 0){
+                    
+                        txMutual.setText("0");
+                    
+                    }
+        
+                    
+                    if (codigo.equals("SIS-1") && existe5 == 0){
+                    
+                        txSis.setText(""+valor);
+                        existe5 = 1;
+                    
+                    }else if (!codigo.equals("SIS-1") && existe5 == 0){
+                    
+                        txSis.setText("0");
+                    
+                    }          
+                
+                }
+            
+            }else{
+            
+                txAfc1.setText("0");
+                txAfc2.setText("0");
+                txAfc3.setText("0");
+                txMutual.setText("0");
+                txSis.setText("0");
+                
+                existe1 = 0;
+                existe2 = 0;
+                existe3 = 0;
+                existe4 = 0;
+                existe5 = 0;
+                
+            }
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(jdValores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+        btCargar.doClick();
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        btCerrar = new javax.swing.JButton();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel3 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        txAfc1 = new javax.swing.JTextField();
+        txAfc2 = new javax.swing.JTextField();
+        txAfc3 = new javax.swing.JTextField();
+        txMutual = new javax.swing.JTextField();
+        txSis = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        btEditar = new javax.swing.JButton();
+        btGuardar = new javax.swing.JButton();
+        btCancelar = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        btCargar = new javax.swing.JButton();
+        btEditar1 = new javax.swing.JButton();
+        btGuardar1 = new javax.swing.JButton();
+        btCancelar1 = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        lbRango10 = new javax.swing.JLabel();
+        txRango11 = new javax.swing.JTextField();
+        txRango20 = new javax.swing.JTextField();
+        lbFactor1 = new javax.swing.JLabel();
+        txRango21 = new javax.swing.JTextField();
+        txRango30 = new javax.swing.JTextField();
+        txRango61 = new javax.swing.JTextField();
+        txRango40 = new javax.swing.JTextField();
+        txRango31 = new javax.swing.JTextField();
+        txRango41 = new javax.swing.JTextField();
+        txRango50 = new javax.swing.JTextField();
+        txRango60 = new javax.swing.JTextField();
+        txRango51 = new javax.swing.JTextField();
+        txRango70 = new javax.swing.JTextField();
+        txRango71 = new javax.swing.JTextField();
+        txFactor2 = new javax.swing.JTextField();
+        txFactor3 = new javax.swing.JTextField();
+        txFactor4 = new javax.swing.JTextField();
+        txFactor5 = new javax.swing.JTextField();
+        txFactor6 = new javax.swing.JTextField();
+        txFactor7 = new javax.swing.JTextField();
+        txFactor8 = new javax.swing.JTextField();
+        txRebaja3 = new javax.swing.JTextField();
+        txRebaja2 = new javax.swing.JTextField();
+        txRebaja4 = new javax.swing.JTextField();
+        txRebaja5 = new javax.swing.JTextField();
+        txRebaja6 = new javax.swing.JTextField();
+        txRebaja7 = new javax.swing.JTextField();
+        txRango80 = new javax.swing.JTextField();
+        txRebaja8 = new javax.swing.JTextField();
+        lbFactor2 = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
+
+        btCerrar.setText("Cerrar");
+        btCerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCerrarActionPerformed(evt);
+            }
+        });
+
+        jTabbedPane1.setName("Valores"); // NOI18N
+        jTabbedPane1.setPreferredSize(new java.awt.Dimension(603, 522));
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel2.setText("Seguro Cesantía (Empresa) Contrato Fijo");
+
+        jLabel4.setText("Seguro Cesantía (Empresa) Contrato Indefinido  ");
+
+        jLabel5.setText("Seguro Cesantía (Trabajador) Contrato Indefinido  ");
+
+        jLabel3.setText("Seguro de Accidente del Trabajo");
+
+        jLabel1.setText("Seguro de Inalidez y Sobrevivencia (SIS) ");
+
+        txAfc1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txAfc1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txAfc1.setText("0");
+        txAfc1.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txAfc1.setEnabled(false);
+        txAfc1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txAfc1FocusGained(evt);
+            }
+        });
+        txAfc1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txAfc1KeyTyped(evt);
+            }
+        });
+
+        txAfc2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txAfc2.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txAfc2.setText("0");
+        txAfc2.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txAfc2.setEnabled(false);
+        txAfc2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txAfc2FocusGained(evt);
+            }
+        });
+        txAfc2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txAfc2KeyTyped(evt);
+            }
+        });
+
+        txAfc3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txAfc3.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txAfc3.setText("0");
+        txAfc3.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txAfc3.setEnabled(false);
+        txAfc3.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txAfc3FocusGained(evt);
+            }
+        });
+        txAfc3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txAfc3KeyTyped(evt);
+            }
+        });
+
+        txMutual.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txMutual.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txMutual.setText("0");
+        txMutual.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txMutual.setEnabled(false);
+        txMutual.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txMutualFocusGained(evt);
+            }
+        });
+        txMutual.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txMutualKeyTyped(evt);
+            }
+        });
+
+        txSis.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txSis.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txSis.setText("0");
+        txSis.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txSis.setEnabled(false);
+        txSis.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txSisFocusGained(evt);
+            }
+        });
+        txSis.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txSisKeyTyped(evt);
+            }
+        });
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel6.setText("%");
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel7.setText("%");
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel8.setText("%");
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel9.setText("%");
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel10.setText("%");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txMutual)
+                    .addComponent(txAfc3)
+                    .addComponent(txAfc2)
+                    .addComponent(txAfc1)
+                    .addComponent(txSis, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(44, 44, 44))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(67, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txAfc1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addGap(25, 25, 25)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txAfc2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addGap(25, 25, 25)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(txAfc3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addGap(25, 25, 25)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txMutual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel9))
+                .addGap(25, 25, 25)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txSis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel10))
+                .addGap(48, 48, 48))
+        );
+
+        btEditar.setText("Editar");
+        btEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btEditarActionPerformed(evt);
+            }
+        });
+
+        btGuardar.setText("Guardar");
+        btGuardar.setEnabled(false);
+        btGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btGuardarActionPerformed(evt);
+            }
+        });
+
+        btCancelar.setText("Cancelar");
+        btCancelar.setEnabled(false);
+        btCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCancelarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(75, 75, 75)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(btEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(59, 59, 59))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(53, 53, 53)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(37, 37, 37))
+        );
+
+        jTabbedPane1.addTab("Valores Previsionales", jPanel3);
+
+        jPanel4.setPreferredSize(new java.awt.Dimension(100, 100));
+
+        btCargar.setText("Cargar");
+        btCargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCargarActionPerformed(evt);
+            }
+        });
+
+        btEditar1.setText("Editar");
+        btEditar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btEditar1ActionPerformed(evt);
+            }
+        });
+
+        btGuardar1.setText("Guardar");
+        btGuardar1.setEnabled(false);
+        btGuardar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btGuardar1ActionPerformed(evt);
+            }
+        });
+
+        btCancelar1.setText("Cancelar");
+        btCancelar1.setEnabled(false);
+        btCancelar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCancelar1ActionPerformed(evt);
+            }
+        });
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel2.setToolTipText("");
+        jPanel2.setName(""); // NOI18N
+
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel11.setText("Desde");
+
+        jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel21.setText("Hasta");
+
+        jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel23.setText("Factor");
+
+        jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel25.setText("Rebaja");
+
+        lbRango10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbRango10.setText("0");
+        lbRango10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        txRango11.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txRango11.setText("0");
+        txRango11.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txRango11.setDoubleBuffered(true);
+        txRango11.setEnabled(false);
+        txRango11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txRango11ActionPerformed(evt);
+            }
+        });
+
+        txRango20.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txRango20.setText("0");
+        txRango20.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txRango20.setEnabled(false);
+
+        lbFactor1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbFactor1.setText("Exento");
+        lbFactor1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        txRango21.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txRango21.setText("0");
+        txRango21.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txRango21.setEnabled(false);
+
+        txRango30.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txRango30.setText("0");
+        txRango30.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txRango30.setEnabled(false);
+
+        txRango61.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txRango61.setText("0");
+        txRango61.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txRango61.setEnabled(false);
+
+        txRango40.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txRango40.setText("0");
+        txRango40.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txRango40.setEnabled(false);
+
+        txRango31.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txRango31.setText("0");
+        txRango31.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txRango31.setEnabled(false);
+
+        txRango41.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txRango41.setText("0");
+        txRango41.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txRango41.setEnabled(false);
+
+        txRango50.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txRango50.setText("0");
+        txRango50.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txRango50.setEnabled(false);
+
+        txRango60.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txRango60.setText("0");
+        txRango60.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txRango60.setEnabled(false);
+
+        txRango51.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txRango51.setText("0");
+        txRango51.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txRango51.setEnabled(false);
+
+        txRango70.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txRango70.setText("0");
+        txRango70.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txRango70.setEnabled(false);
+
+        txRango71.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txRango71.setText("0");
+        txRango71.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txRango71.setEnabled(false);
+
+        txFactor2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txFactor2.setText("0");
+        txFactor2.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txFactor2.setEnabled(false);
+
+        txFactor3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txFactor3.setText("0");
+        txFactor3.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txFactor3.setEnabled(false);
+
+        txFactor4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txFactor4.setText("0");
+        txFactor4.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txFactor4.setEnabled(false);
+
+        txFactor5.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txFactor5.setText("0");
+        txFactor5.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txFactor5.setEnabled(false);
+
+        txFactor6.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txFactor6.setText("0");
+        txFactor6.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txFactor6.setEnabled(false);
+
+        txFactor7.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txFactor7.setText("0");
+        txFactor7.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txFactor7.setEnabled(false);
+
+        txFactor8.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txFactor8.setText("0");
+        txFactor8.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txFactor8.setEnabled(false);
+
+        txRebaja3.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txRebaja3.setText("0");
+        txRebaja3.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txRebaja3.setEnabled(false);
+
+        txRebaja2.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txRebaja2.setText("0");
+        txRebaja2.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txRebaja2.setEnabled(false);
+
+        txRebaja4.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txRebaja4.setText("0");
+        txRebaja4.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txRebaja4.setEnabled(false);
+
+        txRebaja5.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txRebaja5.setText("0");
+        txRebaja5.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txRebaja5.setEnabled(false);
+
+        txRebaja6.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txRebaja6.setText("0");
+        txRebaja6.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txRebaja6.setEnabled(false);
+
+        txRebaja7.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txRebaja7.setText("0");
+        txRebaja7.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txRebaja7.setEnabled(false);
+
+        txRango80.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txRango80.setText("0");
+        txRango80.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txRango80.setEnabled(false);
+
+        txRebaja8.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txRebaja8.setText("0");
+        txRebaja8.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txRebaja8.setEnabled(false);
+
+        lbFactor2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbFactor2.setText("Y MAS");
+        lbFactor2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(lbRango10, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txRango11, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txRango70, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txRango60, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txRango50, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txRango40, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txRango20, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txRango30, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txRango80, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txRango21)
+                            .addComponent(txRango61)
+                            .addComponent(txRango31)
+                            .addComponent(txRango41)
+                            .addComponent(txRango51)
+                            .addComponent(txRango71, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbFactor2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(36, 36, 36)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txFactor4)
+                            .addComponent(txFactor5)
+                            .addComponent(txFactor6)
+                            .addComponent(txFactor7)
+                            .addComponent(txFactor2)
+                            .addComponent(txFactor3)
+                            .addComponent(lbFactor1, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(35, 35, 35)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txRebaja6, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txRebaja5, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txRebaja4, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txRebaja7, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txRebaja2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txRebaja3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(txFactor8, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                        .addComponent(txRebaja8, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(24, 24, 24))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel23)
+                    .addComponent(jLabel25)
+                    .addComponent(jLabel21)
+                    .addComponent(jLabel11))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txRango11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lbFactor1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbRango10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txRebaja2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txFactor2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txRango21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txRango20, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txRango31, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txFactor3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txRango30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txRebaja3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txRango40, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txRango41, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txFactor4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txRebaja4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txRango50, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txRango51, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txFactor5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txRebaja5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txRango60, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txRango61, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txFactor6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txRebaja6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txRango70, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txRango71, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txFactor7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txRebaja7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txRango80, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txRebaja8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txFactor8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbFactor2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19))
+        );
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addComponent(btCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btEditar1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btGuardar1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btCancelar1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btEditar1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btGuardar1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btCancelar1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(53, 53, 53))
+        );
+
+        jTabbedPane1.addTab("Impuesto Único", jPanel4);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 603, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(btCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25))
+        );
+
+        jTabbedPane1.getAccessibleContext().setAccessibleName("Valores");
+        jTabbedPane1.getAccessibleContext().setAccessibleDescription("");
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCerrarActionPerformed
+         dispose();
+        
+    }//GEN-LAST:event_btCerrarActionPerformed
+
+    private void btEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEditarActionPerformed
+        
+        btGuardar.setEnabled(true);
+        btCancelar.setEnabled(true);
+        btEditar.setEnabled(false);
+        btCerrar.setEnabled(false);
+        
+        
+        txAfc1.setEnabled(true);
+        txAfc2.setEnabled(true);
+        txAfc3.setEnabled(true);
+        txMutual.setEnabled(true);
+        txSis.setEnabled(true);
+        
+        
+    }//GEN-LAST:event_btEditarActionPerformed
+
+    private void btGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGuardarActionPerformed
+       
+        ExeSql Sql = new ExeSql();
+         
+        if (txAfc1.getText().equals("") || txAfc1.getText().equals("0") ){
+        
+           fmMain.Mensaje("Debe Ingresar un valor!!");
+           txAfc1.requestFocus();
+           return;
+                
+        }
+        if (txAfc2.getText().equals("") || txAfc2.getText().equals("0")){
+        
+           fmMain.Mensaje("Debe Ingresar un valor!!");
+           txAfc2.requestFocus();
+           return;
+                
+        }
+        if (txAfc3.getText().equals("") || txAfc3.getText().equals("0")){
+        
+           fmMain.Mensaje("Debe Ingresar un valor!!");
+           txAfc3.requestFocus();
+           return;
+            
+                
+        }
+        
+        if (txMutual.getText().equals("") || txMutual.getText().equals("0")){
+        
+           fmMain.Mensaje("Debe Ingresar un valor!!");
+           txMutual.requestFocus();
+           return;
+                
+        }
+        
+         if (txSis.getText().equals("") || txSis.getText().equals("0")){
+        
+           fmMain.Mensaje("Debe Ingresar un valor!!");
+           txSis.requestFocus();
+           return;
+                
+        }
+        
+        
+        try {
+           
+            valor = 0;
+            for(int i = 1;i <= 5;i++){
+            
+                
+                
+                if (i == 1){
+                
+                    
+                   nombre = "Seguro Cesantía (Empresa) Contrato Fijo";
+                   valor = (Double.parseDouble(txAfc1.getText().toString())/100);
+                   
+                   if (existe1 == 0){
+                   
+                        Sql.ExeSql("INSERT INTO indicadores (codigo, nombre, valor, fecha) VALUES( \n " +
+                                   "'AFC-1' ,\n" +
+                                   "'"+nombre+"',\n" +
+                                   +valor+",\n" + 
+                                   "'"+dateFormat.format(hoy)+"')");
+                        Sql.Commit();
+                   
+                   }else if (existe1 == 1){
+                   
+                        Sql.ExeSql("UPDATE indicadores SET valor = " +valor+", \n" + 
+                                   "fecha = '"+dateFormat.format(hoy)+"' \n"+
+                                   "WHERE codigo = 'AFC-1'");
+                        Sql.Commit();
+                   
+                   
+                   
+                   }
+                
+                
+                }else if (i == 2){
+                
+                   nombre = "Seguro Cesantía (Empresa) Contrato Indefinido";
+                   valor = (Double.parseDouble(txAfc2.getText().toString())/100);
+                   
+                   
+                   if (existe2 == 0){
+                   
+                        Sql.ExeSql("INSERT INTO indicadores (codigo, nombre, valor, fecha) VALUES( \n " +
+                                   "'AFC-2' ,\n" +
+                                   "'"+nombre+"',\n" +
+                                   +valor+",\n" + 
+                                   "'"+dateFormat.format(hoy)+"')");
+                        Sql.Commit();
+                   
+                   }else if (existe2 == 1){
+                   
+                        Sql.ExeSql("UPDATE indicadores SET valor = " +valor+", \n" + 
+                                   "fecha = '"+dateFormat.format(hoy)+"' \n"+
+                                   "WHERE codigo = 'AFC-2'");
+                        Sql.Commit();
+                   
+                   
+                   
+                   }
+                   
+                }else if (i == 3){
+                
+                   nombre = "Seguro Cesantía (Trabajador) Contrato Indefinido";
+                   valor = (Double.parseDouble(txAfc3.getText().toString())/100);
+                   
+                    if (existe3 == 0){
+                   
+                        Sql.ExeSql("INSERT INTO indicadores (codigo, nombre, valor, fecha) VALUES( \n " +
+                                   "'AFC-3' ,\n" +
+                                   "'"+nombre+"',\n" +
+                                   +valor+",\n" + 
+                                   "'"+dateFormat.format(hoy)+"')");
+                        Sql.Commit();
+                   
+                   }else if (existe3 == 1){
+                   
+                        Sql.ExeSql("UPDATE indicadores SET valor = " +valor+", \n" + 
+                                   "fecha = '"+dateFormat.format(hoy)+"' \n"+
+                                   "WHERE codigo = 'AFC-3'");
+                        Sql.Commit();
+                   
+                   
+                   
+                   }
+                
+                }else if (i == 4){
+                
+                   nombre = "Seguro de Accidente del Trabajo";
+                   valor = (Double.parseDouble(txMutual.getText().toString())/100);
+                   
+                   
+                    if (existe4 == 0){
+                   
+                        Sql.ExeSql("INSERT INTO indicadores (codigo, nombre, valor, fecha) VALUES( \n " +
+                                   "'MUTUAL-1' ,\n" +
+                                   "'"+nombre+"',\n" +
+                                   +valor+",\n" + 
+                                   "'"+dateFormat.format(hoy)+"')");
+                        Sql.Commit();
+                   
+                   }else if (existe4 == 1){
+                   
+                        Sql.ExeSql("UPDATE indicadores SET valor = " +valor+", \n" + 
+                                   "fecha = '"+dateFormat.format(hoy)+"' \n"+
+                                   "WHERE codigo = 'MUTUAL-1'");
+                        Sql.Commit();
+                   
+                   
+                   
+                   }
+                   
+                   
+                   
+                
+                }else if (i == 5){
+                
+                   nombre = "Seguro de Inalidez y Sobrevivencia (SIS)";
+                   valor = (Double.parseDouble(txSis.getText().toString())/100);
+                   
+                   
+                    if (existe5 == 0){
+                   
+                        Sql.ExeSql("INSERT INTO indicadores (codigo, nombre, valor, fecha) VALUES( \n " +
+                                   "'SIS-1' ,\n" +
+                                   "'"+nombre+"',\n" +
+                                   +valor+",\n" + 
+                                   "'"+dateFormat.format(hoy)+"')");
+                        Sql.Commit();
+                   
+                   }else if (existe5 == 1){
+                   
+                        Sql.ExeSql("UPDATE indicadores SET valor = " +valor+", \n" + 
+                                   "fecha = '"+dateFormat.format(hoy)+"' \n"+
+                                   "WHERE codigo = 'SIS-1'");
+                        Sql.Commit();
+                   
+                   
+                   
+                   }
+                
+                }
+            
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(jdValores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+        
+        
+        btGuardar.setEnabled(false);
+        btCancelar.setEnabled(false);
+        btEditar.setEnabled(true);
+        btCerrar.setEnabled(true);
+        
+        txAfc1.setEnabled(false);
+        txAfc2.setEnabled(false);
+        txAfc3.setEnabled(false);
+        txMutual.setEnabled(false);
+        txSis.setEnabled(false);
+        
+    }//GEN-LAST:event_btGuardarActionPerformed
+
+    private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
+       
+        
+        
+        if (txAfc1.getText().equals("")){
+        
+           txAfc1.setText("0");
+                
+        }
+        if (txAfc2.getText().equals("")){
+        
+           txAfc2.setText("0");
+                
+        }
+        if (txAfc3.getText().equals("")){
+        
+           txAfc3.setText("0");
+                
+        }
+        
+        if (txMutual.getText().equals("")){
+        
+           txMutual.setText("0");
+                
+        }
+        
+         if (txSis.getText().equals("")){
+        
+           txSis.setText("0");
+                
+        }
+        
+         
+        btGuardar.setEnabled(false);
+        btCancelar.setEnabled(false);
+        btEditar.setEnabled(true);
+        btCerrar.setEnabled(true);
+         
+        txAfc1.setEnabled(false);
+        txAfc2.setEnabled(false);
+        txAfc3.setEnabled(false);
+        txMutual.setEnabled(false);
+        txSis.setEnabled(false);
+        
+        
+    }//GEN-LAST:event_btCancelarActionPerformed
+
+    private void txAfc1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txAfc1FocusGained
+       txAfc1.setText("");
+    }//GEN-LAST:event_txAfc1FocusGained
+
+    private void txAfc2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txAfc2FocusGained
+        txAfc2.setText("");
+    }//GEN-LAST:event_txAfc2FocusGained
+
+    private void txAfc3FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txAfc3FocusGained
+        txAfc3.setText("");
+    }//GEN-LAST:event_txAfc3FocusGained
+
+    private void txMutualFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txMutualFocusGained
+        txMutual.setText("");
+    }//GEN-LAST:event_txMutualFocusGained
+
+    private void txSisFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txSisFocusGained
+        txSis.setText("");
+    }//GEN-LAST:event_txSisFocusGained
+
+    private void txAfc1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txAfc1KeyTyped
+        char validar = evt.getKeyChar();    //Código agregado por R. Lopez
+        
+        if (Character.isLetter(validar) || (validar == KeyEvent.VK_COMMA)){   //se valida que solo se ingresen 
+           
+            evt.consume();                  //números al textfield "txRut"
+        }
+
+    }//GEN-LAST:event_txAfc1KeyTyped
+
+    private void txAfc2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txAfc2KeyTyped
+       
+        char validar = evt.getKeyChar();    //Código agregado por R. Lopez
+        
+        if (Character.isLetter(validar) || (validar == KeyEvent.VK_COMMA)){   //se valida que solo se ingresen 
+           
+            evt.consume();                  //números al textfield "txRut"
+        }
+        
+        
+    }//GEN-LAST:event_txAfc2KeyTyped
+
+    private void txAfc3KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txAfc3KeyTyped
+        
+        char validar = evt.getKeyChar();    //Código agregado por R. Lopez
+        if (Character.isLetter(validar) || (validar == KeyEvent.VK_COMMA)){   //se valida que solo se ingresen 
+           
+            evt.consume();                  //números al textfield "txRut"
+        }
+        
+    }//GEN-LAST:event_txAfc3KeyTyped
+
+    private void txMutualKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txMutualKeyTyped
+       char validar = evt.getKeyChar();    //Código agregado por R. Lopez
+       
+       if (Character.isLetter(validar) || (validar == KeyEvent.VK_COMMA)){   //se valida que solo se ingresen 
+           
+            evt.consume();                  //números al textfield "txRut"
+       }
+       
+    }//GEN-LAST:event_txMutualKeyTyped
+
+    private void txSisKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txSisKeyTyped
+       
+        char validar = evt.getKeyChar();    //Código agregado por R. Lopez
+        
+        if (Character.isLetter(validar) || (validar == KeyEvent.VK_COMMA)){   //se valida que solo se ingresen 
+           
+            evt.consume();                  //números al textfield "txRut"
+        }
+        
+    }//GEN-LAST:event_txSisKeyTyped
+
+    private void txRango11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txRango11ActionPerformed
+        
+    }//GEN-LAST:event_txRango11ActionPerformed
+
+    private void btEditar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEditar1ActionPerformed
+        
+        btCargar.setEnabled(false);
+        btGuardar1.setEnabled(true);
+        btCancelar1.setEnabled(true);
+        btEditar1.setEnabled(false);
+              
+        
+        txRango11.setEnabled(true);
+        txRango20.setEnabled(true);
+        txRango21.setEnabled(true);
+        txFactor2.setEnabled(true);
+        txRebaja2.setEnabled(true);
+        txRango30.setEnabled(true);
+        txRango31.setEnabled(true);
+        txFactor3.setEnabled(true);
+        txRebaja3.setEnabled(true);
+        txRango40.setEnabled(true);
+        txRango41.setEnabled(true);
+        txFactor4.setEnabled(true);
+        txRebaja4.setEnabled(true);
+        txRango50.setEnabled(true);
+        txRango51.setEnabled(true);
+        txFactor5.setEnabled(true);
+        txRebaja5.setEnabled(true);
+        txRango60.setEnabled(true);
+        txRango61.setEnabled(true);
+        txFactor6.setEnabled(true);
+        txRebaja6.setEnabled(true);
+        txRango70.setEnabled(true);
+        txRango71.setEnabled(true);
+        txFactor7.setEnabled(true);
+        txRebaja7.setEnabled(true);
+        txRango80.setEnabled(true);
+        txFactor8.setEnabled(true);
+        txRebaja8.setEnabled(true);
+        
+
+        
+        
+    }//GEN-LAST:event_btEditar1ActionPerformed
+
+    private void btGuardar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGuardar1ActionPerformed
+        
+         ExeSql Sql = new ExeSql();
+         
+        if (txRango11.getText().equals("") || txRango11.getText().equals("0") ){
+        
+           fmMain.Mensaje("Debe Ingresar un valor!!");
+           txRango11.requestFocus();
+           return;
+                
+        }
+        if (txRango20.getText().equals("") || txRango20.getText().equals("0")){
+        
+           fmMain.Mensaje("Debe Ingresar un valor!!");
+           txRango20.requestFocus();
+           return;
+                
+        }
+        
+        if (txRango21.getText().equals("") || txRango21.getText().equals("0")){
+        
+           fmMain.Mensaje("Debe Ingresar un valor!!");
+           txRango21.requestFocus();
+           return;
+                
+        }
+         
+        
+        if (txFactor2.getText().equals("") || txFactor2.getText().equals("0")){
+        
+           fmMain.Mensaje("Debe Ingresar un valor!!");
+           txFactor2.requestFocus();
+           return;
+                
+        }
+        
+        if (txRebaja2.getText().equals("") || txRebaja2.getText().equals("0")){
+        
+           fmMain.Mensaje("Debe Ingresar un valor!!");
+           txRebaja2.requestFocus();
+           return;
+                
+        }
+         
+        
+        try {
+           
+            valor = 0;
+            for(int i = 1;i <= 28;i++){
+              
+                if (i == 1){
+                    
+                   nombre = "IMPUESTO_RANGO";
+                   valor = Double.parseDouble(txRango11.getText().toString());
+                   codigo2 = rango11;
+                   existe = existe11;
+                   
+                }   
+                
+                if (i == 2){
+                    
+                   nombre = "IMPUESTO_RANGO";
+                   valor = Double.parseDouble(txRango20.getText().toString());
+                   codigo2 = rango20;
+                   existe = existe12;
+                   
+                }   
+                
+                if (i == 3){
+                    
+                   nombre = "IMPUESTO_RANGO";
+                   valor = Double.parseDouble(txRango21.getText().toString());
+                   codigo2 = rango21;
+                   existe = existe13;
+                   
+                }   
+                
+                if (i == 4){
+                    
+                   nombre = "IMPUESTO_FACTOR";
+                   valor = Double.parseDouble(txFactor2.getText().toString());
+                   codigo2 = factor2;
+                   existe = existe14;
+                   
+                }   
+                
+                
+                if (i == 5){
+                    
+                   nombre = "IMPUESTO_REBAJA";
+                   valor = Double.parseDouble(txRebaja2.getText().toString());
+                   codigo2 = rebaja2;
+                   existe = existe15;
+                   
+                }   
+                
+                
+                
+                
+                if (i == 6){
+                    
+                   nombre = "IMPUESTO_RANGO";
+                   valor = Double.parseDouble(txRango30.getText().toString());
+                   codigo2 = rango30;
+                   existe = existe16;
+                   
+                }   
+                
+                if (i == 7){
+                    
+                   nombre = "IMPUESTO_RANGO";
+                   valor = Double.parseDouble(txRango31.getText().toString());
+                   codigo2 = rango31;
+                   existe = existe17;
+                   
+                }   
+                
+                if (i == 8){
+                    
+                   nombre = "IMPUESTO_FACTOR";
+                   valor = Double.parseDouble(txFactor3.getText().toString());
+                   codigo2 = factor3;
+                   existe = existe18;
+                   
+                }   
+                
+                
+                if (i == 9){
+                    
+                   nombre = "IMPUESTO_REBAJA";
+                   valor = Double.parseDouble(txRebaja3.getText().toString());
+                   codigo2 = rebaja3;
+                   existe = existe19;
+                   
+                }   
+                
+                
+                
+                
+                if (i == 10){
+                    
+                   nombre = "IMPUESTO_RANGO";
+                   valor = Double.parseDouble(txRango40.getText().toString());
+                   codigo2 = rango40;
+                   existe = existe20;
+                   
+                }   
+                
+                if (i == 11){
+                    
+                   nombre = "IMPUESTO_RANGO";
+                   valor = Double.parseDouble(txRango41.getText().toString());
+                   codigo2 = rango41;
+                   existe = existe21;
+                   
+                }   
+                
+                if (i == 12){
+                    
+                   nombre = "IMPUESTO_FACTOR";
+                   valor = Double.parseDouble(txFactor4.getText().toString());
+                   codigo2 = factor4;
+                   existe = existe22;
+                   
+                }   
+                
+                
+                if (i == 13){
+                    
+                   nombre = "IMPUESTO_REBAJA";
+                   valor = Double.parseDouble(txRebaja4.getText().toString());
+                   codigo2 = rebaja4;
+                   existe = existe23;
+                   
+                }   
+                
+                
+                if (i == 14){
+                    
+                   nombre = "IMPUESTO_RANGO";
+                   valor = Double.parseDouble(txRango50.getText().toString());
+                   codigo2 = rango50;
+                   existe = existe24;
+                   
+                }   
+                
+                if (i == 15){
+                    
+                   nombre = "IMPUESTO_RANGO";
+                   valor = Double.parseDouble(txRango51.getText().toString());
+                   codigo2 = rango51;
+                   existe = existe25;
+                   
+                }   
+                
+                if (i == 16){
+                    
+                   nombre = "IMPUESTO_FACTOR";
+                   valor = Double.parseDouble(txFactor5.getText().toString());
+                   codigo2 = factor5;
+                   existe = existe26;
+                   
+                }   
+                
+                
+                if (i == 17){
+                    
+                   nombre = "IMPUESTO_REBAJA";
+                   valor = Double.parseDouble(txRebaja5.getText().toString());
+                   codigo2 = rebaja5;
+                   existe = existe27;
+                   
+                }   
+                
+                if (i == 18){
+                    
+                   nombre = "IMPUESTO_RANGO";
+                   valor = Double.parseDouble(txRango60.getText().toString());
+                   codigo2 = rango60;
+                   existe = existe28;
+                   
+                }   
+                
+                if (i == 19){
+                    
+                   nombre = "IMPUESTO_RANGO";
+                   valor = Double.parseDouble(txRango61.getText().toString());
+                   codigo2 = rango61;
+                   existe = existe29;
+                   
+                }   
+                
+                if (i == 20){
+                    
+                   nombre = "IMPUESTO_FACTOR";
+                   valor = Double.parseDouble(txFactor6.getText().toString());
+                   codigo2 = factor6;
+                   existe = existe30;
+                   
+                }   
+                
+                
+                if (i == 21){
+                    
+                   nombre = "IMPUESTO_REBAJA";
+                   valor = Double.parseDouble(txRebaja6.getText().toString());
+                   codigo2 = rebaja6;
+                   existe = existe31;
+                   
+                }   
+                
+                
+                if (i == 22){
+                    
+                   nombre = "IMPUESTO_RANGO";
+                   valor = Double.parseDouble(txRango70.getText().toString());
+                   codigo2 = rango70;
+                   existe = existe32;
+                   
+                }   
+                
+                if (i == 23){
+                    
+                   nombre = "IMPUESTO_RANGO";
+                   valor = Double.parseDouble(txRango71.getText().toString());
+                   codigo2 = rango71;
+                   existe = existe33;
+                   
+                }   
+                
+                if (i == 24){
+                    
+                   nombre = "IMPUESTO_FACTOR";
+                   valor = Double.parseDouble(txFactor7.getText().toString());
+                   codigo2 = factor7;
+                   existe = existe34;
+                   
+                }   
+                
+                
+                if (i == 25){
+                    
+                   nombre = "IMPUESTO_REBAJA";
+                   valor = Double.parseDouble(txRebaja7.getText().toString());
+                   codigo2 = rebaja7;
+                   existe = existe35;
+                   
+                }   
+                
+                
+                 if (i == 26){
+                    
+                   nombre = "IMPUESTO_RANGO";
+                   valor = Double.parseDouble(txRango80.getText().toString());
+                   codigo2 = rango80;
+                   existe = existe36;
+                   
+                }   
+                
+                if (i == 27){
+                    
+                   nombre = "IMPUESTO_FACTOR";
+                   valor = Double.parseDouble(txFactor8.getText().toString());
+                   codigo2 = factor8;
+                   existe = existe37;
+                   
+                }   
+                
+                
+                if (i == 28){
+                    
+                   nombre = "IMPUESTO_REBAJA";
+                   valor = Double.parseDouble(txRebaja8.getText().toString());
+                   codigo2 = rebaja8;
+                   existe = existe38;
+                   
+                }   
+                   
+                if (existe == 0){
+                   
+                        Sql.ExeSql("INSERT INTO indicadores (codigo, nombre, valor, fecha) VALUES( \n " +
+                                   "'"+codigo2+"' ,\n" +
+                                   "'"+nombre+"',\n" +
+                                   +valor+",\n" + 
+                                   "'"+dateFormat.format(hoy)+"')");
+                        Sql.Commit();
+                   
+                }else if (existe == 1){
+                   
+                        Sql.ExeSql("UPDATE indicadores SET valor = " +valor+", \n" + 
+                                   "fecha = '"+dateFormat.format(hoy)+"' \n"+
+                                   "WHERE codigo = '"+codigo2+"'");
+                        Sql.Commit();
+                   
+                   
+                   
+               }
+                
+  
+            
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(jdValores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+        
+        btCargar.setEnabled(true);
+        btGuardar1.setEnabled(false);
+        btCancelar1.setEnabled(false);
+        btEditar1.setEnabled(true);
+               
+        txRango11.setEnabled(false);
+        txRango20.setEnabled(false);
+        txRango21.setEnabled(false);
+        txFactor2.setEnabled(false);
+        txRebaja2.setEnabled(false);
+        txRango30.setEnabled(false);
+        txRango31.setEnabled(false);
+        txFactor3.setEnabled(false);
+        txRebaja3.setEnabled(false);
+        txRango40.setEnabled(false);
+        txRango41.setEnabled(false);
+        txFactor4.setEnabled(false);
+        txRebaja4.setEnabled(false);
+        txRango50.setEnabled(false);
+        txRango51.setEnabled(false);
+        txFactor5.setEnabled(false);
+        txRebaja5.setEnabled(false);
+        txRango60.setEnabled(false);
+        txRango61.setEnabled(false);
+        txFactor6.setEnabled(false);
+        txRebaja6.setEnabled(false);
+        txRango70.setEnabled(false);
+        txRango71.setEnabled(false);
+        txFactor7.setEnabled(false);
+        txRebaja7.setEnabled(false);
+        txRango80.setEnabled(false);
+        txFactor8.setEnabled(false);
+        txRebaja8.setEnabled(false);
+        
+
+    }//GEN-LAST:event_btGuardar1ActionPerformed
+
+    private void btCancelar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelar1ActionPerformed
+         
+        if (txRango11.getText().equals("")){
+        
+           txRango11.setText("0");
+                
+        }
+
+        
+        btCargar.setEnabled(true); 
+        btGuardar1.setEnabled(false);
+        btCancelar1.setEnabled(false);
+        btEditar1.setEnabled(true);
+      
+ 
+        txRango11.setEnabled(false);
+        txRango20.setEnabled(false);
+        txRango21.setEnabled(false);
+        txFactor2.setEnabled(false);
+        txRebaja2.setEnabled(false);
+        txRango30.setEnabled(false);
+        txRango31.setEnabled(false);
+        txFactor3.setEnabled(false);
+        txRebaja3.setEnabled(false);
+        txRango40.setEnabled(false);
+        txRango41.setEnabled(false);
+        txFactor4.setEnabled(false);
+        txRebaja4.setEnabled(false);
+        txRango50.setEnabled(false);
+        txRango51.setEnabled(false);
+        txFactor5.setEnabled(false);
+        txRebaja5.setEnabled(false);
+        txRango60.setEnabled(false);
+        txRango61.setEnabled(false);
+        txFactor6.setEnabled(false);
+        txRebaja6.setEnabled(false);
+        txRango70.setEnabled(false);
+        txRango71.setEnabled(false);
+        txFactor7.setEnabled(false);
+        txRebaja7.setEnabled(false);
+        txRango80.setEnabled(false);
+        txFactor8.setEnabled(false);
+        txRebaja8.setEnabled(false);
+        
+    }//GEN-LAST:event_btCancelar1ActionPerformed
+
+    private void btCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCargarActionPerformed
+        ExeSql Sql = new ExeSql();
+        ResultSet Rs = null;
+        
+        
+        try {
+            Rs = Sql.Select("SELECT * FROM indicadores WHERE nombre IN ('IMPUESTO_FACTOR','IMPUESTO_RANGO','IMPUESTO_REBAJA')");
+            
+            if(Sql.GetRowCount()>0){
+                
+                pos = 1;
+                
+                while (Rs.next()){
+                    
+                    codigo = Rs.getString("codigo");
+                    nombre = Rs.getString("nombre");
+                    valor = Double.parseDouble(Rs.getString("valor").trim());
+                    String monto = Rs.getString("valor").trim();
+              //      System.out.println("EL monto ES : "+Double.parseDouble(monto));
+                    
+                    if (codigo.equals("IMP_1_1") && existe11 == 0){
+                    
+                        txRango11.setText(""+valor);
+                        rango11 = codigo;
+                        existe11 = 1;
+                    
+                    }else if (!codigo.equals("IMP_1_1") && existe1 == 0){
+                    
+                        txRango11.setText("0");
+                        rango11 = codigo;
+                    }
+                    
+                    if (codigo.equals("IMP_2_0") && existe12 == 0){
+                    
+                        txRango20.setText(""+valor);
+                        rango20 = codigo;
+                        existe12 = 1;
+                    
+                    }else if (!codigo.equals("IMP_2_0") && existe12 == 0){
+                    
+                        txRango20.setText("0");
+                        rango20 = codigo;
+                      
+                    }
+                    
+                    
+                    if (codigo.equals("IMP_2_1") && existe13 == 0){
+                    
+                        txRango21.setText(""+valor);
+                        rango21 = codigo;
+                        existe13 = 1;
+                    
+                    }else if (!codigo.equals("IMP_2_1") && existe13 == 0){
+                    
+                        txRango21.setText("0");
+                        rango21 = codigo;
+                      
+                    }
+                    
+                    if (codigo.equals("FAC_2") && existe14 == 0){
+                    
+                        txFactor2.setText(""+valor);
+                        factor2 = codigo;
+                        existe14 = 1;
+                    
+                    }else if (!codigo.equals("FAC_2") && existe14 == 0){
+                    
+                        txFactor2.setText("0");
+                        factor2 = codigo;
+                      
+                    }
+                    
+                    if (codigo.equals("REB_2") && existe15 == 0){
+                    
+                        txRebaja2.setText(""+valor);
+                        rebaja2 = codigo;
+                        existe15 = 1;
+                    
+                    }else if (!codigo.equals("REB_2") && existe15 == 0){
+                    
+                        txRebaja2.setText("0");
+                        rebaja2 = codigo;
+                      
+                    }
+                    
+                    if (codigo.equals("IMP_3_0") && existe16 == 0){
+                    
+                        txRango30.setText(""+valor);
+                        rango30 = codigo;
+                        existe16 = 1;
+                    
+                    }else if (!codigo.equals("IMP_3_0") && existe16 == 0){
+                    
+                        txRango30.setText("0");
+                        rango30 = codigo;
+                      
+                    }
+                    
+                    
+                    if (codigo.equals("IMP_3_1") && existe17 == 0){
+                    
+                        txRango31.setText(""+valor);
+                        rango31 = codigo;
+                        existe17 = 1;
+                    
+                    }else if (!codigo.equals("IMP_3_1") && existe17 == 0){
+                    
+                        txRango31.setText("0");
+                        rango31 = codigo;
+                      
+                    }
+                    
+                    
+                    if (codigo.equals("FAC_3") && existe18 == 0){
+                    
+                        txFactor3.setText(""+valor);
+                        factor3 = codigo;
+                        existe18 = 1;
+                    
+                    }else if (!codigo.equals("FAC_3") && existe18 == 0){
+                    
+                        txFactor3.setText("0");
+                        factor3 = codigo;
+                      
+                    }
+                    
+                    if (codigo.equals("REB_3") && existe19 == 0){
+                    
+                        txRebaja3.setText(""+valor);
+                        rebaja3 = codigo;
+                        existe19 = 1;
+                    
+                    }else if (!codigo.equals("REB_3") && existe19 == 0){
+                    
+                        txRebaja3.setText("0");
+                        rebaja3 = codigo;
+                      
+                    }
+            
+                    
+                    if (codigo.equals("IMP_4_0") && existe20 == 0){
+                    
+                        txRango40.setText(""+valor);
+                        rango40 = codigo;
+                        existe20 = 1;
+                    
+                    }else if (!codigo.equals("IMP_4_0") && existe20 == 0){
+                    
+                        txRango40.setText("0");
+                        rango40 = codigo;
+                      
+                    }
+                    
+                    
+                    if (codigo.equals("IMP_4_1") && existe21 == 0){
+                    
+                        txRango41.setText(""+valor);
+                        rango41 = codigo;
+                        existe21 = 1;
+                    
+                    }else if (!codigo.equals("IMP_4_1") && existe21 == 0){
+                    
+                        txRango41.setText("0");
+                        rango41 = codigo;
+                      
+                    }
+                    
+                    
+                    if (codigo.equals("FAC_4") && existe22 == 0){
+                    
+                        txFactor4.setText(""+valor);
+                        factor4 = codigo;
+                        existe22 = 1;
+                    
+                    }else if (!codigo.equals("FAC_4") && existe22 == 0){
+                    
+                        txFactor4.setText("0");
+                        factor4 = codigo;
+                      
+                    }
+                    
+                    if (codigo.equals("REB_4") && existe23 == 0){
+                    
+                        txRebaja4.setText(""+valor);
+                        rebaja4 = codigo;
+                        existe23 = 1;
+                    
+                    }else if (!codigo.equals("REB_4") && existe23 == 0){
+                    
+                        txRebaja4.setText("0");
+                        rebaja4 = codigo;
+                      
+                    }
+                    
+                    
+                    if (codigo.equals("IMP_5_0") && existe24 == 0){
+                    
+                        txRango50.setText(""+valor);
+                        rango50 = codigo;
+                        existe24 = 1;
+                    
+                    }else if (!codigo.equals("IMP_5_0") && existe24 == 0){
+                    
+                        txRango50.setText("0");
+                        rango50 = codigo;
+                      
+                    }
+                    
+                    
+                    if (codigo.equals("IMP_5_1") && existe25 == 0){
+                    
+                        txRango51.setText(""+valor);
+                        rango51 = codigo;
+                        existe25 = 1;
+                    
+                    }else if (!codigo.equals("IMP_5_1") && existe25 == 0){
+                    
+                        txRango51.setText("0");
+                        rango51 = codigo;
+                      
+                    }
+                    
+                    
+                    if (codigo.equals("FAC_5") && existe26 == 0){
+                    
+                        txFactor5.setText(""+valor);
+                        factor5 = codigo;
+                        existe26 = 1;
+                    
+                    }else if (!codigo.equals("FAC_5") && existe26 == 0){
+                    
+                        txFactor5.setText("0");
+                        factor5 = codigo;
+                      
+                    }
+                    
+                    if (codigo.equals("REB_5") && existe27 == 0){
+                    
+                        txRebaja5.setText(""+valor);
+                        rebaja5 = codigo;
+                        existe27 = 1;
+                    
+                    }else if (!codigo.equals("REB_5") && existe27 == 0){
+                    
+                        txRebaja5.setText("0");
+                        rebaja5 = codigo;
+                      
+                    }
+                    
+                    if (codigo.equals("IMP_6_0") && existe28 == 0){
+                    
+                        txRango60.setText(""+valor);
+                        rango60 = codigo;
+                        existe28 = 1;
+                    
+                    }else if (!codigo.equals("IMP_6_0") && existe28 == 0){
+                    
+                        txRango60.setText("0");
+                        rango60 = codigo;
+                      
+                    }
+                    
+                    
+                    if (codigo.equals("IMP_6_1") && existe29 == 0){
+                    
+                        txRango61.setText(""+valor);
+                        rango61 = codigo;
+                        existe29 = 1;
+                    
+                    }else if (!codigo.equals("IMP_6_1") && existe29 == 0){
+                    
+                        txRango61.setText("0");
+                        rango61 = codigo;
+                      
+                    }
+                    
+                    
+                    if (codigo.equals("FAC_6") && existe30 == 0){
+                    
+                        txFactor6.setText(""+valor);
+                        factor6 = codigo;
+                        existe30 = 1;
+                    
+                    }else if (!codigo.equals("FAC_6") && existe30 == 0){
+                    
+                        txFactor6.setText("0");
+                        factor6 = codigo;
+                      
+                    }
+                    
+                    if (codigo.equals("REB_6") && existe31 == 0){
+                    
+                        txRebaja6.setText(""+valor);
+                        rebaja6 = codigo;
+                        existe31 = 1;
+                    
+                    }else if (!codigo.equals("REB_6") && existe31 == 0){
+                    
+                        txRebaja6.setText("0");
+                        rebaja6 = codigo;
+                      
+                    }
+                    
+                    
+                    if (codigo.equals("IMP_7_0") && existe32 == 0){
+                    
+                        txRango70.setText(""+valor);
+                        rango70 = codigo;
+                        existe32 = 1;
+                    
+                    }else if (!codigo.equals("IMP_7_0") && existe32 == 0){
+                    
+                        txRango70.setText("0");
+                        rango70 = codigo;
+                      
+                    }
+                    
+                    
+                    if (codigo.equals("IMP_7_1") && existe33 == 0){
+                     
+                        //txRango71.setText(""+valor);
+                        txRango71.setText(monto);
+                        rango71 = codigo;
+                        existe33 = 1;
+                    
+                    }else if (!codigo.equals("IMP_7_1") && existe33 == 0){
+                    
+                        txRango71.setText("0");
+                        rango71 = codigo;
+                      
+                    }
+                    
+                    
+                    if (codigo.equals("FAC_7") && existe34 == 0){
+                    
+                        txFactor7.setText(""+valor);
+                        factor7 = codigo;
+                        existe34 = 1;
+                    
+                    }else if (!codigo.equals("FAC_7") && existe34 == 0){
+                    
+                        txFactor7.setText("0");
+                        factor7 = codigo;
+                      
+                    }
+                    
+                    if (codigo.equals("REB_7") && existe35 == 0){
+                    
+                        txRebaja7.setText(""+valor);
+                        rebaja7 = codigo;
+                        existe35 = 1;
+                    
+                    }else if (!codigo.equals("REB_7") && existe35 == 0){
+                    
+                        txRebaja7.setText("0");
+                        rebaja7 = codigo;
+                      
+                    }
+                    
+                    
+                     if (codigo.equals("IMP_8_0") && existe36 == 0){
+                    
+                        //txRango80.setText(""+valor);
+                        txRango80.setText(monto);
+                        rango80 = codigo;
+                        existe36 = 1;
+                    
+                    }else if (!codigo.equals("IMP_8_0") && existe36 == 0){
+                    
+                        txRango80.setText("0");
+                        rango80 = codigo;
+                      
+                    }
+                    
+                    
+                    if (codigo.equals("FAC_8") && existe37 == 0){
+                    
+                        txFactor8.setText(""+valor);
+                        factor8 = codigo;
+                        existe37 = 1;
+                    
+                    }else if (!codigo.equals("FAC_8") && existe37 == 0){
+                    
+                        txFactor8.setText("0");
+                        factor8 = codigo;
+                      
+                    }
+                    
+                    if (codigo.equals("REB_8") && existe38 == 0){
+                    
+                        txRebaja8.setText(""+valor);
+                        rebaja8 = codigo;
+                        existe38 = 1;
+                    
+                    }else if (!codigo.equals("REB_8") && existe38 == 0){
+                    
+                        txRebaja8.setText("0");
+                        rebaja8 = codigo;
+                      
+                    }
+                
+                }
+            
+            }else{
+            
+                txRango11.setText("0");
+                txRango20.setText("0");
+                txRango21.setText("0");
+                txFactor2.setText("0");
+                txRebaja2.setText("0");
+                txRango30.setText("0");
+                txRango31.setText("0");
+                txFactor3.setText("0");
+                txRebaja3.setText("0");
+                txRango40.setText("0");
+                txRango41.setText("0");
+                txFactor4.setText("0");
+                txRebaja4.setText("0");
+                txRango50.setText("0");
+                txRango51.setText("0");
+                txFactor5.setText("0");
+                txRebaja5.setText("0");
+                txRango60.setText("0");
+                txRango61.setText("0");
+                txFactor6.setText("0");
+                txRebaja6.setText("0");
+                txRango70.setText("0");
+                txRango71.setText("0");
+                txFactor7.setText("0");
+                txRebaja7.setText("0");
+                txRango80.setText("0");
+                txFactor8.setText("0");
+                txRebaja8.setText("0");
+                
+
+                existe11 = 0;
+                existe12 = 0;
+                existe13 = 0;
+                existe14 = 0;
+                existe15 = 0;
+                existe16 = 0;
+                existe17 = 0;
+                existe18 = 0;
+                existe19 = 0;
+                existe20 = 0;
+                existe21 = 0;
+                existe22 = 0;
+                existe23 = 0;
+                existe24 = 0;
+                existe25 = 0;
+                existe26 = 0;
+                existe27 = 0;
+                existe28 = 0;
+                existe29 = 0;
+                existe30 = 0;
+                existe31 = 0;
+                existe32 = 0;
+                existe33 = 0;
+                existe34 = 0;
+                existe35 = 0;
+                existe36 = 0;
+                existe37 = 0;
+                existe38 = 0;
+                               
+                
+            }
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(jdValores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btCargarActionPerformed
+   
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(jdValores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(jdValores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(jdValores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(jdValores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the dialog */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                jdValores dialog;
+                try {
+                    dialog = new jdValores(new javax.swing.JFrame(), true);
+                    dialog.setLocationRelativeTo(null);
+                    dialog.setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(jdValores.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+              
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btCancelar;
+    private javax.swing.JButton btCancelar1;
+    private javax.swing.JButton btCargar;
+    private javax.swing.JButton btCerrar;
+    private javax.swing.JButton btEditar;
+    private javax.swing.JButton btEditar1;
+    private javax.swing.JButton btGuardar;
+    private javax.swing.JButton btGuardar1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lbFactor1;
+    private javax.swing.JLabel lbFactor2;
+    private javax.swing.JLabel lbRango10;
+    private javax.swing.JTextField txAfc1;
+    private javax.swing.JTextField txAfc2;
+    private javax.swing.JTextField txAfc3;
+    private javax.swing.JTextField txFactor2;
+    private javax.swing.JTextField txFactor3;
+    private javax.swing.JTextField txFactor4;
+    private javax.swing.JTextField txFactor5;
+    private javax.swing.JTextField txFactor6;
+    private javax.swing.JTextField txFactor7;
+    private javax.swing.JTextField txFactor8;
+    private javax.swing.JTextField txMutual;
+    private javax.swing.JTextField txRango11;
+    private javax.swing.JTextField txRango20;
+    private javax.swing.JTextField txRango21;
+    private javax.swing.JTextField txRango30;
+    private javax.swing.JTextField txRango31;
+    private javax.swing.JTextField txRango40;
+    private javax.swing.JTextField txRango41;
+    private javax.swing.JTextField txRango50;
+    private javax.swing.JTextField txRango51;
+    private javax.swing.JTextField txRango60;
+    private javax.swing.JTextField txRango61;
+    private javax.swing.JTextField txRango70;
+    private javax.swing.JTextField txRango71;
+    private javax.swing.JTextField txRango80;
+    private javax.swing.JTextField txRebaja2;
+    private javax.swing.JTextField txRebaja3;
+    private javax.swing.JTextField txRebaja4;
+    private javax.swing.JTextField txRebaja5;
+    private javax.swing.JTextField txRebaja6;
+    private javax.swing.JTextField txRebaja7;
+    private javax.swing.JTextField txRebaja8;
+    private javax.swing.JTextField txSis;
+    // End of variables declaration//GEN-END:variables
+}

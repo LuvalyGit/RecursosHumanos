@@ -1,0 +1,245 @@
+package Dialogos;
+
+import Conexion.ExeSql;
+import PanelForm.pfGastosSueldos;
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
+
+/**
+ *
+ * @author informatica (Roberto Lopez)
+ */
+public class jdBuscaBonosyComisiones extends javax.swing.JDialog {
+  
+   public static double subtotal_com = 0.0;
+   public static double total_com = 0.0;
+   public static double total_sem = 0.0;
+   
+   DecimalFormat formateador = new DecimalFormat("###,###");
+   
+   
+   public jdBuscaBonosyComisiones(int codigo, int codigo_bono, String elagno, int elmes, int dtrab, int dfer) throws IOException{
+        
+       int cod_com = 0;
+       double subtotal_presupuesto = 0;
+       subtotal_com = 0;
+       
+       if (elagno.equals("AÑO")){
+   
+          elagno = "0"; 
+       
+       }else if (elmes == 0){
+       
+        int agno2 = Integer.parseInt(elagno)-1;
+           
+        elmes = 12;   
+        elagno = String.valueOf(agno2);
+      }
+            
+        try {
+            
+            ExeSql Sql = new ExeSql();
+            ResultSet Rs = null;
+           
+            if(codigo == 11 && codigo_bono == 8 ){    //COBRANZA YOSELINE
+                
+              subtotal_com = pfGastosSueldos.bmonto2;  
+                
+                
+                
+//              Rs = Sql.Select("SELECT * FROM bono_comision \n"+
+//                              "WHERE codigo IN (4)"+
+//                              "AND agno = "+elagno+" \n" +
+//                              "AND mes = "+elmes+ "\n" +
+//                              "ORDER BY mes ASC");
+//               
+//               if (Sql.GetRowCount() > 0){
+//           
+//                   Rs.next();
+//                   subtotal_com = Rs.getDouble("valor_resultado") * 0.002;
+//           
+//               }
+           
+            }
+           
+            if (codigo == 38 || codigo == 37){              //BONO CUMPLIMIENTO FACTURACION (38) Y PRESUPUESTO (37) 
+              
+                cod_com = 1; 
+              
+                Rs = Sql.Select("SELECT * FROM bono_comision \n"+
+                               "WHERE codigo = "+cod_com+" \n"+
+                               "AND agno = "+elagno+" \n" +
+                               "AND mes = "+elmes+ "\n" +
+                               "ORDER BY mes ASC");
+               
+              
+                if (Sql.GetRowCount() > 0){
+           
+                    Rs.next();
+           
+                    if(Rs.getString("logrado").equals("si")){
+                   
+                        subtotal_presupuesto = Rs.getDouble("valor_resultado");
+                      
+                        if (codigo_bono == 1){                    //BONO CUMPLIMIENTO FACTURACION TRAMO 1
+                  
+                             subtotal_com = Rs.getDouble("valor_resultado") * 0.0002;        
+                 
+                        }else if (codigo_bono == 2) {             //BONO CUMPLIMIENTO FACTURACION TRAMO 2
+                          
+                             subtotal_com = Rs.getDouble("valor_resultado") * 0.00015;       
+                   
+                        }
+                   
+                        if (codigo_bono == 5){                    //BONO CUMPLIMIENTO PRESUPUESTO (CHRISTIAN Y JOSE LUIS)
+                  
+                            subtotal_com = Rs.getDouble("valor_resultado") * 0.002;   
+                   
+                        }
+                      
+                    }
+                  
+                    if (codigo_bono == 10){                       //BONO CUMPLIMIENTO PRESUPUESTO (CHRISTIAN PROVISORIO)
+                  
+                        subtotal_com = Rs.getDouble("valor_resultado") * 0.002;   
+                   
+                    }
+                  
+           
+                }
+                
+                if (codigo_bono == 6){                //BONO CUMPLIMIENTO PRESUPUESTO ( LEO )
+                   
+                   subtotal_com = pfGastosSueldos.bmonto2;
+                   
+
+                }
+                
+                if (codigo_bono == 11){                //BONO CUMPLIMIENTO PRESUPUESTO (CAMILLA)
+                    
+                     subtotal_com = pfGastosSueldos.bmonto2;
+                } 
+                
+                
+            }
+           
+           
+            if(codigo == 28 ){                   //COMISION POR VENTAS
+  
+                if(codigo_bono == 3){                                       //DAVID 
+          
+                  cod_com = 1; 
+                
+                  Rs = Sql.Select("SELECT * FROM bono_comision \n"+
+                                  "WHERE codigo = "+cod_com+" \n"+
+                                  "AND agno = "+elagno+" \n" +
+                                  "AND mes = "+elmes+ "\n" +
+                                  "ORDER BY mes ASC");
+              
+                  if(Sql.GetRowCount() > 0){  
+               
+                     Rs.next();
+           
+                      if(Rs.getString("logrado").equals("si")){ 
+                     
+                        subtotal_com = Rs.getDouble("valor_resultado") * 0.0025;
+                      }
+                  }
+                  
+                }else if(codigo_bono == 4 ){                               //ALEJANDRO
+                  
+                    cod_com = 6; 
+                
+                    Rs = Sql.Select("SELECT * FROM bono_comision \n"+
+                                "WHERE codigo = "+cod_com+" \n"+
+                                "AND agno = "+elagno+" \n" +
+                                "AND mes = "+elmes+ "\n" +
+                                "ORDER BY mes ASC");
+                  
+                  
+                    if(Sql.GetRowCount() > 0){  
+               
+                        Rs.next();
+                        
+                        
+                        
+                        if(Rs.getDouble("valor_resultado") > 0 && Rs.getDouble("valor_resultado") <= 55000000) {  
+               
+                            subtotal_com = Rs.getDouble("valor_resultado") * 0.006;
+                 
+                        }else if(Rs.getDouble("valor_resultado") >= 55000001 && Rs.getDouble("valor_resultado") <= 65000000){
+             
+                            subtotal_com = Rs.getDouble("valor_resultado") * 0.0065;
+             
+                        }else if(Rs.getDouble("valor_resultado") >= 65000001 && Rs.getDouble("valor_resultado") <= 80000000){
+             
+                            subtotal_com = Rs.getDouble("valor_resultado") * 0.0075;
+                  
+                        }else if(Rs.getDouble("valor_resultado") > 80000000){
+             
+                            subtotal_com = Rs.getDouble("valor_resultado") * 0.008;
+                        }
+                    }   
+               
+                }else if(codigo_bono == 9){             //LEONARDO
+                
+                     cod_com = 1;
+                     subtotal_com = pfGastosSueldos.bmonto2;
+                
+                }
+           
+            }else if (codigo == 75 || codigo == 76 || codigo == 4){      //COMISION CARTERA 1 (75) Y 2 (76) (ECONA) / GRATIFICACION VOLUNTARIA EXTRAORDINARIA ( 4 )
+                    
+                subtotal_com = pfGastosSueldos.bmonto2;
+              
+              
+            }
+          
+            if(subtotal_com > 0){   
+          
+                total_sem = Math.round((subtotal_com / dtrab) * dfer);                   //Se calcula el valor semana corrida del Bono o Comision
+        
+                total_com = Math.round(subtotal_com - total_sem);                        //Se reslta el valor semana corrida al valor del Bono o Cominsion
+            
+            }else{
+       
+                total_sem = 0;
+                total_com = 0;
+       
+            }
+         
+        }catch (SQLException ex) {
+        
+            Logger.getLogger(jdBuscaBonosyComisiones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+        
+    public Double GetCom(){
+       return total_com;
+        
+    }
+    
+     public Double GetSem(){
+       return total_sem;
+        
+    }
+   
+     
+
+   public static void main(String[] args)  {
+       
+       /*try {                                                                                                  //Para ejecutarlo
+           @SuppressWarnings("LocalVariableHidesMemberVariable")
+           jdBuscaIndicadores afp = new jdBuscaIndicadores();                                                   // como aplicación independienmte
+       } catch (IOException ex) {                                                                               // desde el main()
+           Logger.getLogger(jdBuscaIndicadores.class.getName()).log(Level.SEVERE, null, ex);                    // 
+       }*/
+    }
+} 

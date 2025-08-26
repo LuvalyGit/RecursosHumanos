@@ -1,0 +1,773 @@
+
+package Dialogos;
+
+
+import Conexion.ExeSql;
+import Formularios.fmMain;
+import static Formularios.fmMain.intNivelUsuario;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
+import org.apache.commons.math3.util.Precision;
+
+
+
+/**
+ *
+ * @author informatica
+ */
+public class jdPreviRed extends javax.swing.JFrame {
+
+    private static boolean isalud = true;
+    private static boolean isapv = false;
+    
+    private static double npor_adcisapre = 0;
+    
+    private static final String [][] datos_array = new String [30][2];
+    
+    Calendar cal = Calendar.getInstance();
+//    int mesant = cal.get(Calendar.MONTH)+1;         // El Mes actual
+//    int anant = cal.get(Calendar.YEAR);             // El Año actual
+//     
+//    private String mes = String.valueOf(mesant);       
+//    private String agno = String.valueOf(anant);     
+    
+   
+    private String mes = "0";       
+    private String agno = "0";     
+    
+    private static String rut = "";
+    private static String dv = "";
+    private static String apellidop = "";
+    private static String apellidom = "";
+    private static String nombre = "";
+    private static String sexo = "";
+    private static String cargas = "";
+    private static String tramof = "D";
+    private static String tipo_trab = "0";
+    
+    private static String fdesde = "00-00-0000";
+    private static String fhasta = "00-00-0000";
+    
+    private static String mes2 = "";
+    
+    private static String periodo = "";
+    private static String prevision = "SIP";
+    private static String tafp = "";
+    private static String imponible = "0";
+    private static String topeimponible = "0";
+    private static String imp_ces = "0";
+    private static String topeimp_ces = "0";
+    private static String imp_fonasa = "0";
+    private static String imp_isapre = "0";
+    private static String dtrab = "";
+    private static String cod_mov = "00";
+    private static String tcargas = "0";
+    private static String tcargas_retro = "0";
+    private static String nom_afp = "00";
+    private static String nom_afp_apv = "0";
+    private static String sis = "0";
+    private static String cot_fonasa = "0";
+    private static String cot_isapre = "0";
+    private static String inst_salud = "7";
+    private static String cot_ccaf = "0";
+    private static String pres_ccaf = "0";
+    private static String por_adcisapre = "0";
+    private static String monto_adcisapre = "0";
+    private static String cot_mutual = "0";
+    private static String cs_trabajador = "0";
+    private static String cs_empleador = "0";
+    private static String cotiza_apv = "0";
+    
+    private static int nmes = 0;
+    private static int ndtrab = 0;
+    private static int icontrato = 0;
+    private static int afp_com = 0;
+    private static int afp_obl = 0;
+    private static int tnafp = 0;
+    private static int ncot_fonasa = 0;
+    private static int ncot_ccaf = 0;
+    private static int rowcount = 0;
+    private static int nlinea = 0;
+    
+    
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    
+    public jdPreviRed(){
+        
+        initComponents();
+        
+        Calendar c = Calendar.getInstance();
+        cbAgno.setSelectedItem(Integer.toString(c.get(Calendar.YEAR))); 
+        cbMes.setSelectedIndex((c.get(Calendar.MONTH))); 
+        
+      
+        
+        mes = String.valueOf(cbMes.getSelectedIndex()+1);       
+        agno = cbAgno.getSelectedItem().toString();   
+        
+        System.out.println("MES :"+mes);
+        System.out.println("AÑO :"+agno);
+        
+        
+    }
+    
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        cbMes = new javax.swing.JComboBox<String>();
+        cbAgno = new javax.swing.JComboBox<String>();
+        jButton1 = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setText("SELECCIONE AÑO");
+
+        jLabel2.setText("SELECCIONE MES");
+
+        cbMes.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
+        cbMes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbMesActionPerformed(evt);
+            }
+        });
+
+        cbAgno.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030" }));
+        cbAgno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbAgnoActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Generar Archivo");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(110, 110, 110)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(88, 88, 88)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cbMes, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cbAgno, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(105, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(cbAgno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(37, 37, 37)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(40, Short.MAX_VALUE))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void cbMesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbMesActionPerformed
+       
+        mes = String.valueOf(cbMes.getSelectedIndex()+1);       
+       
+        System.out.println("MES :"+mes);
+        
+        
+    }//GEN-LAST:event_cbMesActionPerformed
+
+    private void cbAgnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAgnoActionPerformed
+       
+        agno = cbAgno.getSelectedItem().toString();   
+       
+        System.out.println("AÑO :"+agno);
+        
+        
+        
+    }//GEN-LAST:event_cbAgnoActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        File archivo = null;
+        String sSistemaOperativo = System.getProperty("os.name");               //Determina el Sistema Operativo del Equipo
+        
+//        System.out.println("EL S.O. ES : "+sSistemaOperativo);
+            
+        if (sSistemaOperativo.contains("Win")){
+        
+               archivo = new File("C:\\Users\\Roberto\\Desktop\\nomina"+mes+agno+".txt");           
+        
+        }else{
+            
+              archivo = new File("/home/informatica/Escritorio/nomina"+mes+agno+".txt");  
+        }
+        
+        
+        //File archivo = new File("C:\\Users\\informatica\\Desktop\\rseptiembre2019.txt");
+        
+        FileWriter flarchivo = null;
+        
+        
+        ExeSql Sql = new ExeSql();
+        ExeSql Sql2 = new ExeSql();
+        ExeSql Sql3 = new ExeSql();
+        ExeSql Sql4 = new ExeSql();
+        
+        ResultSet Rs = null;
+        ResultSet Rs2 = null;
+        ResultSet Rs3 = null;
+        ResultSet Rs4 = null;
+       
+        try{    
+            //*********************************************************************************************
+                Rs4 = Sql4.Select("SELECT agno,mes,estado FROM psueldosdet \n"+          //Seleciona las liquidaciones del mes en curso
+                                  "WHERE agno=" + agno + "\n" +                         
+                                  "AND mes = " + mes + "\n" +       
+                                  "AND estado= "+ false + "\n"+                         //Si el Mes está cerrado.    
+                                  "AND empresa = 1 \n"+                                 //Y la empresa es LUVALY
+                                  "ORDER BY mes ASC");
+            
+                if (Sql4.GetRowCount() == 0){                                        //Se verifica que el mes esté cerrado
+                
+                    fmMain.Mensaje("El Mes aún no se cierra");                      
+                    return;
+                }
+            
+            //*************************************************************************************************
+            
+            flarchivo = new FileWriter(archivo);
+	    //crea un buffer o flujo intermedio antes de escribir directamente en el archivo
+	    BufferedWriter bfarchivo = new BufferedWriter(flarchivo);
+            
+            
+            Rs = Sql.Select("SELECT rut, dvp, apellidopaterno, apellidomaterno, nombre, sexo, ncargas, idcontrato, empresa \n"+
+                            "FROM personal \n"+
+                            "WHERE rut>1000 \n"+
+                            "AND activo = true \n"+
+                            "AND empresa = 1 \n"+
+                            "ORDER BY rut");
+          
+            nmes = Integer.parseInt(mes);               
+                
+            if (nmes < 10){                                     //Si el mes tiene solo un digito
+                
+                mes2 = "0"+mes;
+                
+            }else{
+            
+               mes2 = mes;
+            }
+                
+            periodo = mes2+agno; 
+            
+            while(Rs.next()){
+                           
+                rut = Rs.getString("rut");
+                dv = Rs.getString("dvp");
+                apellidop = Rs.getString("apellidopaterno").replaceAll("\\Ñ", "N");
+                apellidom = Rs.getString("apellidomaterno").replaceAll("\\Ñ", "N");
+                nombre = Rs.getString("nombre").replaceAll("\\Ñ", "N");
+                sexo = Rs.getString("sexo");
+                cargas = Rs.getString("ncargas");
+                icontrato = Rs.getInt("idcontrato");
+                isapv = false;
+                
+                fdesde = "00-00-0000";
+                fhasta = "00-00-0000";
+                
+                prevision = "AFP";
+                tipo_trab = "0";
+                tafp = "";
+                imponible = "";
+                topeimponible = "";
+                imp_ces = "0";
+                topeimp_ces = "0";
+                imp_fonasa = "0";
+                imp_isapre = "0";
+                dtrab = "";
+                cod_mov = "00";
+                tcargas = "0";
+                tcargas_retro = "0";
+                tramof = "D";
+                nom_afp = "00";
+                nom_afp_apv = "0";
+                sis = "0";
+                cot_fonasa = "0";
+                cot_isapre = "0";
+                inst_salud = "7";
+                cot_ccaf = "0";
+                pres_ccaf = "0";
+                por_adcisapre = "0";
+                monto_adcisapre = "0";
+                cot_mutual = "0";
+                cs_trabajador = "0";
+                cs_empleador = "0";
+                cotiza_apv = "0";
+                
+                icontrato = 0;
+                ndtrab = 0;
+                afp_com = 0;
+                afp_obl = 0;
+                tnafp = 0;
+                ncot_fonasa = 0;
+                ncot_ccaf = 0;
+                npor_adcisapre = 0;
+                rowcount = 0;
+                nlinea = 0;
+                
+//                Rs3 = Sql3.Select("SELECT * \n"+
+//                                  "FROM personal_plhx \n"+
+//                                  "WHERE rut="+rut+" \n"+
+//                                  "AND EXTRACT(YEAR FROM dfecha)<= "+agno + "\n"+
+//                                  "AND (EXTRACT(MONTH FROM dfecha)<= "+mes+ "OR EXTRACT(MONTH FROM dfecha)>= "+mes+ ") \n"+ 
+//                                  "AND EXTRACT(YEAR FROM hfecha) >= "+agno+ "\n"+
+//                                  "AND EXTRACT(MONTH FROM hfecha) >= "+mes+ "\n"+ 
+//                                  "AND tipo IN ('2','4') \n"+
+//                                  "ORDER BY id");
+                
+                
+                 Rs3 = Sql3.Select("SELECT * \n"+
+                                  "FROM personal_plhx \n"+
+                                  "WHERE rut="+rut+" \n"+
+                                  "AND EXTRACT(YEAR FROM dfecha)= "+agno + "\n"+
+                                  "AND EXTRACT(MONTH FROM dfecha)= "+mes+ " \n"+ 
+                                  "AND tipo IN ('2','4') \n"+
+                                  "ORDER BY id");
+                
+                    
+                while(Rs3.next())rowcount++;                                    
+                
+                if (Sql3.GetRowCount() > 0){                                          
+                        
+                    if(rowcount == 1){                                          
+                        
+                        nlinea = 0;
+                        
+                    }else if(rowcount > 1){                                         
+                        
+                        nlinea = 1;
+                        
+                    }
+                    
+                    int f = 0;
+                    
+//                    Rs3 = Sql3.Select("SELECT * \n"+
+//                                      "FROM personal_plhx \n"+
+//                                      "WHERE rut="+rut+" \n"+
+//                                      "AND EXTRACT(YEAR FROM dfecha)<= "+agno + "\n"+
+//                                      "AND (EXTRACT(MONTH FROM dfecha)<= "+mes+ "OR EXTRACT(MONTH FROM dfecha)>= "+mes+ ") \n"+ 
+//                                      "AND EXTRACT(YEAR FROM hfecha) >= "+agno+ "\n"+
+//                                      "AND EXTRACT(MONTH FROM hfecha) >= "+mes+ "\n"+ 
+//                                      "AND tipo IN ('2','4') \n"+
+//                                      "ORDER BY id");
+                    
+                    
+                    Rs3 = Sql3.Select("SELECT * \n"+
+                                  "FROM personal_plhx \n"+
+                                  "WHERE rut="+rut+" \n"+
+                                  "AND EXTRACT(YEAR FROM dfecha)= "+agno + "\n"+
+                                  "AND EXTRACT(MONTH FROM dfecha)= "+mes+ " \n"+ 
+                                  "AND tipo IN ('2','4') \n"+
+                                  "ORDER BY id"); 
+                    
+                        
+                    while(Rs3.next()){
+                           
+                        datos_array[f][0] = dateFormat.format(Rs3.getDate("dfecha"));
+                        datos_array[f][1] = dateFormat.format(Rs3.getDate("hfecha")); 
+                          
+                        f++;
+                    }
+   
+                    
+                }else  if (Sql3.GetRowCount() == 0){
+                        
+                    datos_array[0][0] = "00-00-0000";
+                    datos_array[0][1] = "00-00-0000"; 
+                    
+                }
+                    
+                Rs2 = Sql2.Select("SELECT p.rut,p.mes,p.agno,p.codigo,p.monto,p.porcentaje,p.dtrab,p.tramo_fam,p.empresa \n"+    //Se filtran los Haberes, descuentos, otros y totales
+                                  "FROM psueldosdet p \n"+                                                                      //Que requiere el archivo de PREVIRED
+                                  "LEFT JOIN par_general pr ON p.codigo = pr.codigo \n"+
+                                  "WHERE p.rut = "+rut+" \n"+
+                                  "AND p.agno = "+agno+" \n"+
+                                  "AND p.mes ="+mes+" \n"+
+                                  "AND pr.tipo IN ('REM_HABERES','REM_DESCUENTOS','REM_OTROS','REM_TOTALES') \n"+
+                                  "AND p.codigo NOT IN ('1','2','3','4','7','8','9','10','11','19','20','26','27','28','30','32','36','37','38','39','41','45','75','76','77','78') \n"+ 
+                                  "AND p.empresa = 1 \n"+
+                                  "ORDER BY p.rut, p.codigo");
+                
+                while(Rs2.next()){
+                    
+                    if(Rs2.getString("codigo").equals("0")){                 
+                    
+                         dtrab = Rs2.getString("dtrab");
+                         ndtrab = Rs2.getInt("dtrab");
+                         
+                         if (ndtrab < 30){
+                            
+                            cod_mov = "11";
+                         
+                         }else if (ndtrab == 30){
+                         
+                            cod_mov = "00";
+                         }  
+                         
+                    }
+                    
+                    if(Rs2.getString("codigo").equals("12") || Rs2.getString("codigo").equals("15")||
+                       Rs2.getString("codigo").equals("16") || Rs2.getString("codigo").equals("21")||
+                       Rs2.getString("codigo").equals("22") || Rs2.getString("codigo").equals("23")){
+                        
+                        prevision = "AFP";
+                        
+                        if(Rs2.getString("codigo").equals("12")){               //PLAN VITAL
+                        
+                           nom_afp = "29";
+                 
+                        }else if(Rs2.getString("codigo").equals("15")){         //CAPITAL
+                        
+                           nom_afp = "33";
+                        
+                        }else if(Rs2.getString("codigo").equals("16")){         //HABITAT
+                        
+                           nom_afp = "05";
+                        
+                        }else if(Rs2.getString("codigo").equals("21")){         //PROVIDA
+                        
+                           nom_afp = "08";
+                        
+                        }else if(Rs2.getString("codigo").equals("22")){         //MODELO
+                        
+                           nom_afp = "34";
+                        
+                        }else if(Rs2.getString("codigo").equals("23")){         //CUPRUM
+                        
+                           nom_afp = "03";
+                        
+                        } 
+                        
+                        afp_com = Rs2.getInt("monto");
+                        
+                    }
+                    
+                    if(Rs2.getString("codigo").equals("71")){                   //TOTAL IMPONIBLE
+                        
+                        imponible = Rs2.getString("monto");
+                        imp_ces = Rs2.getString("monto");
+                 
+                    }
+
+                    if(Rs2.getString("codigo").equals("6")){                    //MONTO CARGAS FAMILARES
+                        
+                        tcargas = Rs2.getString("monto");
+                        tramof = Rs2.getString("tramo_fam");
+                 
+                    }
+                    
+                    if(Rs2.getString("codigo").equals("29")){                    //MONTO CARGAS FAMILARES RETROACTIVAS
+                        
+                        tcargas_retro = Rs2.getString("monto");
+                 
+                    }
+                    
+                    if(Rs2.getString("codigo").equals("13")){                   //COTIZACION OBLIGATORIA AFP
+                        
+                        afp_obl = Rs2.getInt("monto");
+                 
+                    }
+                    
+                    if(Rs2.getString("codigo").equals("65")){                   //MONTO SEGURO INVALIDEZ Y SOBREVIVENCIA
+                        
+                        sis = Rs2.getString("monto");
+                 
+                    }
+                    
+                    if(Rs2.getString("codigo").equals("5")){                    //FONASA
+                        
+                        ncot_fonasa = Rs2.getInt("monto");
+                        inst_salud = "7";
+                        isalud = true;    
+                    }
+                    
+                    if (Rs2.getString("codigo").equals("17") || Rs2.getString("codigo").equals("24") || Rs2.getString("codigo").equals("34") || //ISAPRE OBLIGATORIO
+                        Rs2.getString("codigo").equals("42") || Rs2.getString("codigo").equals("43") || Rs2.getString("codigo").equals("44")){
+                    
+                        
+                        if (Rs2.getString("codigo").equals("17")){              //CRUZ BLANCA
+                        
+                            inst_salud = "5"; 
+                        
+                        }else if (Rs2.getString("codigo").equals("24")){        //BANMEDICA
+                        
+                           inst_salud = "1";  
+                        
+                        }else if (Rs2.getString("codigo").equals("34")){        //MAS VIDA
+                        
+                           inst_salud = "17";  
+                        
+                        }else if (Rs2.getString("codigo").equals("42")){        //CONSALUD
+                        
+                           inst_salud = "2";  
+                        
+                        }else if (Rs2.getString("codigo").equals("43")){        //VIDA TRES
+                        
+                           inst_salud = "3";  
+                        
+                        }else if (Rs2.getString("codigo").equals("44")){        //NUEVA MAS VIDA
+                        
+                           inst_salud = "17";  
+                        
+                        }
+                        
+                        cot_isapre = Rs2.getString("monto");                       
+                        
+                        isalud = false;
+                    
+                    }
+                    
+                    if (Rs2.getString("codigo").equals("18")){                      //ADICIONAL ISAPRE
+                        
+                       npor_adcisapre = Precision.round(Rs2.getDouble("porcentaje"),3);
+                       por_adcisapre = String.valueOf(npor_adcisapre);
+                       por_adcisapre = por_adcisapre.replaceAll("\\.",",");
+                      
+                       monto_adcisapre = Rs2.getString("monto");
+                        
+                    }
+                    
+                    if (Rs2.getString("codigo").equals("64")){                      //SEGURO MUTUAL 
+                        
+                       cot_mutual = Rs2.getString("monto");
+                        
+                    }
+                    
+                    if (Rs2.getString("codigo").equals("14")){                      //SEGURO DE CESANTIA (APORTE DEL TRABAJADOR)
+                        
+                       cs_trabajador = Rs2.getString("monto");
+                        
+                    }
+                    
+                    if (Rs2.getString("codigo").equals("63")){                      //SEGURO DE CESANTIA (APORTE DEL EMPLEADOR)
+                        
+                       cs_empleador = Rs2.getString("monto");
+                        
+                    }
+                     
+                    
+                    if (Rs2.getString("codigo").equals("25") || Rs2.getString("codigo").equals("33")){           //APV 
+                     
+                         cotiza_apv = Rs2.getString("monto");
+                         isapv = true;
+                     
+                    }       
+                    
+                    if (Rs2.getString("codigo").equals("79")){                      //PRESTAMO CAJA COMPENSACION
+                        
+                       pres_ccaf = Rs2.getString("monto");  
+                        
+                    }
+                    
+                    
+                    
+                    if (Rs2.getString("codigo").equals("73")){                      //TOPE IMPONIBLE CESANTIA
+                        
+                       topeimp_ces = Rs2.getString("monto");
+                        
+                    }
+                    
+                    if (Rs2.getString("codigo").equals("83")){                      //TOPE IMPONIBLE 
+                        
+                       topeimponible = Rs2.getString("monto");    
+                        
+                    }
+                    
+                }
+                
+                if (Double.parseDouble(imponible) > Double.parseDouble(topeimponible)){
+                
+                    imponible = topeimponible;
+                
+                }
+                
+                if (Double.parseDouble(imp_ces) > Double.parseDouble(topeimp_ces)){
+                
+                    imp_ces = topeimp_ces;
+                
+                }
+                
+                
+                tnafp = afp_obl + afp_com;
+                tafp = String.valueOf(tnafp);
+                
+                if (isalud){
+                    
+                    //ncot_ccaf = (int) Math.round(Double.parseDouble(imponible) * 0.006);
+                    ncot_ccaf = (int) Math.round(Double.parseDouble(imponible) * 0.031);
+                    ncot_fonasa = ncot_fonasa - ncot_ccaf; 
+                    
+                    cot_fonasa = String.valueOf(ncot_fonasa);
+                    cot_ccaf = String.valueOf(ncot_ccaf);
+                    
+                    cot_isapre = "0";
+                    por_adcisapre = "0";
+                    monto_adcisapre = "0";
+                    
+                    imp_fonasa = imponible;
+                    imp_isapre = "0";
+                
+                }else if (!isalud) {
+                    
+                  cot_fonasa = "0";
+                  cot_ccaf = "0";
+                  
+                  imp_fonasa = "0";
+                  imp_isapre = imponible;
+                  
+                } 
+                
+                if (rut.equals("5925941")){
+                     
+                    nom_afp = "03";
+                    imp_ces = "0";
+                    cs_trabajador = "0";
+                    cs_empleador = "0";
+                    sis = "0";
+                    tipo_trab = "2";
+                
+                }
+                
+                if (isapv){
+                
+                    nom_afp_apv = nom_afp;
+                
+                }else {
+                    nom_afp_apv = "0";
+                
+                }
+                
+                if (nlinea == 0){                       //Se agrega la linea principal del trabajador
+                
+                    bfarchivo.write(rut+";"+dv+";"+apellidop+";"+apellidom+";"+nombre+";"+sexo+";"+"0"+";"+"1"+";"+periodo+";"+"000000"+";"+prevision+";"+tipo_trab+";"+
+                                    dtrab+";"+"00"+";"+cod_mov+";"+datos_array[0][0]+";"+datos_array[0][1]+";"+tramof+";"+cargas+";"+"0"+";"+"0"+";"+tcargas+";"+tcargas_retro+";"+"0"+";"+
+                                    "N"+";"+nom_afp+";"+imponible+";"+tafp+";"+sis+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+""+";"+""+";"+""+";"+"0"+";"+"0"+";"+nom_afp_apv+";"+
+                                    ""+";"+"1"+";"+cotiza_apv+";"+"0"+";"+"0"+";"+""+";"+"1"+";"+"0"+";"+"0"+";"+"0"+";"+""+";"+""+";"+""+";"+""+";"+"00"+";"+
+                                    ""+";"+""+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+imp_fonasa+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+cot_fonasa+";"+
+                                    "0"+";"+"0"+";"+"0"+";"+"0"+";"+inst_salud+";"+""+";"+imp_isapre+";"+"2"+";"+por_adcisapre+";"+cot_isapre+";"+monto_adcisapre+";"+
+                                    "0"+";"+"2"+";"+imponible+";"+pres_ccaf+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+cot_ccaf+";"+tcargas+";"+"0"+";"+"0"+";"+"0"+";"+""+";"+"2"+";"+imponible+";"+
+                                    cot_mutual+";"+"0"+";"+imp_ces+";"+cs_trabajador+";"+cs_empleador+";"+"0"+";"+""+";"+"1"+"\r");
+                
+                }else if (nlinea == 1) {              //Se agregan filas con los periodos no trabajados del trabajador
+                    
+                    bfarchivo.write(rut+";"+dv+";"+apellidop+";"+apellidom+";"+nombre+";"+sexo+";"+"0"+";"+"1"+";"+periodo+";"+"000000"+";"+prevision+";"+tipo_trab+";"+
+                                    dtrab+";"+"00"+";"+cod_mov+";"+datos_array[0][0]+";"+datos_array[0][1]+";"+tramof+";"+cargas+";"+"0"+";"+"0"+";"+tcargas+";"+tcargas_retro+";"+"0"+";"+
+                                    "N"+";"+nom_afp+";"+imponible+";"+tafp+";"+sis+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+""+";"+""+";"+""+";"+"0"+";"+"0"+";"+nom_afp_apv+";"+
+                                    ""+";"+"1"+";"+cotiza_apv+";"+"0"+";"+"0"+";"+""+";"+"1"+";"+"0"+";"+"0"+";"+"0"+";"+""+";"+""+";"+""+";"+""+";"+"00"+";"+
+                                    ""+";"+""+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+imp_fonasa+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+cot_fonasa+";"+
+                                    "0"+";"+"0"+";"+"0"+";"+"0"+";"+inst_salud+";"+""+";"+imp_isapre+";"+"2"+";"+por_adcisapre+";"+cot_isapre+";"+monto_adcisapre+";"+
+                                    "0"+";"+"2"+";"+imponible+";"+pres_ccaf+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+cot_ccaf+";"+tcargas+";"+"0"+";"+"0"+";"+"0"+";"+""+";"+"2"+";"+imponible+";"+
+                                    cot_mutual+";"+"0"+";"+imp_ces+";"+cs_trabajador+";"+cs_empleador+";"+"0"+";"+""+";"+"1"+"\r");
+                    
+                    for (int fila = 1;fila < rowcount;fila++){                 
+                                               
+                        bfarchivo.write(rut+";"+dv+";"+apellidop+";"+apellidom+";"+nombre+";"+sexo+";"+"0"+";"+"1"+";"+periodo+";"+"000000"+";"+prevision+";"+tipo_trab+";"+
+                                        "0"+";"+"01"+";"+cod_mov+";"+datos_array[fila][0]+";"+datos_array[fila][1]+";"+tramof+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+
+                                        "N"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+""+";"+""+";"+""+";"+"0"+";"+"0"+";"+"0"+";"+
+                                        ""+";"+"1"+";"+"0"+";"+"0"+";"+"0"+";"+""+";"+"1"+";"+"0"+";"+"0"+";"+"0"+";"+""+";"+""+";"+""+";"+""+";"+"00"+";"+
+                                        ""+";"+""+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+
+                                        "0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+""+";"+"0"+";"+"2"+";"+"0"+";"+"0"+";"+"0"+";"+
+                                        "0"+";"+"2"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+""+";"+"2"+";"+"0"+";"+
+                                        "0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+"0"+";"+""+";"+"1"+"\r");
+                
+                    }
+                
+                }
+                
+             }
+                
+            
+            
+            bfarchivo.close();
+          
+	    fmMain.Mensaje("Archivo creado exitosamente");
+            
+        }catch (SQLException | IOException ex) {
+               
+            Logger.getLogger(jdPreviRed.class.getName()).log(Level.SEVERE, null, ex);
+        
+        }finally{
+        
+            if (flarchivo != null) {
+		
+                try {              
+	    	    
+                    flarchivo.close();   //cierra el flujo principal
+                   
+                }catch (IOException e){
+		
+                    e.printStackTrace();
+		
+                }
+                
+	    }
+            
+            dispose();
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+//    public static void main(String args[]) {
+//        
+//        jdPreviRed aplano = new jdPreviRed();
+//      
+//    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cbAgno;
+    private javax.swing.JComboBox<String> cbMes;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    // End of variables declaration//GEN-END:variables
+}
