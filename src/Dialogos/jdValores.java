@@ -3167,6 +3167,8 @@ public class jdValores extends javax.swing.JDialog {
             
         } catch (IOException ex) {
             Logger.getLogger(jdValores.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(jdValores.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         
