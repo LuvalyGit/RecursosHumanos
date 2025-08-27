@@ -7,8 +7,6 @@ import Dialogos.jdGetMonto;
 import Dialogos.jdBuscaIndicadores;
 import Dialogos.jdGetUf;
 import Formularios.fmMain;
-import com.sun.prism.paint.Paint;
-import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -1435,6 +1433,8 @@ public class pfPersonal extends javax.swing.JPanel {
         
         } catch (IOException ex) {
             Logger.getLogger(pfPersonal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(pfPersonal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btAgregaHActionPerformed
 
@@ -1529,6 +1529,8 @@ public class pfPersonal extends javax.swing.JPanel {
                 
                 } catch (IOException ex) {
                   Logger.getLogger(pfPersonal.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(pfPersonal.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }else if (Dato.GetCodigo().equals("5")){    //FONASA
             

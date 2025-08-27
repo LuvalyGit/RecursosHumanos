@@ -1,7 +1,10 @@
 package Dialogos;
 
+import Conexion.ExeSql;
 import PanelForm.pfGastosSueldos;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import org.jsoup.nodes.Document; 
 import org.jsoup.nodes.Element;
@@ -40,13 +43,14 @@ public class jdBuscaIndicadores extends javax.swing.JDialog {
    
    
    
-   public jdBuscaIndicadores() throws IOException{
+   public jdBuscaIndicadores() throws IOException, SQLException{
     
-
+    ExeSql sql = new ExeSql();
+    ResultSet rs;
     Document doc = org.jsoup.Jsoup.connect("https://www.previred.com/indicadores-previsionales").get();
    
        Elements filas = doc.select("tr");
-         
+         /*
         for(Element fila :filas)
         {
             Elements columnas = fila.select("td");
@@ -83,7 +87,7 @@ public class jdBuscaIndicadores extends javax.swing.JDialog {
                 
         }
         
-          System.out.println("afp ES : "+nafp);
+      
         
         
         safp = afp.replaceAll("\\%", "");
@@ -106,9 +110,52 @@ public class jdBuscaIndicadores extends javax.swing.JDialog {
                  
         safp6 = afp6.replaceAll("\\%", "");
         dafp6 = Double.parseDouble(safp6.replaceAll("\\,", "."));
+        */
+        /*
+        safp=String valor AFP
+        dafp=Double valor AFP
+        por=Porcentaje AFP
+        nafp=nombre de la AFP
+        */
+        rs= sql.Select("select nombre,valor\n" 
+               + "from par_general\n" 
+               + "where tipo='AFP'\n"
+               + "and vigente=1");
+        int contAFP=0;
+        while (rs.next())
+                 {
+                  if(contAFP==0){
+                      nafp=rs.getString("nombre");
+                      dafp=rs.getDouble("valor");
+                  }
+                  else if(contAFP==1){
+                      nafp1=rs.getString("nombre");
+                      dafp1=rs.getDouble("valor");
+                  }
+                  else if(contAFP==2){
+                      nafp2=rs.getString("nombre");
+                      dafp2=rs.getDouble("valor");
+                  }
+                  else if(contAFP==3){
+                      nafp3=rs.getString("nombre");
+                      dafp3=rs.getDouble("valor");
+                  }
+                  else if(contAFP==4){
+                      nafp4=rs.getString("nombre");
+                      dafp4=rs.getDouble("valor");
+                  }
+                  else if(contAFP==5){
+                      nafp5=rs.getString("nombre");
+                      dafp5=rs.getDouble("valor");
+                  }
+                  else if(contAFP==6){
+                      nafp6=rs.getString("nombre");
+                      dafp6=rs.getDouble("valor");
+                  }
+                  contAFP++;
+                 }
         
-        
-        por  = Precision.round((dafp-10)/100,4);
+        por  = Precision.round((dafp-10)/100,4);//cargo del trabajador AFP
         por1 = Precision.round((dafp1-10)/100,4);
         por2 = Precision.round((dafp2-10)/100,4);
         por3 = Precision.round((dafp3-10)/100,4);
@@ -117,7 +164,7 @@ public class jdBuscaIndicadores extends javax.swing.JDialog {
         por6 = Precision.round((dafp6-10)/100,4);
             
         
-        System.out.print(nafp+" "+por+"\n");
+        System.out.print(nafp+" "+por+"\n"); //nafp =nombre afp
         System.out.print(nafp1+" "+por1+"\n");
         System.out.print(nafp2+" "+por2+"\n");
         System.out.print(nafp3+" "+por3+"\n");
@@ -157,7 +204,7 @@ public class jdBuscaIndicadores extends javax.swing.JDialog {
                
   //***************************** SUELDO MINIMO, TOPE GRATIFICACION, TOPE IMPONIBLE, VALOR U T M, TOPE APV (ANUAL Y MENSUAL), TOPE CESANTIA *****************************//      
         
-        
+      /*  
        Document doc4 = org.jsoup.Jsoup.connect("https://www.previred.com/indicadores-previsionales").get();
    
        Elements filas4 = doc4.select("tr");
@@ -217,6 +264,40 @@ public class jdBuscaIndicadores extends javax.swing.JDialog {
         }
         
         sufIsapre = ufIsapre.replaceAll("\\.","");
+        
+        */
+        
+       rs = sql.Select("select nombre , valor\n"
+               + "from par_general\n"
+               + "where tipo='IND.PREVISIONALES'\n"
+               + "and vigente=1");
+       while (rs.next()) {
+           if (rs.getString("nombre").equals("SUELDO MINIMO")) {
+               dSmin = rs.getLong("valor");
+           }
+           else if (rs.getString("nombre").equals("UF MES ANTERIOR")) {
+               dufIsapre = rs.getDouble("valor");
+           }
+           else if (rs.getString("nombre").equals("UTM")) {
+               dutm = rs.getDouble("valor");
+           }
+           else if (rs.getString("nombre").equals("TOPE IMPONIBLE")) {
+               tMaxImp = rs.getDouble("valor");
+           }
+           else if (rs.getString("nombre").equals("TOPE SEGURO CESANTIA")) {
+               tTopeCesantia = rs.getDouble("valor");
+           }
+           else if (rs.getString("nombre").equals("TOPE APV MENSUAL")) {
+               dtopeApvM = rs.getDouble("valor");
+           }
+           else if (rs.getString("nombre").equals("TOPE APV ANUAL")) {
+               dtopeApvA = rs.getLong("valor");
+           }
+           
+       }
+       
+           
+       /*
         dufIsapre = Double.parseDouble(sufIsapre.replaceAll("\\,", "."));           //UF del último día del Mes anterior
         dutm = Double.parseDouble(utm.replaceAll("\\.", ""));                       //VALOR UTM 
 
@@ -230,6 +311,8 @@ public class jdBuscaIndicadores extends javax.swing.JDialog {
         dtopeApvM = Double.parseDouble(topeApvM.replaceAll("\\.", ""));                                   //TOPE APV MENSUAL
 
         dtopeApvA = Long.parseLong(topeApvA.replaceAll("\\.", ""));                                   //TOPE APV ANUAL
+        */
+        //CALCULADO
         tGratif = Math.round((dSmin*4.75)/12);                                      //TOPE DE GRATIFICACION
      
       
@@ -406,7 +489,7 @@ public class jdBuscaIndicadores extends javax.swing.JDialog {
     
      
 
-   public static void main(String[] args)  {
+   public static void main(String[] args) throws SQLException  {
        
        try {                                                                                                  //Para ejecutarlo
            @SuppressWarnings("LocalVariableHidesMemberVariable")
