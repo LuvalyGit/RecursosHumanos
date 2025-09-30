@@ -1656,7 +1656,7 @@ public class jdFiniquitos extends javax.swing.JDialog {
 
             
             //JasperReport reporte = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/rpFiniquitos.jasper")); //Ruta del Reporte
-            JasperReport reporte = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/rpFiniquitos2.jasper")); //Ruta del Reporte con cheques
+            JasperReport reporte = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/rpFiniquitos.jasper")); //Ruta del Reporte con cheques
             JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro,new JREmptyDataSource());
            
             JasperViewer view = new JasperViewer(jprint,false);

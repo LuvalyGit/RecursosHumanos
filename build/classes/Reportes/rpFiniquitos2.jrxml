@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="81fb0e75-916e-43c0-8f7f-9680a6a3ae78">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="720"/>
 	<parameter name="NOMBRES" class="java.lang.String"/>
 	<parameter name="RUT" class="java.lang.String"/>
 	<parameter name="CARGO" class="java.lang.String"/>
@@ -533,102 +533,102 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$P{IEMPLEADOR}]]></textFieldExpression>
 				</textField>
-			</frame>
-		</band>
-		<band height="626">
-			<frame>
-				<reportElement x="17" y="18" width="543" height="608" uuid="a891a6a2-0173-41cf-9b2a-685115e13dd8"/>
 				<textField>
-					<reportElement x="125" y="168" width="99" height="20" uuid="dac31ce3-f02f-4172-912b-f1daf05bb6c3"/>
+					<reportElement x="123" y="448" width="99" height="20" uuid="dac31ce3-f02f-4172-912b-f1daf05bb6c3"/>
 					<textElement verticalAlignment="Middle">
 						<font isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{NOMBRES}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="316" y="168" width="85" height="20" uuid="a2ca2e9d-5e7a-48df-86af-977cb1d1852e"/>
+					<reportElement x="314" y="448" width="85" height="20" uuid="a2ca2e9d-5e7a-48df-86af-977cb1d1852e"/>
 					<textElement verticalAlignment="Middle">
 						<font isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{APELLIDOM}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="25" y="168" width="98" height="20" uuid="ad09865c-08d4-4edd-83a2-a9361e3d2b97"/>
+					<reportElement x="23" y="448" width="98" height="20" uuid="ad09865c-08d4-4edd-83a2-a9361e3d2b97"/>
 					<textElement verticalAlignment="Middle">
 						<font isBold="false"/>
 					</textElement>
 					<text><![CDATA[TERCERO: Don/doña]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="226" y="168" width="88" height="20" uuid="610fea9d-8f08-483c-bc9e-ec799b3dc1d9"/>
+					<reportElement x="224" y="448" width="88" height="20" uuid="610fea9d-8f08-483c-bc9e-ec799b3dc1d9"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{APELLIDOP}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="399" y="168" width="134" height="20" uuid="c18e3f36-1ca9-45d5-ba9d-144572d3cc17"/>
+					<reportElement x="397" y="448" width="134" height="20" uuid="c18e3f36-1ca9-45d5-ba9d-144572d3cc17"/>
 					<textElement verticalAlignment="Middle">
 						<font isBold="false"/>
 					</textElement>
 					<text><![CDATA[deja constancia que durante ]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="366" y="188" width="166" height="20" uuid="e3287d5a-cf08-4f8f-9368-c30afe8121fb"/>
+					<reportElement x="364" y="468" width="166" height="20" uuid="e3287d5a-cf08-4f8f-9368-c30afe8121fb"/>
 					<textElement verticalAlignment="Middle">
 						<font isBold="false"/>
 					</textElement>
 					<text><![CDATA[, recibió de ésta, correcta y oportuna-]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="233" y="188" width="123" height="20" uuid="72e477fd-78cc-4204-a75d-53f12af31e03"/>
+					<reportElement x="231" y="468" width="123" height="20" uuid="72e477fd-78cc-4204-a75d-53f12af31e03"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[LUIS VALDES LYON SPA  ]]></text>
+				</staticText>
+			</frame>
+			<staticText>
+				<reportElement x="17" y="495" width="232" height="20" uuid="e8ea0653-5220-40a8-bee7-7fa0f188827d"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[todo el tiempo que le prestó servicios a la Empresa Comecializadora]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="515" width="531" height="20" uuid="1bd9e055-9a36-4272-9ae9-a1896148afc0"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[mente el total de  las  remuneraciones  convenidas, de acuerdo con su contrato de trabajo, clase  de  trabajo ejecutado,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="19" y="536" width="529" height="20" uuid="90b013fd-f3c0-4089-b3b6-592d73b3c141"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="false"/>
+					<paragraph tabStopWidth="40"/>
+				</textElement>
+				<text><![CDATA[reajustes legales, pago de asignaciones  familiares (si  procedía) autorizadas por la respectiva  Institución de previsión,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="19" y="556" width="526" height="20" uuid="8f622e7c-eb99-4bc1-9e88-9c2e8838f615"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[horas extraordinarias cuando las trabajó, feriados legales, gratificaciones  y  participaciones, en conformidad a la ley, y ]]></text>
+			</staticText>
+		</band>
+		<band height="626">
+			<frame>
+				<reportElement x="17" y="18" width="543" height="608" uuid="a891a6a2-0173-41cf-9b2a-685115e13dd8"/>
+				<staticText>
+					<reportElement x="141" y="64" width="123" height="20" uuid="20c33f56-363c-4540-aa08-194b758c05b4"/>
 					<textElement verticalAlignment="Middle">
 						<font isBold="true"/>
 					</textElement>
 					<text><![CDATA[LUIS VALDES LYON SPA  ]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="29" y="10" width="508" height="20" uuid="7cd29c90-47af-4523-a343-5a9a1a570fc4"/>
-					<textElement textAlignment="Justified" verticalAlignment="Middle">
-						<font isBold="false"/>
-					</textElement>
-					<text><![CDATA[El total del finiquito se pagará en 3 cheques; 2 de $ 2.000.000 cada uno, y 1 de $ 1.300.000 . El orden para cobrar ]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="3" y="30" width="534" height="20" uuid="d94b39ff-2327-4a07-8e2c-a4da9e5b8394"/>
-					<textElement verticalAlignment="Middle">
-						<font isBold="false"/>
-						<paragraph tabStopWidth="40"/>
-					</textElement>
-					<text><![CDATA[los documentos será de acuerdo al siguiente detalle :]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="3" y="69" width="528" height="20" uuid="cfc588a3-7923-427a-9ae2-ba06a0f46ac4"/>
-					<textElement verticalAlignment="Middle">
-						<font isBold="false"/>
-					</textElement>
-					<text><![CDATA[- Cheque N° 8091722 (al 10-09-2025)]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="146" y="309" width="123" height="20" uuid="20c33f56-363c-4540-aa08-194b758c05b4"/>
-					<textElement verticalAlignment="Middle">
-						<font isBold="true"/>
-					</textElement>
-					<text><![CDATA[LUIS VALDES LYON SPA  ]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="269" y="309" width="270" height="20" uuid="c6d280d0-82d3-44ae-8a8e-ab60c3af8e5f"/>
+					<reportElement x="264" y="64" width="270" height="20" uuid="c6d280d0-82d3-44ae-8a8e-ab60c3af8e5f"/>
 					<textElement verticalAlignment="Middle">
 						<font isBold="false"/>
 					</textElement>
 					<text><![CDATA[, le otorga el más amplio finiquito, declaración que  formula]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="5" y="361" width="512" height="20" uuid="b272ef09-150e-4ed6-a99f-183e93afbe06"/>
-					<textElement verticalAlignment="Middle">
-						<font isBold="false"/>
-					</textElement>
-					<text><![CDATA[Para  constancia  firma  las  partes  el presente  finiquito de  dos  ejemplares, quedando uno de ellos en poder del ]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="4" y="532" width="165" height="20" uuid="fbc6f9ac-e973-4d60-9a27-a87a1c319d28"/>
@@ -672,83 +672,47 @@
 					<textFieldExpression><![CDATA[$P{RUT}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="3" y="89" width="528" height="20" uuid="c83ef6e7-8856-453b-8b8e-e91e7fd89b92"/>
-					<textElement verticalAlignment="Middle">
+					<reportElement x="0" y="24" width="530" height="20" uuid="cd133fd4-43b0-42fe-973a-5c5b74d86791"/>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
 						<font isBold="false"/>
 					</textElement>
-					<text><![CDATA[- Cheque N° 8091723 (al 10-10-2025)]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="2" y="109" width="528" height="20" uuid="4d203744-f34d-4464-9f76-a9d8468f26ee"/>
-					<textElement verticalAlignment="Middle">
-						<font isBold="false"/>
-					</textElement>
-					<text><![CDATA[- Cheque N° 8091724 (al 10-11-2025)]]></text>
+					<text><![CDATA[que nada se le adeuda por los conceptos antes indicados ni por ningún otro, sea de origen legal  o contractual derivado]]></text>
 				</staticText>
 			</frame>
 			<staticText>
-				<reportElement x="22" y="287" width="530" height="20" uuid="cd133fd4-43b0-42fe-973a-5c5b74d86791"/>
-				<textElement textAlignment="Justified" verticalAlignment="Middle">
-					<font isBold="false"/>
-				</textElement>
-				<text><![CDATA[que nada se le adeuda por los conceptos antes indicados ni por ningún otro, sea de origen legal  o contractual derivado]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="22" y="307" width="529" height="20" uuid="25dcc89c-1c57-400a-b0a5-77de741c68dd"/>
+				<reportElement x="17" y="62" width="529" height="20" uuid="25dcc89c-1c57-400a-b0a5-77de741c68dd"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
 					<font isBold="false"/>
 				</textElement>
 				<text><![CDATA[de la prestación de sus servicios,  y motivo por el cual,  no teniendo reclamo ni cargo alguno que formular en contra de]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="22" y="327" width="137" height="20" uuid="14a7ab75-775c-4bac-aaaf-83ac0e6ee764"/>
+				<reportElement x="17" y="82" width="137" height="20" uuid="14a7ab75-775c-4bac-aaaf-83ac0e6ee764"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="false"/>
 				</textElement>
 				<text><![CDATA[la Empresa Comercializadora]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="22" y="347" width="445" height="20" uuid="8edc9d7e-3807-4c59-9523-d365a98b624d"/>
+				<reportElement x="17" y="102" width="445" height="20" uuid="8edc9d7e-3807-4c59-9523-d365a98b624d"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="false"/>
 				</textElement>
 				<text><![CDATA[libre y espontáneamente, en perfecto y cabal conocimiento de cada uno y de todos sus derechos.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="19" y="206" width="232" height="20" uuid="e8ea0653-5220-40a8-bee7-7fa0f188827d"/>
-				<textElement verticalAlignment="Middle">
-					<font isBold="false"/>
-				</textElement>
-				<text><![CDATA[todo el tiempo que le prestó servicios a la Empresa Comecializadora]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="20" y="226" width="531" height="20" uuid="1bd9e055-9a36-4272-9ae9-a1896148afc0"/>
-				<textElement textAlignment="Justified" verticalAlignment="Middle">
-					<font isBold="false"/>
-				</textElement>
-				<text><![CDATA[mente el total de  las  remuneraciones  convenidas, de acuerdo con su contrato de trabajo, clase  de  trabajo ejecutado,]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="21" y="247" width="529" height="20" uuid="90b013fd-f3c0-4089-b3b6-592d73b3c141"/>
-				<textElement verticalAlignment="Middle">
-					<font isBold="false"/>
-					<paragraph tabStopWidth="40"/>
-				</textElement>
-				<text><![CDATA[reajustes legales, pago de asignaciones  familiares (si  procedía) autorizadas por la respectiva  Institución de previsión,]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="21" y="267" width="526" height="20" uuid="8f622e7c-eb99-4bc1-9e88-9c2e8838f615"/>
-				<textElement verticalAlignment="Middle">
-					<font isBold="false"/>
-				</textElement>
-				<text><![CDATA[horas extraordinarias cuando las trabajó, feriados legales, gratificaciones  y  participaciones, en conformidad a la ley, y ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="22" y="399" width="244" height="20" uuid="a245b362-e868-47fa-811e-6b7e5edf2901"/>
+				<reportElement x="17" y="154" width="244" height="20" uuid="a245b362-e868-47fa-811e-6b7e5edf2901"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="false"/>
 				</textElement>
 				<text><![CDATA[empleador y el otro en poder del trabajador.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="17" y="134" width="512" height="20" uuid="b272ef09-150e-4ed6-a99f-183e93afbe06"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Para  constancia  firma  las  partes  el presente  finiquito de  dos  ejemplares, quedando uno de ellos en poder del ]]></text>
 			</staticText>
 		</band>
 	</detail>
